@@ -1,4 +1,5 @@
-from cashflow import CashFlow
+
+from finance.cashflow import CashFlow
 
 
 class ReportGenerator:
