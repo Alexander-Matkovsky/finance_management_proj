@@ -10,7 +10,7 @@ class TestCashFlow(unittest.TestCase):
     def test_add_outflow(self):
         cash_flow = CashFlow()
         cash_flow.add_outflow(500, "Rent")
-        self.assertEqual(cash_flow.outflows, [(500, "Rent")])
+        self.assertEqual(cash_flow.outflows, [(-500, "Rent")])  # Outflows stored as negative values
 
     def test_calculate_net_cash_flow(self):
         cash_flow = CashFlow()
@@ -20,3 +20,4 @@ class TestCashFlow(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

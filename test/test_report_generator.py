@@ -4,6 +4,7 @@ from finance.account import Account
 from finance.transaction import Transaction
 from finance.budget import Budget
 from finance.report_generator import ReportGenerator
+from finance.cashflow import CashFlow
 
 class TestReportGenerator(unittest.TestCase):
     def test_generate_balance_sheet(self):
