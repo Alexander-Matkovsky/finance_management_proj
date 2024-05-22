@@ -49,7 +49,6 @@ class TestReportGenerator(unittest.TestCase):
                            "Outflows:\n"
                            "Groceries: -200\n"  # Display as positive
                            "Net Cash Flow: 300\n")
-        print(f"DEBUG: Expected Report: {expected_report}")
         self.assertEqual(report, expected_report)
 
 if __name__ == '__main__':

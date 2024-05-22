@@ -13,7 +13,6 @@ class CashFlow:
         total_inflows = sum(amount for amount, _ in self.inflows)
         total_outflows = sum(amount for amount, _ in self.outflows)
         net_cash_flow = total_inflows + total_outflows
-        print(f"DEBUG: Total Inflows: {total_inflows}, Total Outflows: {total_outflows}, Net Cash Flow: {net_cash_flow}")
         return net_cash_flow
 
     def generate_cash_flow_report(self):
@@ -26,5 +25,4 @@ class CashFlow:
             report += f"{description}: {amount}\n"  # Display outflows as positive
         net_cash_flow = self.calculate_net_cash_flow()
         report += f"Net Cash Flow: {net_cash_flow}\n"
-        print(f"DEBUG: Generated Report: {report}")
         return report
