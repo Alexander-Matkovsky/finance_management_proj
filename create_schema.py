@@ -42,6 +42,17 @@ def create_schema():
     )
     ''')
 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS budgets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        category_id INTEGER,
+        amount REAL NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (category_id) REFERENCES categories (id)
+    )
+    ''')
+
     connection.commit()
     connection.close()
 

@@ -4,6 +4,7 @@ import sqlite3
 class Database:
     def __init__(self, db_name='finance.db'):
         self.conn = sqlite3.connect(db_name)
+        self.conn.row_factory = sqlite3.Row
         self.create_tables()
 
     def create_tables(self):
@@ -71,6 +72,16 @@ class Database:
         with self.conn:
             self.conn.execute('INSERT INTO transactions (account_id, date, amount, type, description, category_id) VALUES (?, ?, ?, ?, ?, ?)', (account_id, date, amount, type, description, category_id))
 
+    def set_budget(self, user_id, category_id, amount):
+        with self.conn:
+            self.conn.execute('INSERT INTO budgets (user_id, category_id, amount) VALUES (?, ?, ?)', (user_id, category_id, amount))
+
+    def get_budget(self, user_id, category_id):
+        budget = self.conn.execute('SELECT amount FROM budgets WHERE user_id = ? AND category_id = ?', (user_id, category_id)).fetchone()
+        if budget:
+            return budget[0]
+        return None
+
 # Example usage
 if __name__ == "__main__":
     db = Database()
@@ -78,6 +89,6 @@ if __name__ == "__main__":
         db.add_category('Food')
         db.add_user('John Doe')
         db.add_account(1, 'Checking Account', 1000.0)
-        db.add_transaction(1, '2023-05-20', 500.0, 'Income', 'Salary', 1)
+        db.set_budget(1, 1, 500.0)
     except ValueError as e:
         print(f"Error: {e}")
