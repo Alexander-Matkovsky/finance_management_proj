@@ -17,17 +17,23 @@ def main():
     add_account_parser.add_argument("--account_name", type=str, required=True, help="Name of the account")
     add_account_parser.add_argument("--initial_balance", type=float, required=True, help="Initial balance for the account")
 
+    # Subparser for 'add_category'
+    add_category_parser = subparsers.add_parser("add_category", help="Add a new category")
+    add_category_parser.add_argument("--name", type=str, required=True, help="Name of the category")
+
     # Subparser for 'add_inflow'
     add_inflow_parser = subparsers.add_parser("add_inflow", help="Add a new inflow transaction")
     add_inflow_parser.add_argument("--account_id", type=int, required=True, help="Account ID")
     add_inflow_parser.add_argument("--amount", type=float, required=True, help="Amount for the transaction")
     add_inflow_parser.add_argument("--description", type=str, required=True, help="Description for the transaction")
+    add_inflow_parser.add_argument("--category_id", type=int, required=True, help="Category ID for the transaction")
 
     # Subparser for 'add_outflow'
     add_outflow_parser = subparsers.add_parser("add_outflow", help="Add a new outflow transaction")
     add_outflow_parser.add_argument("--account_id", type=int, required=True, help="Account ID")
     add_outflow_parser.add_argument("--amount", type=float, required=True, help="Amount for the transaction")
     add_outflow_parser.add_argument("--description", type=str, required=True, help="Description for the transaction")
+    add_outflow_parser.add_argument("--category_id", type=int, required=True, help="Category ID for the transaction")
 
     # Subparser for 'generate_report'
     generate_report_parser = subparsers.add_parser("generate_report", help="Generate a report")
@@ -43,12 +49,16 @@ def main():
         db.add_account(args.user_id, args.account_name, args.initial_balance)
         print(f"Added account: {args.account_name} with balance {args.initial_balance} to user {args.user_id}")
 
+    elif args.action == "add_category":
+        db.add_category(args.name)
+        print(f"Added category: {args.name}")
+
     elif args.action == "add_inflow":
-        db.add_transaction(args.account_id, "2024-05-21", args.amount, "Income", args.description)
+        db.add_transaction(args.account_id, "2024-05-21", args.amount, "Income", args.description, args.category_id)
         print(f"Added inflow: {args.amount} - {args.description}")
 
     elif args.action == "add_outflow":
-        db.add_transaction(args.account_id, "2024-05-21", -args.amount, "Expense", args.description)
+        db.add_transaction(args.account_id, "2024-05-21", -args.amount, "Expense", args.description, args.category_id)
         print(f"Added outflow: {args.amount} - {args.description}")
 
     elif args.action == "generate_report":
@@ -59,11 +69,12 @@ def generate_report(user_id):
     report = f"Report for User ID {user_id}\n"
     for account in user_accounts:
         account_id, account_name, balance = account
-        transactions = db.conn.execute("SELECT date, amount, type, description FROM transactions WHERE account_id = ?", (account_id,)).fetchall()
+        transactions = db.conn.execute("SELECT date, amount, type, description, category_id FROM transactions WHERE account_id = ?", (account_id,)).fetchall()
         report += f"\nAccount: {account_name} (Balance: {balance})\n"
         for transaction in transactions:
-            date, amount, type, description = transaction
-            report += f"{date} - {type}: {amount} ({description})\n"
+            date, amount, type, description, category_id = transaction
+            category_name = db.conn.execute("SELECT name FROM categories WHERE id = ?", (category_id,)).fetchone()[0]
+            report += f"{date} - {type}: {amount} ({description}) [Category: {category_name}]\n"
     print(report)
 
 if __name__ == "__main__":

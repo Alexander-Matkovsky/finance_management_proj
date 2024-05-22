@@ -4,7 +4,6 @@ def create_schema():
     connection = sqlite3.connect('finance.db')
     cursor = connection.cursor()
 
-    # Create Users table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,7 +11,6 @@ def create_schema():
     )
     ''')
 
-    # Create Accounts table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS accounts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +21,13 @@ def create_schema():
     )
     ''')
 
-    # Create Transactions table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS categories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL
+    )
+    ''')
+
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS transactions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,7 +36,9 @@ def create_schema():
         amount REAL NOT NULL,
         type TEXT NOT NULL,
         description TEXT,
-        FOREIGN KEY (account_id) REFERENCES accounts (id)
+        category_id INTEGER,
+        FOREIGN KEY (account_id) REFERENCES accounts (id),
+        FOREIGN KEY (category_id) REFERENCES categories (id)
     )
     ''')
 
