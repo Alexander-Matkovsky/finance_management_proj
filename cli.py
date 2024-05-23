@@ -1,6 +1,8 @@
 import argparse
 from finance.database import Database
 from finance.report_generator import ReportGenerator
+from finance.visualizer import visualize_cash_flows, generate_report_with_plots
+
 
 def main():
     parser = argparse.ArgumentParser(description="Finance Management CLI")
@@ -53,6 +55,13 @@ def main():
     view_budget_parser.add_argument("--user_id", type=int, required=True, help="User ID")
     view_budget_parser.add_argument("--category_id", type=int, required=True, help="Category ID")
 
+    #subparser for visualize_cash_flows
+    visualize_cash_flows_parser = subparsers.add_parser("visualize_cash_flows", help="Visualize cash flows for an account")
+    visualize_cash_flows_parser.add_argument("--account_id", type=int, required=True, help="Account ID")
+    
+    generate_report_with_plots_parser = subparsers.add_parser("generate_report_with_plots", help="Generate report with plots for a user")
+    generate_report_with_plots_parser.add_argument("--user_id", type=int, required=True, help="User ID")
+
     args = parser.parse_args()
     db = Database()
     report_generator = ReportGenerator(db)
@@ -76,6 +85,12 @@ def main():
     elif args.action == "add_outflow":
         db.add_transaction(args.account_id, "2024-05-21", -args.amount, "Expense", args.description, args.category_id)
         print(f"Added outflow: {args.amount} - {args.description}")
+
+    elif args.action == "visualize_cash_flows":
+        visualize_cash_flows(args.account_id)
+
+    elif args.action == "generate_report_with_plots":
+        generate_report_with_plots(args.user_id)
 
     elif args.action == "generate_report":
         report = report_generator.generate_report(args.user_id)
