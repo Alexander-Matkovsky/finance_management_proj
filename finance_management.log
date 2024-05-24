@@ -1,0 +1,24 @@
+2024-05-24 19:52:03,259 - root - INFO - Tables created or verified
+2024-05-24 19:52:03,259 - root - INFO - Database connected
+2024-05-24 19:52:03,262 - root - INFO - User added: Jane Doe
+2024-05-24 19:52:03,262 - root - INFO - Added user: Jane Doe
+2024-05-24 19:52:03,652 - root - INFO - Tables created or verified
+2024-05-24 19:52:03,652 - root - INFO - Database connected
+2024-05-24 19:52:03,664 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-05-24 19:52:03,664 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-05-24 19:52:04,046 - root - INFO - Tables created or verified
+2024-05-24 19:52:04,046 - root - INFO - Database connected
+2024-05-24 19:52:04,049 - root - INFO - Category added: Salary
+2024-05-24 19:52:04,049 - root - INFO - Added category: Salary
+2024-05-24 19:52:04,427 - root - INFO - Tables created or verified
+2024-05-24 19:52:04,427 - root - INFO - Database connected
+2024-05-24 19:52:04,430 - root - INFO - Category added: Rent
+2024-05-24 19:52:04,430 - root - INFO - Added category: Rent
+2024-05-24 19:52:04,808 - root - INFO - Tables created or verified
+2024-05-24 19:52:04,808 - root - INFO - Database connected
+2024-05-24 19:52:04,811 - root - INFO - Transaction added for account 1: Income of 1500.0 - Salary
+2024-05-24 19:52:04,811 - root - INFO - Added inflow: 1500.0 - Salary
+2024-05-24 19:52:05,206 - root - INFO - Tables created or verified
+2024-05-24 19:52:05,206 - root - INFO - Database connected
+2024-05-24 19:52:05,209 - root - INFO - Transaction added for account 1: Expense of -500.0 - Rent
+2024-05-24 19:52:05,209 - root - INFO - Added outflow: 500.0 - Rent
