@@ -1,2 +1,4 @@
 plotly
 pandas
+matplotlib
+pdfkit

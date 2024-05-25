@@ -2,7 +2,7 @@ import argparse
 import logging
 from finance.database import Database
 from finance.report_generator import ReportGenerator
-from finance.visualizer import visualize_cash_flows, generate_report_with_plots
+from finance.visualizer import visualize_cash_flows
 
 logging.basicConfig(
     filename='finance_management.log',
@@ -46,6 +46,12 @@ def main():
     # Subparser for 'generate_report'
     generate_report_parser = subparsers.add_parser("generate_report", help="Generate a financial report")
     generate_report_parser.add_argument("--user_id", type=int, required=True, help="User ID")
+    generate_report_parser.add_argument("--start_date", type=str, required=False, help="Start date (YYYY-MM-DD)")
+    generate_report_parser.add_argument("--end_date", type=str, required=False, help="End date (YYYY-MM-DD)")
+
+    # Subparser for 'generate_pdf_report'
+    generate_pdf_report_parser = subparsers.add_parser("generate_pdf_report", help="Generate a PDF financial report")
+    generate_pdf_report_parser.add_argument("--user_id", type=int, required=True, help="User ID")
 
     # Subparser for 'view_transactions'
     view_transactions_parser = subparsers.add_parser("view_transactions", help="View all transactions for an account")
@@ -62,12 +68,9 @@ def main():
     view_budget_parser.add_argument("--user_id", type=int, required=True, help="User ID")
     view_budget_parser.add_argument("--category_id", type=int, required=True, help="Category ID")
 
-    #subparser for visualize_cash_flows
+    # Subparser for 'visualize_cash_flows'
     visualize_cash_flows_parser = subparsers.add_parser("visualize_cash_flows", help="Visualize cash flows for an account")
     visualize_cash_flows_parser.add_argument("--account_id", type=int, required=True, help="Account ID")
-    
-    generate_report_with_plots_parser = subparsers.add_parser("generate_report_with_plots", help="Generate report with plots for a user")
-    generate_report_with_plots_parser.add_argument("--user_id", type=int, required=True, help="User ID")
 
     # Update user
     update_user_parser = subparsers.add_parser("update_user", help="Update a user")
@@ -122,13 +125,35 @@ def main():
             logging.info(f"Added outflow: {args.amount} - {args.description}")
             print(f"Added outflow: {args.amount} - {args.description}")
 
+        elif args.action == "generate_report":
+            report = report_generator.generate_report(args.user_id, args.start_date, args.end_date)
+            logging.info(f"Generated report for user {args.user_id}:\n{report}")
+            print(report)
+
+        elif args.action == "generate_pdf_report":
+            report = report_generator.generate_visual_report(args.user_id)
+            logging.info(f"Generated PDF report for user {args.user_id}:\n{report}")
+            print(report)
+
+        elif args.action == "view_transactions":
+            view_transactions(db, args.account_id)
+
+        elif args.action == "set_budget":
+            db.set_budget(args.user_id, args.category_id, args.amount)
+            logging.info(f"Set budget: {args.amount} for user {args.user_id} and category {args.category_id}")
+            print(f"Set budget: {args.amount} for user {args.user_id} and category {args.category_id}")
+
+        elif args.action == "view_budget":
+            budget = db.get_budget(args.user_id, args.category_id)
+            logging.info(f"Budget for user {args.user_id} and category {args.category_id}: {budget['amount']}")
+            if budget:
+                print(f"Budget for user {args.user_id} and category {args.category_id}: {budget['amount']}")
+            else:
+                print("No budget found.")
+
         elif args.action == "visualize_cash_flows":
             visualize_cash_flows(args.account_id)
             logging.info(f"Visualized cash flows for account {args.account_id}")
-
-        elif args.action == "generate_report_with_plots":
-            generate_report_with_plots(args.user_id)
-            logging.info(f"Generated report with plots for user {args.user_id}")
 
         elif args.action == "update_user":
             db.update_user(args.user_id, args.name)
@@ -150,26 +175,6 @@ def main():
             logging.info(f"Updated transaction {args.transaction_id} with new amount: {args.amount}, description: {args.description}, and category ID: {args.category_id}")
             print(f"Transaction {args.transaction_id} updated with new amount: {args.amount}, description: {args.description}, and category ID: {args.category_id}")
 
-        elif args.action == "generate_report":
-            report = report_generator.generate_report(args.user_id)
-            logging.info(f"Generated report for user {args.user_id}:\n{report}")
-            print(report)
-
-        elif args.action == "view_transactions":
-            view_transactions(db, args.account_id)
-
-        elif args.action == "set_budget":
-            db.set_budget(args.user_id, args.category_id, args.amount)
-            logging.info(f"Set budget: {args.amount} for user {args.user_id} and category {args.category_id}")
-            print(f"Set budget: {args.amount} for user {args.user_id} and category {args.category_id}")
-
-        elif args.action == "view_budget":
-            budget = db.get_budget(args.user_id, args.category_id)
-            logging.info(f"Budget for user {args.user_id} and category {args.category_id}: {budget['amount']}")
-            if budget:
-                print(f"Budget for user {args.user_id} and category {args.category_id}: {budget['amount']}")
-            else:
-                print("No budget found.")
     except Exception as e:
         logging.error(f"Error: {e}")
         print(f"Error: {e}")
