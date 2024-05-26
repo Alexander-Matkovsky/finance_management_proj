@@ -12,8 +12,9 @@ def get_db():
 
 @app.teardown_appcontext
 def close_db(error):
-    if 'db' in g:
-        g.db.close()
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
 
 @app.route('/')
 def index():
@@ -37,9 +38,8 @@ def add_user():
     name = request.form.get('name')
     if not name:
         return jsonify({"error": "Name is required"}), 400
-    conn = get_db()
-    conn.execute("INSERT INTO users (name) VALUES (?)", (name,))
-    conn.commit()
+    db = Database()
+    db.add_user(name)
     return jsonify({"message": f"User {name} added successfully!"}), 201
 
 @app.route('/add_account', methods=['POST'])
@@ -49,9 +49,8 @@ def add_account():
     initial_balance = request.form.get('initial_balance')
     if not (user_id and account_name and initial_balance):
         return jsonify({"error": "user_id, account_name, and initial_balance are required"}), 400
-    conn = get_db()
-    conn.execute("INSERT INTO accounts (user_id, name, balance) VALUES (?, ?, ?)", (user_id, account_name, initial_balance))
-    conn.commit()
+    db = Database()
+    db.add_account(user_id, account_name, initial_balance)
     return jsonify({"message": f"Account {account_name} added successfully!"}), 201
 
 @app.route('/add_transaction', methods=['POST'])
@@ -63,10 +62,8 @@ def add_transaction():
     date = request.form.get('date')
     if not (account_id and amount and description and category_id and date):
         return jsonify({"error": "account_id, amount, description, category_id, and date are required"}), 400
-    conn = get_db()
-    conn.execute("INSERT INTO transactions (account_id, date, amount, description, category_id) VALUES (?, ?, ?, ?, ?)",
-                 (account_id, date, amount, description, category_id))
-    conn.commit()
+    db = Database()
+    db.add_transaction(account_id, date, amount, "Transaction", description, category_id)
     return jsonify({"message": f"Transaction added successfully!"}), 201
 
 @app.route('/visualize_cash_flows', methods=['GET'])

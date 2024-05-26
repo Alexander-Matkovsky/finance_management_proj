@@ -3,10 +3,15 @@ import logging
 
 class Database:
     def __init__(self, db_name='finance.db'):
-        self.conn = sqlite3.connect(db_name)
-        self.conn.row_factory = sqlite3.Row
+        self.db_name = db_name
+        self.conn = self.get_connection()  # Initialize the connection here
         self.create_tables()
         logging.info("Database connected")
+
+    def get_connection(self):
+        conn = sqlite3.connect(self.db_name)
+        conn.row_factory = sqlite3.Row
+        return conn
 
     def create_tables(self):
         with self.conn:
@@ -121,22 +126,3 @@ class Database:
         self.conn.commit()
         logging.info(f"Transaction {transaction_id} updated with amount: {amount}, description: {description}, category ID: {category_id}")
 
-
-# Example usage
-if __name__ == "__main__":
-    logging.basicConfig(
-        filename='finance_management.log',
-        filemode='a',
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        level=logging.DEBUG
-    )
-
-    db = Database()
-    try:
-        db.add_category('Food')
-        db.add_user('John Doe')
-        db.add_account(1, 'Checking Account', 1000.0)
-        db.set_budget(1, 1, 500.0)
-    except ValueError as e:
-        logging.error(f"Error: {e}")
-        print(f"Error: {e}")

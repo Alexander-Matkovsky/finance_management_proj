@@ -6,11 +6,11 @@ import tempfile
 class ReportGenerator:
     def __init__(self, db):
         self.db = db
- 
+
     def generate_balance_sheet(self, user):
         report = f"Balance Sheet for {user['name']}\n"
         report += "-" * 40 + "\n"
-        accounts = self.conn.execute("SELECT id, name, balance FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
+        accounts = self.db.conn.execute("SELECT id, name, balance FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
         total_balance = 0
         for account in accounts:
             report += f"Account {account['name']}: {account['balance']}\n"
@@ -19,11 +19,10 @@ class ReportGenerator:
         report += f"Total Balance: {total_balance}\n"
         return report
 
-
     def generate_income_statement(self, user, start_date=None, end_date=None):
         report = f"Income Statement for {user['name']}\n"
         report += "-" * 40 + "\n"
-        accounts = self.conn.execute("SELECT id, name FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
+        accounts = self.db.conn.execute("SELECT id, name FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
         total_income = 0
         total_expenses = 0
         for account in accounts:
@@ -32,7 +31,7 @@ class ReportGenerator:
             if start_date and end_date:
                 transactions_query += " AND date BETWEEN ? AND ?"
                 params.extend([start_date, end_date])
-            transactions = self.conn.execute(transactions_query, params).fetchall()
+            transactions = self.db.conn.execute(transactions_query, params).fetchall()
             for transaction in transactions:
                 if transaction['amount'] > 0:
                     report += f"Income: {transaction['amount']} ({transaction['description']}) on {transaction['date']}\n"
@@ -46,24 +45,22 @@ class ReportGenerator:
         report += f"Net Income: {total_income + total_expenses}\n"
         return report
 
-
     def generate_budget_report(self, user):
         report = f"Budget Report for {user['name']}\n"
         report += "-" * 40 + "\n"
-        budgets = self.conn.execute("SELECT category_id, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
+        budgets = self.db.conn.execute("SELECT category_id, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
         for budget in budgets:
-            category = self.conn.execute("SELECT name FROM categories WHERE id = ?", (budget['category_id'],)).fetchone()
-            spent = self.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_id = ? AND amount < 0", (budget['category_id'],)).fetchone()[0]
+            category = self.db.conn.execute("SELECT name FROM categories WHERE id = ?", (budget['category_id'],)).fetchone()
+            spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_id = ? AND amount < 0", (budget['category_id'],)).fetchone()[0]
             spent = spent if spent else 0
             report += f"Category {category['name']}: Spent {spent}, Limit {budget['amount']}\n"
         return report
 
-
     def generate_cash_flow_statement(self, user):
         cash_flow = CashFlow()
-        accounts = self.conn.execute("SELECT id FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
+        accounts = self.db.conn.execute("SELECT id FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
         for account in accounts:
-            transactions = self.conn.execute("SELECT amount, description FROM transactions WHERE account_id = ?", (account['id'],)).fetchall()
+            transactions = self.db.conn.execute("SELECT amount, description FROM transactions WHERE account_id = ?", (account['id'],)).fetchall()
             for transaction in transactions:
                 if transaction['amount'] > 0:
                     cash_flow.add_inflow(transaction['amount'], transaction['description'])
@@ -85,7 +82,7 @@ class ReportGenerator:
         return summary
 
     def generate_report(self, user_id, start_date=None, end_date=None):
-        user = self.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
+        user = self.db.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
         if not user:
             return f"User with ID {user_id} not found."
 
