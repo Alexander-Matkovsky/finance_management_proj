@@ -31,12 +31,6 @@ class Database:
                 )
             ''')
             self.conn.execute('''
-                CREATE TABLE IF NOT EXISTS categories (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL
-                )
-            ''')
-            self.conn.execute('''
                 CREATE TABLE IF NOT EXISTS transactions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     account_id INTEGER,
@@ -44,19 +38,17 @@ class Database:
                     amount REAL NOT NULL,
                     type TEXT NOT NULL,
                     description TEXT,
-                    category_id INTEGER,
-                    FOREIGN KEY (account_id) REFERENCES accounts (id),
-                    FOREIGN KEY (category_id) REFERENCES categories (id)
+                    category_name TEXT,
+                    FOREIGN KEY (account_id) REFERENCES accounts (id)
                 )
             ''')
             self.conn.execute('''
                 CREATE TABLE IF NOT EXISTS budgets (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id INTEGER,
-                    category_id INTEGER,
+                    category_name TEXT NOT NULL,
                     amount REAL NOT NULL,
-                    FOREIGN KEY (user_id) REFERENCES users (id),
-                    FOREIGN KEY (category_id) REFERENCES categories (id)
+                    FOREIGN KEY (user_id) REFERENCES users (id)
                 )
             ''')
         logging.info("Tables created or verified")
@@ -77,44 +69,34 @@ class Database:
             self.conn.execute('INSERT INTO accounts (user_id, name, balance) VALUES (?, ?, ?)', (user_id, name, balance))
         logging.info(f"Account added for user {user_id}: {name} with balance {balance}")
 
-    def add_transaction(self, account_id, date, amount, type, description, category_id):
+    def add_transaction(self, account_id, date, amount, type, description, category_name):
         if not description:
             raise ValueError("Description cannot be empty")
         if type not in ["Income", "Expense"]:
             raise ValueError("Transaction type must be either 'Income' or 'Expense'")
         with self.conn:
-            self.conn.execute('INSERT INTO transactions (account_id, date, amount, type, description, category_id) VALUES (?, ?, ?, ?, ?, ?)', (account_id, date, amount, type, description, category_id))
+            self.conn.execute('INSERT INTO transactions (account_id, date, amount, type, description, category_name) VALUES (?, ?, ?, ?, ?, ?)', (account_id, date, amount, type, description, category_name))
             if type == "Income":
                 self.conn.execute('UPDATE accounts SET balance = balance + ? WHERE id = ?', (amount, account_id))
             else:
                 self.conn.execute('UPDATE accounts SET balance = balance - ? WHERE id = ?', (abs(amount), account_id))
         logging.info(f"Transaction added for account {account_id}: {type} of {amount} - {description}")
 
-
-
-    def add_category(self, name):
-        if not name:
-            raise ValueError("Category name cannot be empty")
-        with self.conn:
-            self.conn.execute('INSERT INTO categories (name) VALUES (?)', (name,))
-        logging.info(f"Category added: {name}")
-
-    def set_budget(self, user_id, category_id, amount):
-        existing_budget = self.conn.execute('SELECT id FROM budgets WHERE user_id = ? AND category_id = ?', (user_id, category_id)).fetchone()
+    def set_budget(self, user_id, category_name, amount):
+        existing_budget = self.conn.execute('SELECT id FROM budgets WHERE user_id = ? AND category_name = ?', (user_id, category_name)).fetchone()
         if existing_budget:
-            self.conn.execute('UPDATE budgets SET amount = ? WHERE user_id = ? AND category_id = ?', (amount, user_id, category_id))
-            logging.info(f"Budget updated for user {user_id}, category {category_id}: {amount}")
+            self.conn.execute('UPDATE budgets SET amount = ? WHERE user_id = ? AND category_name = ?', (amount, user_id, category_name))
+            logging.info(f"Budget updated for user {user_id}, category {category_name}: {amount}")
         else:
-            self.conn.execute('INSERT INTO budgets (user_id, category_id, amount) VALUES (?, ?, ?)', (user_id, category_id, amount))
-            logging.info(f"Budget set for user {user_id}, category {category_id}: {amount}")
+            self.conn.execute('INSERT INTO budgets (user_id, category_name, amount) VALUES (?, ?, ?)', (user_id, category_name, amount))
+            logging.info(f"Budget set for user {user_id}, category {category_name}: {amount}")
 
-
-    def get_budget(self, user_id, category_id):
-        budget = self.conn.execute('SELECT amount FROM budgets WHERE user_id = ? AND category_id = ?', (user_id, category_id)).fetchone()
+    def get_budget(self, user_id, category_name):
+        budget = self.conn.execute('SELECT amount FROM budgets WHERE user_id = ? AND category_name = ?', (user_id, category_name)).fetchone()
         if budget:
-            logging.info(f"Budget retrieved for user {user_id}, category {category_id}: {budget[0]}")
+            logging.info(f"Budget retrieved for user {user_id}, category {category_name}: {budget[0]}")
             return budget[0]
-        logging.info(f"No budget found for user {user_id}, category {category_id}")
+        logging.info(f"No budget found for user {user_id}, category {category_name}")
         return None
 
     def update_user(self, user_id, name):

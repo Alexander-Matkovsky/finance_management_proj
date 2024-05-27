@@ -1,7 +1,7 @@
 class Budget:
-    def __init__(self, budget_id, category, limit):
+    def __init__(self, budget_id, category_name, limit):
         self.budget_id = budget_id
-        self.category = category
+        self.category_name = category_name
         self.limit = limit
         self.spent = 0
 

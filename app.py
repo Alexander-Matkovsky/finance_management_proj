@@ -58,12 +58,12 @@ def add_transaction():
     account_id = request.form.get('account_id')
     amount = request.form.get('amount')
     description = request.form.get('description')
-    category_id = request.form.get('category_id')
+    category_name = request.form.get('category_name')
     date = request.form.get('date')
-    if not (account_id and amount and description and category_id and date):
-        return jsonify({"error": "account_id, amount, description, category_id, and date are required"}), 400
+    if not (account_id and amount and description and category_name and date):
+        return jsonify({"error": "account_id, amount, description, category_name, and date are required"}), 400
     db = get_db()
-    db.add_transaction(account_id, date, amount, "Transaction", description, category_id)
+    db.add_transaction(account_id, date, amount, "Transaction", description, category_name)
     return jsonify({"message": f"Transaction added successfully!"}), 201
 
 @app.route('/visualize_cash_flows', methods=['GET'])

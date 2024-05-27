@@ -46,22 +46,18 @@ class ReportGenerator:
     def generate_budget_report(self, user):
         report = f"Budget Report for {user['name']}\n"
         report += "-" * 40 + "\n"
-        budgets = self.db.conn.execute("SELECT category_id, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
+        budgets = self.db.conn.execute("SELECT category_name, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
         for budget in budgets:
-            category = self.db.conn.execute("SELECT name FROM categories WHERE id = ?", (budget['category_id'],)).fetchone()
-            if category:
-                spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_id = ? AND amount < 0", (budget['category_id'],)).fetchone()[0]
-                spent = spent if spent else 0
-                report += f"Category {category['name']}: Spent {spent}, Limit {budget['amount']}\n"
-            else:
-                report += f"Category ID {budget['category_id']}: Category not found. Limit {budget['amount']}\n"
+            spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_name = ? AND amount < 0", (budget['category_name'],)).fetchone()[0]
+            spent = spent if spent else 0
+            report += f"Category {budget['category_name']}: Spent {spent}, Limit {budget['amount']}\n"
         return report
 
     def generate_cash_flow_statement(self, user):
         cash_flow = CashFlow()
         accounts = self.db.conn.execute("SELECT id FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
         for account in accounts:
-            transactions = self.db.conn.execute("SELECT amount, description, date FROM transactions WHERE account_id = ?", (account['id'],)).fetchall()
+            transactions = self.db.conn.execute("SELECT amount, description, date, category_name FROM transactions WHERE account_id = ?", (account['id'],)).fetchall()
             for transaction in transactions:
                 if transaction['amount'] > 0:
                     cash_flow.add_inflow(transaction['amount'], transaction['description'], transaction['date'])

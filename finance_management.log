@@ -13112,3 +13112,78 @@ Net Cash Flow: 1400.0
 2024-05-27 18:30:44,173 - root - INFO - Database connected
 2024-05-27 18:30:44,175 - root - INFO - Category added: Household
 2024-05-27 18:30:44,175 - root - INFO - Added category: Household
+2024-05-27 18:51:15,455 - root - INFO - Tables created or verified
+2024-05-27 18:51:15,455 - root - INFO - Database connected
+2024-05-27 18:51:15,457 - root - INFO - User added: Sasha
+2024-05-27 18:51:15,457 - root - INFO - Added user: Sasha
+2024-05-27 18:51:25,192 - root - INFO - Tables created or verified
+2024-05-27 18:51:25,192 - root - INFO - Database connected
+2024-05-27 18:52:17,690 - root - INFO - Tables created or verified
+2024-05-27 18:52:17,690 - root - INFO - Database connected
+2024-05-27 18:52:17,692 - root - INFO - Account added for user 1: Checking with balance 10000.0
+2024-05-27 18:52:17,692 - root - INFO - Added account: Checking with balance 10000.0 to user 1
+2024-05-27 18:53:19,540 - root - INFO - Tables created or verified
+2024-05-27 18:53:19,540 - root - INFO - Database connected
+2024-05-27 18:53:19,543 - root - INFO - Category added: Household
+2024-05-27 18:53:19,543 - root - INFO - Added category: Household
+2024-05-27 18:54:47,064 - root - INFO - Tables created or verified
+2024-05-27 18:54:47,064 - root - INFO - Database connected
+2024-05-27 18:54:47,067 - root - INFO - Transaction added for account 1: Income of 6000.0 - salary
+2024-05-27 18:54:47,067 - root - INFO - Added inflow: 6000.0 - salary
+2024-05-27 18:55:39,643 - root - INFO - Tables created or verified
+2024-05-27 18:55:39,643 - root - INFO - Database connected
+2024-05-27 18:55:39,645 - root - INFO - Category added: Salary
+2024-05-27 18:55:39,645 - root - INFO - Added category: Salary
+2024-05-27 18:55:52,276 - root - INFO - Tables created or verified
+2024-05-27 18:55:52,276 - root - INFO - Database connected
+2024-05-27 18:55:52,279 - root - INFO - Transaction added for account 1: Income of 6000.0 - salary
+2024-05-27 18:55:52,280 - root - INFO - Added inflow: 6000.0 - salary
+2024-05-27 18:56:19,039 - root - INFO - Tables created or verified
+2024-05-27 18:56:19,039 - root - INFO - Database connected
+2024-05-27 18:56:19,042 - root - INFO - Transaction added for account 1: Expense of -1667.0 - Rent
+2024-05-27 18:56:19,042 - root - INFO - Added outflow: 1667.0 - Rent
+2024-05-27 18:58:25,782 - root - INFO - Tables created or verified
+2024-05-27 18:58:25,782 - root - INFO - Database connected
+2024-05-27 18:58:25,783 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 20333.0
+Budget Report for Sasha
+----------------------------------------
+
+
+Balance Sheet for Sasha
+----------------------------------------
+Account Checking: 20333.0
+----------------------------------------
+Total Balance: 20333.0
+
+Budget Report for Sasha
+----------------------------------------
+
+Cash Flow Report
+Inflows:
+2024-05-21 - salary: 6000.0
+2024-05-21 - salary: 6000.0
+Outflows:
+2024-05-21 - Rent: -1667.0
+Net Cash Flow: 10333.0
+
+2024-05-27 18:59:03,711 - root - INFO - Tables created or verified
+2024-05-27 18:59:03,711 - root - INFO - Database connected
+2024-05-27 18:59:31,222 - root - INFO - Tables created or verified
+2024-05-27 18:59:31,222 - root - INFO - Database connected
+2024-05-27 18:59:31,222 - root - INFO - No budget found for user 1, category 1
+2024-05-27 18:59:31,223 - root - ERROR - Error: 'NoneType' object is not subscriptable
+2024-05-27 18:59:34,905 - root - INFO - Tables created or verified
+2024-05-27 18:59:34,905 - root - INFO - Database connected
+2024-05-27 18:59:34,905 - root - INFO - No budget found for user 1, category 2
+2024-05-27 18:59:34,905 - root - ERROR - Error: 'NoneType' object is not subscriptable
+2024-05-27 19:02:16,853 - root - INFO - Tables created or verified
+2024-05-27 19:02:16,853 - root - INFO - Database connected
+2024-05-27 19:02:16,853 - root - INFO - Budget set for user 1, category 1: 3000.0
+2024-05-27 19:02:16,853 - root - INFO - Set budget: 3000.0 for user 1 and category 1
+2024-05-27 19:02:54,223 - root - INFO - Tables created or verified
+2024-05-27 19:02:54,223 - root - INFO - Database connected
+2024-05-27 19:02:54,223 - root - INFO - No budget found for user 1, category 1
+2024-05-27 19:02:54,223 - root - ERROR - Error: 'NoneType' object is not subscriptable
