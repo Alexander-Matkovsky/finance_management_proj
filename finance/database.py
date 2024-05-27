@@ -84,7 +84,13 @@ class Database:
             raise ValueError("Transaction type must be either 'Income' or 'Expense'")
         with self.conn:
             self.conn.execute('INSERT INTO transactions (account_id, date, amount, type, description, category_id) VALUES (?, ?, ?, ?, ?, ?)', (account_id, date, amount, type, description, category_id))
+            if type == "Income":
+                self.conn.execute('UPDATE accounts SET balance = balance + ? WHERE id = ?', (amount, account_id))
+            else:
+                self.conn.execute('UPDATE accounts SET balance = balance - ? WHERE id = ?', (abs(amount), account_id))
         logging.info(f"Transaction added for account {account_id}: {type} of {amount} - {description}")
+
+
 
     def add_category(self, name):
         if not name:
@@ -94,9 +100,14 @@ class Database:
         logging.info(f"Category added: {name}")
 
     def set_budget(self, user_id, category_id, amount):
-        with self.conn:
+        existing_budget = self.conn.execute('SELECT id FROM budgets WHERE user_id = ? AND category_id = ?', (user_id, category_id)).fetchone()
+        if existing_budget:
+            self.conn.execute('UPDATE budgets SET amount = ? WHERE user_id = ? AND category_id = ?', (amount, user_id, category_id))
+            logging.info(f"Budget updated for user {user_id}, category {category_id}: {amount}")
+        else:
             self.conn.execute('INSERT INTO budgets (user_id, category_id, amount) VALUES (?, ?, ?)', (user_id, category_id, amount))
-        logging.info(f"Budget set for user {user_id}, category {category_id}: {amount}")
+            logging.info(f"Budget set for user {user_id}, category {category_id}: {amount}")
+
 
     def get_budget(self, user_id, category_id):
         budget = self.conn.execute('SELECT amount FROM budgets WHERE user_id = ? AND category_id = ?', (user_id, category_id)).fetchone()

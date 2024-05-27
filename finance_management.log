@@ -13060,3 +13060,55 @@ Net Cash Flow: 1400.0
 2024-05-25 18:57:03,665 - root - INFO - Tables created or verified
 2024-05-25 18:57:03,665 - root - INFO - Database connected
 2024-05-25 18:57:04,015 - root - INFO - Visualized cash flows for account 1
+2024-05-27 17:24:16,503 - root - INFO - Tables created or verified
+2024-05-27 17:24:16,504 - root - INFO - Database connected
+2024-05-27 17:24:16,507 - root - INFO - Budget set for user 1, category 3: 1000.0
+2024-05-27 17:24:16,507 - root - INFO - Set budget: 1000.0 for user 1 and category 3
+2024-05-27 17:24:49,084 - root - INFO - Tables created or verified
+2024-05-27 17:24:49,085 - root - INFO - Database connected
+2024-05-27 17:24:49,087 - root - INFO - Category added: Groceries
+2024-05-27 17:24:49,088 - root - INFO - Added category: Groceries
+2024-05-27 17:25:16,193 - root - INFO - Tables created or verified
+2024-05-27 17:25:16,193 - root - INFO - Database connected
+2024-05-27 17:25:16,195 - root - INFO - Category added: Household
+2024-05-27 17:25:16,195 - root - INFO - Added category: Household
+2024-05-27 17:26:46,201 - root - INFO - Tables created or verified
+2024-05-27 17:26:46,201 - root - INFO - Database connected
+2024-05-27 17:26:46,204 - root - INFO - Budget set for user 1, category 1: 1000.0
+2024-05-27 17:26:46,204 - root - INFO - Set budget: 1000.0 for user 1 and category 1
+2024-05-27 17:48:16,859 - root - INFO - Tables created or verified
+2024-05-27 17:48:16,859 - root - INFO - Database connected
+2024-05-27 17:48:16,862 - root - INFO - Budget set for user 1, category 2: 1000.0
+2024-05-27 17:48:16,862 - root - INFO - Set budget: 1000.0 for user 1 and category 2
+2024-05-27 17:51:15,859 - root - INFO - Tables created or verified
+2024-05-27 17:51:15,859 - root - INFO - Database connected
+2024-05-27 17:51:15,861 - root - INFO - Budget set for user 1, category 2: 1000.0
+2024-05-27 17:51:15,861 - root - INFO - Set budget: 1000.0 for user 1 and category 2
+2024-05-27 17:51:48,545 - root - INFO - Tables created or verified
+2024-05-27 17:51:48,545 - root - INFO - Database connected
+2024-05-27 17:51:48,545 - root - INFO - Budget retrieved for user 1, category 1: 1000.0
+2024-05-27 17:51:48,545 - root - ERROR - Error: 'float' object is not subscriptable
+2024-05-27 17:51:55,801 - root - INFO - Tables created or verified
+2024-05-27 17:51:55,801 - root - INFO - Database connected
+2024-05-27 17:51:55,801 - root - INFO - Budget retrieved for user 1, category 2: 500.0
+2024-05-27 17:51:55,801 - root - ERROR - Error: 'float' object is not subscriptable
+2024-05-27 17:51:59,825 - root - INFO - Tables created or verified
+2024-05-27 17:51:59,825 - root - INFO - Database connected
+2024-05-27 17:51:59,825 - root - INFO - Budget retrieved for user 1, category 3: 1000.0
+2024-05-27 17:51:59,825 - root - ERROR - Error: 'float' object is not subscriptable
+2024-05-27 17:52:04,580 - root - INFO - Tables created or verified
+2024-05-27 17:52:04,580 - root - INFO - Database connected
+2024-05-27 17:52:04,580 - root - INFO - No budget found for user 1, category 4
+2024-05-27 17:52:04,580 - root - ERROR - Error: 'NoneType' object is not subscriptable
+2024-05-27 17:54:59,111 - root - INFO - Tables created or verified
+2024-05-27 17:54:59,111 - root - INFO - Database connected
+2024-05-27 17:54:59,114 - root - INFO - Transaction added for account 1: Income of 1000.0 - bonus
+2024-05-27 17:54:59,114 - root - INFO - Added inflow: 1000.0 - bonus
+2024-05-27 18:30:25,364 - root - INFO - Tables created or verified
+2024-05-27 18:30:25,364 - root - INFO - Database connected
+2024-05-27 18:30:25,364 - root - INFO - Budget updated for user 1, category 2: 1000.0
+2024-05-27 18:30:25,364 - root - INFO - Set budget: 1000.0 for user 1 and category 2
+2024-05-27 18:30:44,173 - root - INFO - Tables created or verified
+2024-05-27 18:30:44,173 - root - INFO - Database connected
+2024-05-27 18:30:44,175 - root - INFO - Category added: Household
+2024-05-27 18:30:44,175 - root - INFO - Added category: Household
