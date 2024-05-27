@@ -51,9 +51,12 @@ class ReportGenerator:
         budgets = self.db.conn.execute("SELECT category_id, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
         for budget in budgets:
             category = self.db.conn.execute("SELECT name FROM categories WHERE id = ?", (budget['category_id'],)).fetchone()
-            spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_id = ? AND amount < 0", (budget['category_id'],)).fetchone()[0]
-            spent = spent if spent else 0
-            report += f"Category {category['name']}: Spent {spent}, Limit {budget['amount']}\n"
+            if category:
+                spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_id = ? AND amount < 0", (budget['category_id'],)).fetchone()[0]
+                spent = spent if spent else 0
+                report += f"Category {category['name']}: Spent {spent}, Limit {budget['amount']}\n"
+            else:
+                report += f"Category ID {budget['category_id']}: Category not found. Limit {budget['amount']}\n"
         return report
 
     def generate_cash_flow_statement(self, user):
