@@ -18,31 +18,6 @@ class ReportGenerator:
         report += f"Total Balance: {total_balance}\n"
         return report
 
-    def generate_income_statement(self, user, start_date=None, end_date=None):
-        report = f"Income Statement for {user['name']}\n"
-        report += "-" * 40 + "\n"
-        accounts = self.db.conn.execute("SELECT id, name FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
-        total_income = 0
-        total_expenses = 0
-        for account in accounts:
-            transactions_query = "SELECT amount, description, date FROM transactions WHERE account_id = ?"
-            params = [account['id']]
-            if start_date and end_date:
-                transactions_query += " AND date BETWEEN ? AND ?"
-                params.extend([start_date, end_date])
-            transactions = self.db.conn.execute(transactions_query, params).fetchall()
-            for transaction in transactions:
-                if transaction['amount'] > 0:
-                    report += f"Income: {transaction['amount']} ({transaction['description']}) on {transaction['date']}\n"
-                    total_income += transaction['amount']
-                else:
-                    report += f"Expense: {transaction['amount']} ({transaction['description']}) on {transaction['date']}\n"
-                    total_expenses += transaction['amount']
-        report += f"Total Income: {total_income}\n"
-        report += f"Total Expenses: {total_expenses}\n"
-        report += f"Net Income: {total_income + total_expenses}\n"
-        return report
-
     def generate_budget_report(self, user):
         report = f"Budget Report for {user['name']}\n"
         report += "-" * 40 + "\n"
@@ -65,7 +40,6 @@ class ReportGenerator:
                     cash_flow.add_outflow(transaction['amount'], transaction['description'], transaction['date'])
         return cash_flow.generate_cash_flow_report()
 
-
     def generate_summary(self, user):
         balance_sheet = self.generate_balance_sheet(user)
         budget_report = self.generate_budget_report(user)
@@ -75,12 +49,12 @@ class ReportGenerator:
         summary += budget_report
         summary += cash_flow_statement.split("\n")[-1] + "\n"
         return summary
-    
 
     def generate_report(self, user_id, start_date=None, end_date=None):
         user = self.db.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
         if not user:
             return f"User with ID {user_id} not found."
+
         report = self.generate_summary(user)
         report += "\n"
         report += self.generate_balance_sheet(user)
@@ -89,6 +63,7 @@ class ReportGenerator:
         report += "\n"
         report += self.generate_cash_flow_statement(user)
         return report
+
 
     def save_report_as_pdf(self, report, filename):
         options = {

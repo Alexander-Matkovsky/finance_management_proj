@@ -109,13 +109,7 @@ class Database:
         self.conn.commit()
         logging.info(f"Account {account_id} updated to name: {account_name} with balance: {initial_balance}")
 
-    def update_category(self, category_id, name):
-        self.conn.execute("UPDATE categories SET name = ? WHERE id = ?", (name, category_id))
+    def update_transaction(self, transaction_id, amount, description, category_name):
+        self.conn.execute("UPDATE transactions SET amount = ?, description = ?, category_name = ? WHERE id = ?", (amount, description, category_name, transaction_id))
         self.conn.commit()
-        logging.info(f"Category {category_id} updated to name: {name}")
-
-    def update_transaction(self, transaction_id, amount, description, category_id):
-        self.conn.execute("UPDATE transactions SET amount = ?, description = ?, category_id = ? WHERE id = ?", (amount, description, category_id, transaction_id))
-        self.conn.commit()
-        logging.info(f"Transaction {transaction_id} updated with amount: {amount}, description: {description}, category ID: {category_id}")
-
+        logging.info(f"Transaction {transaction_id} updated with amount: {amount}, description: {description}, category name: {category_name}")
