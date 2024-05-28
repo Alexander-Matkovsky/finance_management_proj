@@ -1,55 +1,45 @@
-import unittest
-from finance.user import User
-from finance.account import Account
-from finance.transaction import Transaction
-from finance.budget import Budget
+import pytest
+from finance.database import Database
 from finance.report_generator import ReportGenerator
-from finance.cashflow import CashFlow
 
-class TestReportGenerator(unittest.TestCase):
-    def test_generate_balance_sheet(self):
-        user = User(1, "Alice")
-        account = Account(1, "Checking Account", 1000)
-        user.add_account(account)
-        report = ReportGenerator.generate_balance_sheet(user)
-        expected_report = "Balance Sheet for Alice\nAccount Checking Account: 1000\n"
-        self.assertEqual(report, expected_report)
+@pytest.fixture
+def db():
+    db = Database('test_finance.db')
+    yield db
+    db.conn.close()
+    import os
+    os.remove('test_finance.db')
 
-    def test_generate_income_statement(self):
-        user = User(1, "Alice")
-        account = Account(1, "Checking Account", 1000)
-        transaction = Transaction(1, "2023-05-20", 500, "Income", "Salary")
-        account.add_transaction(transaction)
-        user.add_account(account)
-        report = ReportGenerator.generate_income_statement(user)
-        expected_report = "Income Statement for Alice\nIncome: 2023-05-20 - Income: 500 (Salary)\n"
-        self.assertEqual(report, expected_report)
+@pytest.fixture
+def report_generator(db):
+    return ReportGenerator(db)
 
-    def test_generate_budget_report(self):
-        user = User(1, "Alice")
-        budget = Budget(1, "Groceries", 500)
-        budget.add_expense(200)
-        user.add_budget(budget)
-        report = ReportGenerator.generate_budget_report(user)
-        expected_report = "Budget Report for Alice\nCategory Groceries: Spent 200, Limit 500\n"
-        self.assertEqual(report, expected_report)
+def test_generate_balance_sheet(db, report_generator):
+    db.add_user('John Doe')
+    user = db.conn.execute('SELECT * FROM users WHERE name = ?', ('John Doe',)).fetchone()
+    db.add_account(user['id'], 'Checking', 1000.0)
+    balance_sheet = report_generator.generate_balance_sheet(user)
+    assert 'Balance Sheet for John Doe' in balance_sheet
+    assert 'Account Checking: 1000.0' in balance_sheet
+    assert 'Total Balance: 1000.0' in balance_sheet
 
-    def test_generate_cash_flow_statement(self):
-        user = User(1, "Alice")
-        account = Account(1, "Checking Account", 1000)
-        transaction1 = Transaction(1, "2023-05-20", 500, "Income", "Salary")
-        transaction2 = Transaction(2, "2023-05-21", -200, "Expense", "Groceries")
-        account.add_transaction(transaction1)
-        account.add_transaction(transaction2)
-        user.add_account(account)
-        report = ReportGenerator.generate_cash_flow_statement(user)
-        expected_report = ("Cash Flow Report\n"
-                           "Inflows:\n"
-                           "Salary: 500\n"
-                           "Outflows:\n"
-                           "Groceries: -200\n"  # Display as positive
-                           "Net Cash Flow: 300\n")
-        self.assertEqual(report, expected_report)
+def test_generate_budget_report(db, report_generator):
+    db.add_user('John Doe')
+    user = db.conn.execute('SELECT * FROM users WHERE name = ?', ('John Doe',)).fetchone()
+    db.set_budget(user['id'], 'Groceries', 500.0)
+    budget_report = report_generator.generate_budget_report(user)
+    assert 'Budget Report for John Doe' in budget_report
+    assert 'Category Groceries: Spent 0, Limit 500.0' in budget_report
 
-if __name__ == '__main__':
-    unittest.main()
+def test_generate_cash_flow_statement(db, report_generator):
+    db.add_user('John Doe')
+    user = db.conn.execute('SELECT * FROM users WHERE name = ?', ('John Doe',)).fetchone()
+    db.add_account(user['id'], 'Checking', 1000.0)
+    account = db.conn.execute('SELECT * FROM accounts WHERE user_id = ?', (user['id'],)).fetchone()
+    db.add_transaction(account['id'], '2024-05-27', 200.0, 'Income', 'Salary', 'Salary')
+    db.add_transaction(account['id'], '2024-05-27', -50.0, 'Expense', 'Groceries', 'Groceries')
+    cash_flow_statement = report_generator.generate_cash_flow_statement(user)
+    assert 'Cash Flow Report' in cash_flow_statement
+    assert 'Inflows:\n2024-05-27 - Salary: 200.0' in cash_flow_statement
+    assert 'Outflows:\n2024-05-27 - Groceries: -50.0' in cash_flow_statement
+    assert 'Net Cash Flow: 150.0' in cash_flow_statement

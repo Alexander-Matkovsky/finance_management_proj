@@ -3,3 +3,4 @@ pandas
 matplotlib
 pdfkit
 Flask
+pytest
