@@ -7,6 +7,15 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - DB_NAME=finance.db  # Use an environment variable for the database name
+      - DB_NAME=finance.db
     volumes:
-      - ./finance.db:/app/finance.db  # Persist the database file
+      - ./finance.db:/app/finance.db
+
+  test:
+    build: .
+    environment:
+      - FLASK_ENV=testing
+      - DB_NAME=test_finance.db
+    volumes:
+      - ./tests:/app/tests
+    command: ["pytest", "--disable-warnings"]
