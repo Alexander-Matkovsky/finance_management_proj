@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:80"
+    environment:
+      - DB_NAME=finance.db
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  db:
+    image: sqlite:latest
+    volumes:
+      - ./data:/var/lib/sqlite
+    environment:
+      SQLITE_DATABASE: finance.db

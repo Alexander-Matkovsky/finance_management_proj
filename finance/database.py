@@ -1,9 +1,10 @@
 import sqlite3
 import logging
+import os
 
 class Database:
-    def __init__(self, db_name='finance.db'):
-        self.db_name = db_name
+    def __init__(self, db_name=None):
+        self.db_name = os.getenv("DB_NAME", 'finance.db')
         self.conn = self.get_connection()  # Initialize the connection here
         self.create_tables()
         logging.info("Database connected")
