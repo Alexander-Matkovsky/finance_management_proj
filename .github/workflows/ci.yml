@@ -29,8 +29,10 @@ jobs:
     - name: Build and push
       run: |
         docker-compose build
-        docker tag finance_management_proj ${{ secrets.DOCKER_USERNAME }}/finance_management_proj-app:latest
+        docker tag finance_management_proj-app ${{ secrets.DOCKER_USERNAME }}/finance_management_proj-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/finance_management_proj-app:latest
 
     - name: Run tests
       run: docker-compose run test
+
+    
