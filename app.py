@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, render_template, jsonify, g
 from finance.database import Database
 from finance.report_generator import ReportGenerator
@@ -7,7 +8,8 @@ app = Flask(__name__)
 
 def get_db():
     if 'db' not in g:
-        g.db = Database()
+        db_name = os.getenv('DB_NAME', 'finance.db')
+        g.db = Database(db_name)
     return g.db
 
 @app.teardown_appcontext

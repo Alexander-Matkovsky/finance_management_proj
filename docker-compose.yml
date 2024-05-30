@@ -1,20 +1,16 @@
-version: '3'
+version: '3.8'
 
 services:
-  web:
+  app:
     build: .
     ports:
-      - "5000:80"
+      - "5000:5000"
     environment:
-      - DB_NAME=finance.db
-    volumes:
-      - .:/app
+      - FLASK_ENV=development
     depends_on:
       - db
 
   db:
-    image: sqlite:latest
+    image: sqlite
     volumes:
-      - ./data:/var/lib/sqlite
-    environment:
-      SQLITE_DATABASE: finance.db
+      - ./finance.db:/app/finance.db
