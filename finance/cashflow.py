@@ -6,8 +6,8 @@ class CashFlow:
     def add_inflow(self, amount, description, date):
         self.inflows.append((amount, description, date))
 
-    def add_outflow(self, amount, description, date):  # Store outflows as positive values
-        self.outflows.append((amount, description, date))
+    def add_outflow(self, amount, description, date):
+        self.outflows.append((amount, description, date))  # Store outflows as positive values
 
     def calculate_net_cash_flow(self):
         total_inflows = sum(amount for amount, _, _ in self.inflows)

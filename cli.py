@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 from finance.database import Database
 from finance.report_generator import ReportGenerator
 from finance.visualizer import visualize_cash_flows
@@ -10,6 +11,10 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.DEBUG  # Set the logging level to DEBUG
 )
+
+def get_database():
+    db_name = os.getenv("DB_NAME", "finance.db")
+    return Database(db_name)
 
 def main():
     parser = argparse.ArgumentParser(description="Finance Management CLI")
@@ -87,7 +92,7 @@ def main():
     update_transaction_parser.add_argument("--category_name", type=str, required=True, help="New category name")
 
     args = parser.parse_args()
-    db = Database()
+    db = get_database()
     report_generator = ReportGenerator(db)
 
     try:

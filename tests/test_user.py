@@ -45,11 +45,11 @@ def test_generate_report(db):
     db.add_user('John Doe')
     user = db.conn.execute('SELECT * FROM users WHERE name = ?', ('John Doe',)).fetchone()
     db.add_account(user['id'], 'Checking', 1000.0)
-    db.add_transaction(user['id'], '2024-05-21', 1500, 'Income', 'Salary', 'Salary')
-    db.add_transaction(user['id'], '2024-05-22', -200, 'Expense', 'Groceries', 'Groceries')
-
+    db.add_transaction(user['id'], '2024-05-21', 1500, 'Income', 'Salary', 'Income')
+    db.add_transaction(user['id'], '2024-05-22', -200, 'Expense', 'Groceries', 'Expense')
+    
     stdout, stderr = run_cli_command(f'python cli.py generate_report --user_id {user["id"]}')
-
+    
     # Check that key parts of the report are present in the output
     assert 'Summary' in stdout
     assert 'Total Balance' in stdout
