@@ -23,6 +23,7 @@ phases:
     commands:
       - echo Building the Docker images...
       - docker-compose build
+      - docker images
       - docker tag finance_management_proj:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
