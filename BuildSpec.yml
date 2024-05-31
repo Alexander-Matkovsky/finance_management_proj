@@ -3,10 +3,11 @@ version: 0.2
 env:
   variables:
     ECR_REPOSITORY_NAME: "finance_management_proj"
-    ECS_CLUSTER_NAME: "my-cluster"
-    ECS_SERVICE_NAME: "my-service"
+    ECS_CLUSTER_NAME: "finance_management_proj_app_cluster"
+    ECS_SERVICE_NAME: "finance_management_proj_service"
     AWS_REGION: "us-east-1"
     IMAGE_TAG: "latest"
+    AWS_ACCOUNT_ID: "339713012806"
 
 phases:
   pre_build:
