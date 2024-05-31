@@ -23,13 +23,13 @@ phases:
     commands:
       - echo Building the Docker images...
       - docker-compose build
-      - docker tag finance_management_proj_app:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag finance_management_proj:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Pushing the Docker image to Amazon ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Creating imagedefinitions.json file...
-      - printf '[{"name":"finance_management_proj_app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"finance_management_proj","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - echo Updating ECS service with the new image...
       - aws ecs update-service --cluster $ECS_CLUSTER_NAME --service $ECS_SERVICE_NAME --force-new-deployment
 artifacts:
