@@ -36,5 +36,9 @@ jobs:
 
     - name: Notify AWS to Start CodePipeline
       if: success()
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-east-1' # Adjust the region as necessary
       run: |
-        curl -X POST https://xmyxfmzwa5.execute-api.us-east-1.amazonaws.com/default/finance_management_proj_pipeline_trigger
+        aws codepipeline start-pipeline-execution --name finance_management_proji_pipeline
