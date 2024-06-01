@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -35,4 +34,7 @@ jobs:
     - name: Run tests
       run: docker-compose run test
 
-    
+    - name: Notify AWS to Start CodePipeline
+      if: success()
+      run: |
+        curl -X POST https://xmyxfmzwa5.execute-api.us-east-1.amazonaws.com/default/finance_management_proj_pipeline_trigger
