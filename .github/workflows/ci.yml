@@ -41,4 +41,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-1' # Adjust the region as necessary
       run: |
-        aws codepipeline start-pipeline-execution --name finance_management_proji_pipeline
+        aws codepipeline start-pipeline-execution --name finance_management_pipeline
