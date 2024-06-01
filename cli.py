@@ -165,11 +165,11 @@ def view_transactions_by_category(db, args):
     print(report)
 
 def view_transactions_by_date(db, args):
-    transactions = db.get_transactions_by_date(args.date)
+    transactions = db.get_transactions_by_date(args.start_date, args.end_date)
     if not transactions:
         print("No transactions found.")
         return
-    report = f"Transactions for Date {args.date}:\n"
+    report = f"Transactions from {args.start_date} to {args.end_date}:\n"
     for transaction in transactions:
         transaction_id, account_id, date, amount, type, description, category_name = transaction['transaction_id'], transaction['account_id'], transaction['date'], transaction['amount'], transaction['type'], transaction['description'], transaction['category_name']
         report += f"Transaction ID: {transaction_id}, Account ID: {account_id}, Date: {date}, Amount: {amount}, Type: {type}, Description: {description}, Category Name: {category_name}\n"
@@ -337,6 +337,6 @@ def main():
     except Exception as e:
         logging.error(f"Error: {e}")
         print(f"Error: {e}")
-        
+
 if __name__ == "__main__":
     main()

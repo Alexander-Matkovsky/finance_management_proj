@@ -181,3 +181,35 @@ class Database:
         """Delete a budget."""
         self.conn.execute("DELETE FROM budgets WHERE user_id = ? AND category_name = ?", (user_id, category_name))
         logging.info(f"Budget for user {user_id} and category {category_name} deleted")
+
+    # New methods for fetching users, accounts, and transactions
+    def get_users(self):
+        return self.conn.execute("SELECT * FROM users").fetchall()
+
+    def get_accounts(self):
+        return self.conn.execute("SELECT * FROM accounts").fetchall()
+
+    def get_transactions_by_user(self, user_id):
+        return self.conn.execute("""
+            SELECT t.* FROM transactions t
+            JOIN accounts a ON t.account_id = a.id
+            WHERE a.user_id = ?
+        """, (user_id,)).fetchall()
+
+    def get_transactions_by_account(self, account_id):
+        return self.conn.execute("SELECT * FROM transactions WHERE account_id = ?", (account_id,)).fetchall()
+
+    def get_transactions_by_category(self, category_name):
+        return self.conn.execute("SELECT * FROM transactions WHERE category_name = ?", (category_name,)).fetchall()
+
+    def get_transactions_by_date(self, start_date, end_date):
+        return self.conn.execute("SELECT * FROM transactions WHERE date BETWEEN ? AND ?", (start_date, end_date)).fetchall()
+
+    def get_transactions_by_type(self, type):
+        return self.conn.execute("SELECT * FROM transactions WHERE type = ?", (type,)).fetchall()
+
+    def get_transactions_by_description(self, description):
+        return self.conn.execute("SELECT * FROM transactions WHERE description = ?", (description,)).fetchall()
+
+    def get_transactions_by_category_and_type(self, category_name, type):
+        return self.conn.execute("SELECT * FROM transactions WHERE category_name = ? AND type = ?", (category_name, type)).fetchall()

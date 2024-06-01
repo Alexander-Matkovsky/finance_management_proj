@@ -31,7 +31,7 @@ def test_add_inflow(db):
     db.add_account(user['id'], 'Checking', 1000.0)
     account = db.conn.execute('SELECT * FROM accounts WHERE user_id = ?', (user['id'],)).fetchone()
     stdout, stderr = run_cli_command(f'python cli.py add_inflow --account_id {account["id"]} --amount 200.0 --description "Salary" --category_name "Salary"')
-    assert 'Added inflow: 200.0 - Salary' in stdout
+    assert 'Added income: 200.0 - Salary' in stdout
 
 def test_add_outflow(db):
     db.add_user('John Doe')
@@ -39,21 +39,20 @@ def test_add_outflow(db):
     db.add_account(user['id'], 'Checking', 1000.0)
     account = db.conn.execute('SELECT * FROM accounts WHERE user_id = ?', (user['id'],)).fetchone()
     stdout, stderr = run_cli_command(f'python cli.py add_outflow --account_id {account["id"]} --amount 50.0 --description "Groceries" --category_name "Groceries"')
-    assert 'Added outflow: 50.0 - Groceries' in stdout
+    assert 'Added expense: 50.0 - Groceries' in stdout
 
 def test_generate_report(db):
     db.add_user('John Doe')
     user = db.conn.execute('SELECT * FROM users WHERE name = ?', ('John Doe',)).fetchone()
     db.add_account(user['id'], 'Checking', 1000.0)
-    db.add_transaction(user['id'], '2024-05-21', 1500, 'Income', 'Salary', 'Salary')
-    db.add_transaction(user['id'], '2024-05-22', -200, 'Expense', 'Groceries', 'Groceries')
-
+    db.add_transaction(user['id'], '2024-05-21', 1500, 'Income', 'Salary', 'Income')
+    db.add_transaction(user['id'], '2024-05-22', -200, 'Expense', 'Groceries', 'Expense')
+    
     stdout, stderr = run_cli_command(f'python cli.py generate_report --user_id {user["id"]}')
-
+    
     # Check that key parts of the report are present in the output
     assert 'Summary' in stdout
     assert 'Total Balance' in stdout
     assert 'Budget Report for John Doe' in stdout
     assert 'Balance Sheet for John Doe' in stdout
     assert 'Cash Flow Report' in stdout
-
