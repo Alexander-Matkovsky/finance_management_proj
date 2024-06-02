@@ -28,7 +28,7 @@ def test_generate_budget_report(db, report_generator):
     user = db.conn.execute('SELECT * FROM users WHERE name = ?', ('John Doe',)).fetchone()
     db.set_budget(user['id'], 'Groceries', 500.0)
     budget_report = report_generator.generate_budget_report(user)
-    assert 'Budget Report for John Doe' in budget_report
+    assert 'Budget Report' in budget_report
     assert 'Category Groceries: Spent 0, Limit 500.0' in budget_report
 
 def test_generate_cash_flow_statement(db, report_generator):

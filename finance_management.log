@@ -13800,3 +13800,463 @@ Outflows:
 2024-05-22 - Groceries: -200.0
 Net Cash Flow: 1300.0
 
+2024-06-02 17:55:48,214 - root - INFO - Tables created or verified
+2024-06-02 17:55:48,215 - root - INFO - Database connected
+2024-06-02 17:55:48,217 - root - INFO - User added: John Doe
+2024-06-02 17:55:48,218 - root - INFO - Added user: John Doe
+2024-06-02 17:55:48,897 - root - INFO - Tables created or verified
+2024-06-02 17:55:48,897 - root - INFO - Database connected
+2024-06-02 17:55:48,900 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 17:55:48,900 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 17:55:49,582 - root - INFO - Tables created or verified
+2024-06-02 17:55:49,582 - root - INFO - Database connected
+2024-06-02 17:55:49,585 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 17:55:49,585 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 17:55:50,268 - root - INFO - Tables created or verified
+2024-06-02 17:55:50,268 - root - INFO - Database connected
+2024-06-02 17:55:50,272 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 17:55:50,272 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 17:55:50,949 - root - INFO - Tables created or verified
+2024-06-02 17:55:50,949 - root - INFO - Database connected
+2024-06-02 17:55:50,949 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 17:55:51,802 - root - INFO - Tables created or verified
+2024-06-02 17:55:51,802 - root - INFO - Database connected
+2024-06-02 17:55:51,806 - root - INFO - User added: John Doe
+2024-06-02 17:55:51,806 - root - INFO - Added user: John Doe
+2024-06-02 17:55:52,479 - root - INFO - Tables created or verified
+2024-06-02 17:55:52,479 - root - INFO - Database connected
+2024-06-02 17:55:52,482 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 17:55:52,483 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 17:55:53,166 - root - INFO - Tables created or verified
+2024-06-02 17:55:53,166 - root - INFO - Database connected
+2024-06-02 17:55:53,169 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 17:55:53,169 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 17:55:53,894 - root - INFO - Tables created or verified
+2024-06-02 17:55:53,894 - root - INFO - Database connected
+2024-06-02 17:55:53,897 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 17:55:53,897 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 17:55:54,633 - root - INFO - Tables created or verified
+2024-06-02 17:55:54,633 - root - INFO - Database connected
+2024-06-02 17:55:54,634 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:25:25,508 - root - INFO - Tables created or verified
+2024-06-02 18:25:25,508 - root - INFO - Database connected
+2024-06-02 18:25:25,511 - root - INFO - User added: John Doe
+2024-06-02 18:25:25,511 - root - INFO - Added user: John Doe
+2024-06-02 18:25:26,206 - root - INFO - Tables created or verified
+2024-06-02 18:25:26,206 - root - INFO - Database connected
+2024-06-02 18:25:26,208 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:25:26,209 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:25:26,889 - root - INFO - Tables created or verified
+2024-06-02 18:25:26,889 - root - INFO - Database connected
+2024-06-02 18:25:26,892 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:25:26,892 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:25:27,568 - root - INFO - Tables created or verified
+2024-06-02 18:25:27,568 - root - INFO - Database connected
+2024-06-02 18:25:27,571 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:25:27,571 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:25:28,249 - root - INFO - Tables created or verified
+2024-06-02 18:25:28,249 - root - INFO - Database connected
+2024-06-02 18:25:28,249 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:25:29,083 - root - INFO - Tables created or verified
+2024-06-02 18:25:29,083 - root - INFO - Database connected
+2024-06-02 18:25:29,086 - root - INFO - User added: John Doe
+2024-06-02 18:25:29,087 - root - INFO - Added user: John Doe
+2024-06-02 18:25:29,767 - root - INFO - Tables created or verified
+2024-06-02 18:25:29,767 - root - INFO - Database connected
+2024-06-02 18:25:29,770 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:25:29,770 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:25:30,448 - root - INFO - Tables created or verified
+2024-06-02 18:25:30,448 - root - INFO - Database connected
+2024-06-02 18:25:30,450 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:25:30,451 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:25:31,130 - root - INFO - Tables created or verified
+2024-06-02 18:25:31,130 - root - INFO - Database connected
+2024-06-02 18:25:31,133 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:25:31,133 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:25:31,812 - root - INFO - Tables created or verified
+2024-06-02 18:25:31,812 - root - INFO - Database connected
+2024-06-02 18:25:31,813 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:27:55,485 - root - INFO - Tables created or verified
+2024-06-02 18:27:55,485 - root - INFO - Database connected
+2024-06-02 18:27:55,488 - root - INFO - User added: John Doe
+2024-06-02 18:27:55,488 - root - INFO - Added user: John Doe
+2024-06-02 18:27:56,177 - root - INFO - Tables created or verified
+2024-06-02 18:27:56,177 - root - INFO - Database connected
+2024-06-02 18:27:56,180 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:27:56,180 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:27:56,860 - root - INFO - Tables created or verified
+2024-06-02 18:27:56,860 - root - INFO - Database connected
+2024-06-02 18:27:56,863 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:27:56,863 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:27:57,543 - root - INFO - Tables created or verified
+2024-06-02 18:27:57,543 - root - INFO - Database connected
+2024-06-02 18:27:57,546 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:27:57,546 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:27:58,223 - root - INFO - Tables created or verified
+2024-06-02 18:27:58,223 - root - INFO - Database connected
+2024-06-02 18:27:58,224 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:27:59,073 - root - INFO - Tables created or verified
+2024-06-02 18:27:59,073 - root - INFO - Database connected
+2024-06-02 18:27:59,076 - root - INFO - User added: John Doe
+2024-06-02 18:27:59,076 - root - INFO - Added user: John Doe
+2024-06-02 18:27:59,762 - root - INFO - Tables created or verified
+2024-06-02 18:27:59,762 - root - INFO - Database connected
+2024-06-02 18:27:59,765 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:27:59,765 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:28:00,440 - root - INFO - Tables created or verified
+2024-06-02 18:28:00,441 - root - INFO - Database connected
+2024-06-02 18:28:00,443 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:28:00,443 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:28:01,124 - root - INFO - Tables created or verified
+2024-06-02 18:28:01,125 - root - INFO - Database connected
+2024-06-02 18:28:01,127 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:28:01,127 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:28:01,812 - root - INFO - Tables created or verified
+2024-06-02 18:28:01,812 - root - INFO - Database connected
+2024-06-02 18:28:01,812 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:29:35,597 - root - INFO - Tables created or verified
+2024-06-02 18:29:35,597 - root - INFO - Database connected
+2024-06-02 18:29:35,598 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 14450.0
+
+
+Balance Sheet for Sasha
+----------------------------------------
+Account Checking: 11450.0
+Account Checking: 1000.0
+Account Checking: 1000.0
+Account Checking: 1000.0
+Total Balance: 14450.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - bonus: 1000.0
+2024-05-21 - Salary: 200.0
+2024-05-21 - Salary: 200.0
+2024-05-21 - Salary: 200.0
+Outflows:
+2024-05-21 - Groceries: -50.0
+2024-05-21 - Groceries: -50.0
+2024-05-21 - Groceries: -50.0
+Net Cash Flow: 1450.0
+
+2024-06-02 18:32:56,274 - root - INFO - Tables created or verified
+2024-06-02 18:32:56,274 - root - INFO - Database connected
+2024-06-02 18:32:56,276 - root - INFO - User added: John Doe
+2024-06-02 18:32:56,276 - root - INFO - Added user: John Doe
+2024-06-02 18:32:56,963 - root - INFO - Tables created or verified
+2024-06-02 18:32:56,963 - root - INFO - Database connected
+2024-06-02 18:32:56,966 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:32:56,966 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:32:57,667 - root - INFO - Tables created or verified
+2024-06-02 18:32:57,667 - root - INFO - Database connected
+2024-06-02 18:32:57,670 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:32:57,670 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:32:58,355 - root - INFO - Tables created or verified
+2024-06-02 18:32:58,355 - root - INFO - Database connected
+2024-06-02 18:32:58,358 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:32:58,358 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:32:59,043 - root - INFO - Tables created or verified
+2024-06-02 18:32:59,043 - root - INFO - Database connected
+2024-06-02 18:32:59,043 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:32:59,881 - root - INFO - Tables created or verified
+2024-06-02 18:32:59,881 - root - INFO - Database connected
+2024-06-02 18:32:59,884 - root - INFO - User added: John Doe
+2024-06-02 18:32:59,884 - root - INFO - Added user: John Doe
+2024-06-02 18:33:00,567 - root - INFO - Tables created or verified
+2024-06-02 18:33:00,567 - root - INFO - Database connected
+2024-06-02 18:33:00,570 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:33:00,570 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:33:01,256 - root - INFO - Tables created or verified
+2024-06-02 18:33:01,256 - root - INFO - Database connected
+2024-06-02 18:33:01,259 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:33:01,259 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:33:01,939 - root - INFO - Tables created or verified
+2024-06-02 18:33:01,939 - root - INFO - Database connected
+2024-06-02 18:33:01,942 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:33:01,942 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:33:02,653 - root - INFO - Tables created or verified
+2024-06-02 18:33:02,653 - root - INFO - Database connected
+2024-06-02 18:33:02,654 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:34:39,298 - root - INFO - Tables created or verified
+2024-06-02 18:34:39,298 - root - INFO - Database connected
+2024-06-02 18:34:39,300 - root - INFO - User added: John Doe
+2024-06-02 18:34:39,300 - root - INFO - Added user: John Doe
+2024-06-02 18:34:39,996 - root - INFO - Tables created or verified
+2024-06-02 18:34:39,996 - root - INFO - Database connected
+2024-06-02 18:34:39,999 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:34:39,999 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:34:40,678 - root - INFO - Tables created or verified
+2024-06-02 18:34:40,679 - root - INFO - Database connected
+2024-06-02 18:34:40,681 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:34:40,682 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:34:41,361 - root - INFO - Tables created or verified
+2024-06-02 18:34:41,361 - root - INFO - Database connected
+2024-06-02 18:34:41,364 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:34:41,364 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:34:42,051 - root - INFO - Tables created or verified
+2024-06-02 18:34:42,051 - root - INFO - Database connected
+2024-06-02 18:34:42,051 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:34:42,896 - root - INFO - Tables created or verified
+2024-06-02 18:34:42,896 - root - INFO - Database connected
+2024-06-02 18:34:42,899 - root - INFO - User added: John Doe
+2024-06-02 18:34:42,899 - root - INFO - Added user: John Doe
+2024-06-02 18:34:43,581 - root - INFO - Tables created or verified
+2024-06-02 18:34:43,581 - root - INFO - Database connected
+2024-06-02 18:34:43,583 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:34:43,583 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:34:44,268 - root - INFO - Tables created or verified
+2024-06-02 18:34:44,269 - root - INFO - Database connected
+2024-06-02 18:34:44,271 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:34:44,272 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:34:44,977 - root - INFO - Tables created or verified
+2024-06-02 18:34:44,977 - root - INFO - Database connected
+2024-06-02 18:34:44,979 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:34:44,980 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:34:45,691 - root - INFO - Tables created or verified
+2024-06-02 18:34:45,691 - root - INFO - Database connected
+2024-06-02 18:34:45,691 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:35:10,722 - root - INFO - Tables created or verified
+2024-06-02 18:35:10,722 - root - INFO - Database connected
+2024-06-02 18:35:10,725 - root - INFO - User added: John Doe
+2024-06-02 18:35:10,725 - root - INFO - Added user: John Doe
+2024-06-02 18:35:11,418 - root - INFO - Tables created or verified
+2024-06-02 18:35:11,418 - root - INFO - Database connected
+2024-06-02 18:35:11,421 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:35:11,421 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:35:12,111 - root - INFO - Tables created or verified
+2024-06-02 18:35:12,111 - root - INFO - Database connected
+2024-06-02 18:35:12,115 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:35:12,115 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:35:12,804 - root - INFO - Tables created or verified
+2024-06-02 18:35:12,804 - root - INFO - Database connected
+2024-06-02 18:35:12,807 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:35:12,807 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:35:13,500 - root - INFO - Tables created or verified
+2024-06-02 18:35:13,500 - root - INFO - Database connected
+2024-06-02 18:35:13,501 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+
+2024-06-02 18:35:14,309 - root - INFO - Tables created or verified
+2024-06-02 18:35:14,309 - root - INFO - Database connected
+2024-06-02 18:35:14,312 - root - INFO - User added: John Doe
+2024-06-02 18:35:14,312 - root - INFO - Added user: John Doe
+2024-06-02 18:35:14,999 - root - INFO - Tables created or verified
+2024-06-02 18:35:15,000 - root - INFO - Database connected
+2024-06-02 18:35:15,003 - root - INFO - Account added for user 1: Checking with balance 1000.0
+2024-06-02 18:35:15,003 - root - INFO - Added account: Checking with balance 1000.0 to user 1
+2024-06-02 18:35:15,683 - root - INFO - Tables created or verified
+2024-06-02 18:35:15,683 - root - INFO - Database connected
+2024-06-02 18:35:15,685 - root - INFO - Transaction added for account 1: Income of 200.0 - Salary
+2024-06-02 18:35:15,685 - root - INFO - Added income: 200.0 - Salary
+2024-06-02 18:35:16,365 - root - INFO - Tables created or verified
+2024-06-02 18:35:16,365 - root - INFO - Database connected
+2024-06-02 18:35:16,368 - root - INFO - Transaction added for account 1: Expense of -50.0 - Groceries
+2024-06-02 18:35:16,368 - root - INFO - Added expense: 50.0 - Groceries
+2024-06-02 18:35:17,049 - root - INFO - Tables created or verified
+2024-06-02 18:35:17,049 - root - INFO - Database connected
+2024-06-02 18:35:17,050 - root - INFO - Generated report for user 1:
+Summary
+----------------------------------------
+Total Balance: 2300.0
+
+
+Balance Sheet for John Doe
+----------------------------------------
+Account Checking: 2300.0
+Total Balance: 2300.0
+
+Cash Flow Report
+Inflows:
+2024-05-21 - Salary: 1500.0
+Outflows:
+2024-05-22 - Groceries: -200.0
+Net Cash Flow: 1300.0
+

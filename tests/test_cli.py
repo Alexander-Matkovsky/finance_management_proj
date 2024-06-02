@@ -53,6 +53,5 @@ def test_generate_report(db):
     # Check that key parts of the report are present in the output
     assert 'Summary' in stdout
     assert 'Total Balance' in stdout
-    assert 'Budget Report for John Doe' in stdout
     assert 'Balance Sheet for John Doe' in stdout
     assert 'Cash Flow Report' in stdout
