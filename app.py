@@ -91,12 +91,33 @@ def add_transaction():
         account_id = int(account_id)
         amount = float(amount)
     except ValueError:
-        return jsonify({"error": "account_id must be an integer and amount must be a float"}), 400
+        return jsonify({"error": "account_id must be an integer and y67amount must be a float"}), 400
 
     db = get_db()
     try:
         db.add_transaction(account_id, date, amount, type, description, category_name)
         return jsonify({"message": "Transaction added successfully!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/add_budget', methods=['POST'])
+def add_budget():
+    user_id = request.form.get('user_id')
+    category_name = request.form.get('category_name')
+    amount = request.form.get('amount')
+    if not (account_id and category_name and amount):
+        return jsonify({"error": "account_id, category_name, and amount are required"}), 400
+
+    try:
+        account_id = int(account_id)
+        amount = float(amount)
+    except ValueError:
+        return jsonify({"error": "account_id must be an integer and amount must be a float"}), 400
+
+    db = get_db()
+    try:
+        db.add_budget(account_id, category_name, amount)
+        return jsonify({"message": "Budget added successfully!"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -14260,3 +14260,132 @@ Outflows:
 2024-05-22 - Groceries: -200.0
 Net Cash Flow: 1300.0
 
+2024-06-02 19:51:16,160 - root - INFO - Tables created or verified
+2024-06-02 19:51:16,160 - root - INFO - Database connected
+2024-06-02 19:51:16,161 - root - INFO - Budget set for user 1, category House expenses: 3000.0
+2024-06-02 19:51:16,161 - root - INFO - Set budget: 3000.0 for user 1 and category House expenses
+2024-06-02 19:52:06,768 - root - INFO - Tables created or verified
+2024-06-02 19:52:06,768 - root - INFO - Database connected
+2024-06-02 19:52:06,768 - root - ERROR - Error: no such column: amount_used
+2024-06-02 19:54:42,426 - root - INFO - Tables created or verified
+2024-06-02 19:54:42,426 - root - INFO - Database connected
+2024-06-02 19:54:42,428 - root - ERROR - Error: no such column: amount_used
+2024-06-02 20:00:38,361 - root - INFO - Tables created or verified
+2024-06-02 20:00:38,361 - root - INFO - Database connected
+2024-06-02 20:00:38,362 - root - ERROR - Error: no such column: amount_used
+2024-06-02 20:01:00,637 - root - INFO - Tables created or verified
+2024-06-02 20:01:00,637 - root - INFO - Database connected
+2024-06-02 20:01:00,638 - root - INFO - Transaction added for account 1: Expense of -1667.0 - rent
+2024-06-02 20:01:00,639 - root - INFO - Added expense: 1667.0 - rent
+2024-06-02 20:01:18,404 - root - INFO - Tables created or verified
+2024-06-02 20:01:18,404 - root - INFO - Database connected
+2024-06-02 20:01:18,407 - root - INFO - Transaction added for account 1: Expense of -1667.0 - rent
+2024-06-02 20:01:18,407 - root - INFO - Added expense: 1667.0 - rent
+2024-06-02 20:01:31,443 - root - INFO - Tables created or verified
+2024-06-02 20:01:31,443 - root - INFO - Database connected
+2024-06-02 20:01:31,443 - root - INFO - No budget found for user 1, category House expenses
+2024-06-02 20:01:31,443 - root - INFO - Budget for user 1 and category House expenses: (None, None)
+2024-06-02 20:01:52,570 - root - INFO - Tables created or verified
+2024-06-02 20:01:52,570 - root - INFO - Database connected
+2024-06-02 20:01:52,570 - root - INFO - Budget set for user 1, category House expenses: 3000.0
+2024-06-02 20:01:52,570 - root - INFO - Set budget: 3000.0 for user 1 and category House expenses
+2024-06-02 20:01:55,563 - root - INFO - Tables created or verified
+2024-06-02 20:01:55,563 - root - INFO - Database connected
+2024-06-02 20:01:55,564 - root - INFO - No budget found for user 1, category House expenses
+2024-06-02 20:01:55,564 - root - INFO - Budget for user 1 and category House expenses: (None, None)
+2024-06-02 20:02:50,214 - root - INFO - Tables created or verified
+2024-06-02 20:02:50,214 - root - INFO - Database connected
+2024-06-02 20:02:50,217 - root - INFO - User added: Dmalox
+2024-06-02 20:02:50,218 - root - INFO - Added user: Dmalox
+2024-06-02 20:02:53,812 - root - INFO - Tables created or verified
+2024-06-02 20:02:53,812 - root - INFO - Database connected
+2024-06-02 20:02:53,812 - root - INFO - No budget found for user 1, category House expenses
+2024-06-02 20:02:53,812 - root - INFO - Budget for user 1 and category House expenses: (None, None)
+2024-06-02 20:03:46,170 - root - INFO - Tables created or verified
+2024-06-02 20:03:46,170 - root - INFO - Database connected
+2024-06-02 20:03:46,172 - root - INFO - Transaction added for account 1: Expense of -1667.0 - rent
+2024-06-02 20:03:46,173 - root - INFO - Added expense: 1667.0 - rent
+2024-06-02 20:03:49,864 - root - INFO - Tables created or verified
+2024-06-02 20:03:49,864 - root - INFO - Database connected
+2024-06-02 20:03:49,864 - root - INFO - No budget found for user 1, category House expenses
+2024-06-02 20:03:49,864 - root - INFO - Budget for user 1 and category House expenses: (None, None)
+2024-06-02 20:12:23,299 - root - INFO - Tables created or verified
+2024-06-02 20:12:23,299 - root - INFO - Database connected
+2024-06-02 20:12:23,299 - root - INFO - Budget set for user 1, category House expenses: 3000.0
+2024-06-02 20:12:23,299 - root - INFO - Set budget: 3000.0 for user 1 and category House expenses
+2024-06-02 20:12:28,206 - root - INFO - Tables created or verified
+2024-06-02 20:12:28,206 - root - INFO - Database connected
+2024-06-02 20:12:28,209 - root - INFO - Transaction added for account 1: Expense of -1667.0 - rent
+2024-06-02 20:12:28,209 - root - INFO - Added expense: 1667.0 - rent
+2024-06-02 20:12:31,759 - root - INFO - Tables created or verified
+2024-06-02 20:12:31,760 - root - INFO - Database connected
+2024-06-02 20:12:31,760 - root - INFO - No budget found for user 1, category House expenses
+2024-06-02 20:12:31,760 - root - INFO - Budget for user 1 and category House expenses: (None, None)
+2024-06-02 20:18:26,360 - root - INFO - Tables created or verified
+2024-06-02 20:18:26,360 - root - INFO - Database connected
+2024-06-02 20:18:26,361 - root - INFO - Budget set for user 1, category house: 3000.0
+2024-06-02 20:18:26,361 - root - INFO - Set budget: 3000.0 for user 1 and category house
+2024-06-02 20:18:44,120 - root - INFO - Tables created or verified
+2024-06-02 20:18:44,120 - root - INFO - Database connected
+2024-06-02 20:18:44,120 - root - INFO - No budget found for user 1, category house
+2024-06-02 20:18:44,120 - root - INFO - Budget for user 1 and category house: (None, None)
+2024-06-02 20:18:52,551 - root - INFO - Tables created or verified
+2024-06-02 20:18:52,551 - root - INFO - Database connected
+2024-06-02 20:18:52,553 - root - INFO - Transaction added for account 1: Expense of -1667.0 - rent
+2024-06-02 20:18:52,554 - root - INFO - Added expense: 1667.0 - rent
+2024-06-02 20:18:55,423 - root - INFO - Tables created or verified
+2024-06-02 20:18:55,423 - root - INFO - Database connected
+2024-06-02 20:18:55,423 - root - INFO - No budget found for user 1, category house
+2024-06-02 20:18:55,423 - root - INFO - Budget for user 1 and category house: (None, None)
+2024-06-02 20:19:47,895 - root - INFO - Tables created or verified
+2024-06-02 20:19:47,895 - root - INFO - Database connected
+2024-06-02 20:19:47,898 - root - INFO - Account added for user 1: checking with balance 10000.0
+2024-06-02 20:19:47,898 - root - INFO - Added account: checking with balance 10000.0 to user 1
+2024-06-02 20:19:52,437 - root - INFO - Tables created or verified
+2024-06-02 20:19:52,437 - root - INFO - Database connected
+2024-06-02 20:19:52,437 - root - INFO - No budget found for user 1, category house
+2024-06-02 20:19:52,437 - root - INFO - Budget for user 1 and category house: (None, None)
+2024-06-02 20:19:58,275 - root - INFO - Tables created or verified
+2024-06-02 20:19:58,275 - root - INFO - Database connected
+2024-06-02 20:19:58,276 - root - INFO - Budget set for user 1, category house: 3000.0
+2024-06-02 20:19:58,277 - root - INFO - Set budget: 3000.0 for user 1 and category house
+2024-06-02 20:20:04,603 - root - INFO - Tables created or verified
+2024-06-02 20:20:04,604 - root - INFO - Database connected
+2024-06-02 20:20:04,607 - root - INFO - Transaction added for account 1: Expense of -1667.0 - rent
+2024-06-02 20:20:04,607 - root - INFO - Added expense: 1667.0 - rent
+2024-06-02 20:20:08,353 - root - INFO - Tables created or verified
+2024-06-02 20:20:08,353 - root - INFO - Database connected
+2024-06-02 20:20:08,353 - root - INFO - No budget found for user 1, category house
+2024-06-02 20:20:08,353 - root - INFO - Budget for user 1 and category house: (None, None)
+2024-06-02 20:37:54,198 - root - INFO - Tables created or verified
+2024-06-02 20:37:54,199 - root - INFO - Database connected
+2024-06-02 20:37:54,199 - root - INFO - Budget set for user 1, category yes: 2000.0
+2024-06-02 20:37:54,199 - root - INFO - Set budget: 2000.0 for user 1 and category yes
+2024-06-02 20:41:51,215 - root - INFO - Tables created or verified
+2024-06-02 20:41:51,215 - root - INFO - Database connected
+2024-06-02 20:41:51,215 - root - INFO - Budget updated for user 1, category yes: 2000.0
+2024-06-02 20:41:51,215 - root - INFO - Set budget: 2000.0 for user 1 and category yes
+2024-06-02 20:44:37,262 - root - INFO - Tables created or verified
+2024-06-02 20:44:37,262 - root - INFO - Database connected
+2024-06-02 20:44:37,263 - root - INFO - Budget updated for user 1, category yes: 2000.0
+2024-06-02 20:44:37,263 - root - INFO - Set budget: 2000.0 for user 1 and category yes
+2024-06-02 20:44:47,857 - root - INFO - Tables created or verified
+2024-06-02 20:44:47,857 - root - INFO - Database connected
+2024-06-02 20:44:47,857 - root - INFO - Budget updated for user 1, category yes: 2000.0
+2024-06-02 20:44:47,857 - root - INFO - Set budget: 2000.0 for user 1 and category yes
+2024-06-02 20:44:54,270 - root - INFO - Tables created or verified
+2024-06-02 20:44:54,270 - root - INFO - Database connected
+2024-06-02 20:44:54,270 - root - INFO - Budget updated for user 1, category yes: 2000.0
+2024-06-02 20:44:54,270 - root - INFO - Set budget: 2000.0 for user 1 and category yes
+2024-06-02 20:45:19,247 - root - INFO - Tables created or verified
+2024-06-02 20:45:19,247 - root - INFO - Database connected
+2024-06-02 20:45:19,247 - root - INFO - Budget updated for user 1, category yes: 2000.0
+2024-06-02 20:45:19,247 - root - INFO - Set budget: 2000.0 for user 1 and category yes
+2024-06-02 20:53:48,064 - root - INFO - Tables created or verified
+2024-06-02 20:53:48,065 - root - INFO - Database connected
+2024-06-02 20:53:48,065 - root - INFO - Budget set for user 1, category what: 2000.0
+2024-06-02 20:53:48,065 - root - INFO - Set budget: 2000.0 for user 1 and category what
+2024-06-02 20:54:56,292 - root - INFO - Tables created or verified
+2024-06-02 20:54:56,292 - root - INFO - Database connected
+2024-06-02 20:54:56,293 - root - INFO - Budget set for user 1, category what: 2000.0
+2024-06-02 20:54:56,293 - root - INFO - Set budget: 2000.0 for user 1 and category what

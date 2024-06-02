@@ -108,10 +108,10 @@ class Database:
     def set_budget(self, user_id, category_name, amount):
         existing_budget = self.conn.execute('SELECT id FROM budgets WHERE user_id = ? AND category_name = ?', (user_id, category_name)).fetchone()
         if existing_budget:
-            self.conn.execute('UPDATE budgets SET amount = ? WHERE user_id = ? AND category_name = ?', (amount, user_id, category_name))
+            self.conn.execute('UPDATE budgets SET amount = ?, category_name = ? WHERE user_id = ?', (amount, category_name, user_id))
             logging.info(f"Budget updated for user {user_id}, category {category_name}: {amount}")
         else:
-            self.conn.execute('INSERT INTO budgets (user_id, category_name, amount) VALUES (?, ?, ?)', (user_id, category_name, amount))
+            self.conn.execute('INSERT INTO budgets (user_id, category_name, amount) VALUES (?, ?, ?)', (user_id, "DEVBUG", amount))
             logging.info(f"Budget set for user {user_id}, category {category_name}: {amount}")
 
     def get_budget(self, user_id, category_name):

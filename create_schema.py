@@ -40,6 +40,7 @@ def create_schema():
         user_id INTEGER,
         category_name TEXT NOT NULL,
         amount REAL NOT NULL,
+        amount_used REAL NOT NULL DEFAULT 0,
         FOREIGN KEY (user_id) REFERENCES users (id)
     )
     ''')
