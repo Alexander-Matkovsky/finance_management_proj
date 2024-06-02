@@ -1,38 +1,42 @@
-from finance.cashflow import CashFlow
 import matplotlib.pyplot as plt
 import pdfkit
 import tempfile
+from finance.cashflow import CashFlow
 
 class ReportGenerator:
     def __init__(self, db):
         self.db = db
 
     def generate_balance_sheet(self, user):
-        report = f"Balance Sheet for {user['name']}\n"
-        report += "-" * 40 + "\n"
-        accounts = self.db.conn.execute("SELECT id, name, balance FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
+        accounts = self.db.get_accounts(user['id'])
         total_balance = sum(account['balance'] for account in accounts)
-        for account in accounts:
-            report += f"Account {account['name']}: {account['balance']}\n"
-        report += "-" * 40 + "\n"
-        report += f"Total Balance: {total_balance}\n"
-        return report
+        report_lines = [
+            f"Balance Sheet for {user['name']}",
+            "-" * 40
+        ]
+        report_lines += [f"Account {account['name']}: {account['balance']}" for account in accounts]
+        report_lines += [
+            f"Total Balance: {total_balance}"
+        ]
+        return "\n".join(report_lines)
 
     def generate_budget_report(self, user):
-        report = f"Budget Report for {user['name']}\n"
-        report += "-" * 40 + "\n"
         budgets = self.db.conn.execute("SELECT category_name, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
+        report_lines = [
+            "Budget Report",
+            "-" * 40
+        ]
         for budget in budgets:
             spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_name = ? AND amount < 0", (budget['category_name'],)).fetchone()[0]
             spent = spent if spent else 0
-            report += f"Category {budget['category_name']}: Spent {spent}, Limit {budget['amount']}\n"
-        return report
+            report_lines.append(f"Category {budget['category_name']}: Spent {spent}, Limit {budget['amount']}")
+        return "\n".join(report_lines)
 
     def generate_cash_flow_statement(self, user):
         cash_flow = CashFlow()
-        accounts = self.db.conn.execute("SELECT id FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
+        accounts = self.db.get_accounts(user['id'])
         for account in accounts:
-            transactions = self.db.conn.execute("SELECT amount, description, date, category_name FROM transactions WHERE account_id = ?", (account['id'],)).fetchall()
+            transactions = self.db.get_transactions(account['id'])
             for transaction in transactions:
                 if transaction['amount'] > 0:
                     cash_flow.add_inflow(transaction['amount'], transaction['description'], transaction['date'])
@@ -44,26 +48,25 @@ class ReportGenerator:
         balance_sheet = self.generate_balance_sheet(user)
         budget_report = self.generate_budget_report(user)
         cash_flow_statement = self.generate_cash_flow_statement(user)
-        summary = "Summary\n" + "-" * 40 + "\n"
-        summary += balance_sheet.split("\n")[-2] + "\n"
-        summary += budget_report
-        summary += cash_flow_statement.split("\n")[-1] + "\n"
-        return summary
+        summary_lines = [
+            "Summary",
+            "-" * 40,
+            balance_sheet.split("\n")[-1],  # Total Balance
+            cash_flow_statement.split("\n")[-1]  # Net Cash Flow
+        ]
+        return "\n".join(summary_lines)
 
     def generate_report(self, user_id, start_date=None, end_date=None):
-        user = self.db.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
+        user = self.db.get_user(user_id)
         if not user:
             return f"User with ID {user_id} not found."
-
-        report = self.generate_summary(user)
-        report += "\n"
-        report += self.generate_balance_sheet(user)
-        report += "\n"
-        report += self.generate_budget_report(user)
-        report += "\n"
-        report += self.generate_cash_flow_statement(user)
-        return report
-
+        
+        report_sections = [
+            self.generate_summary(user),
+            self.generate_balance_sheet(user),
+            self.generate_cash_flow_statement(user)
+        ]
+        return "\n\n".join(report_sections)
 
     def save_report_as_pdf(self, report, filename):
         options = {
@@ -73,17 +76,14 @@ class ReportGenerator:
         pdfkit.from_string(report, filename, options=options)
 
     def generate_visual_report(self, user_id):
-        user = self.db.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
+        user = self.db.get_user(user_id)
         if not user:
             return f"User with ID {user_id} not found."
 
-        # Generate visual elements for the report
-        cash_flow = CashFlow()
-        accounts = self.db.conn.execute("SELECT id FROM accounts WHERE user_id = ?", (user['id'],)).fetchall()
-        inflows = []
-        outflows = []
+        inflows, outflows = [], []
+        accounts = self.db.get_accounts(user['id'])
         for account in accounts:
-            transactions = self.db.conn.execute("SELECT amount, description, date FROM transactions WHERE account_id = ?", (account['id'],)).fetchall()
+            transactions = self.db.get_transactions(account['id'])
             for transaction in transactions:
                 if transaction['amount'] > 0:
                     inflows.append((transaction['date'], transaction['amount']))
