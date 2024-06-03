@@ -105,18 +105,18 @@ def add_budget():
     user_id = request.form.get('user_id')
     category_name = request.form.get('category_name')
     amount = request.form.get('amount')
-    if not (account_id and category_name and amount):
-        return jsonify({"error": "account_id, category_name, and amount are required"}), 400
+    if not (user_id and category_name and amount):
+        return jsonify({"error": "user_id, category_name, and amount are required"}), 400
 
     try:
-        account_id = int(account_id)
+        user_id = int(user_id)
         amount = float(amount)
     except ValueError:
-        return jsonify({"error": "account_id must be an integer and amount must be a float"}), 400
+        return jsonify({"error": "user_id must be an integer and amount must be a float"}), 400
 
     db = get_db()
     try:
-        db.add_budget(account_id, category_name, amount)
+        db.add_budget(user_id, category_name, amount)
         return jsonify({"message": "Budget added successfully!"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

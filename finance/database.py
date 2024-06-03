@@ -105,14 +105,34 @@ class Database:
                         logging.warning(f"Budget exceeded for user {account_id}, category {category_name}")
         logging.info(f"Transaction added for account {account_id}: {type} of {amount} - {description}")
 
-    def set_budget(self, user_id, category_name, amount):
-        existing_budget = self.conn.execute('SELECT id FROM budgets WHERE user_id = ? AND category_name = ?', (user_id, category_name)).fetchone()
-        if existing_budget:
-            self.conn.execute('UPDATE budgets SET amount = ?, category_name = ? WHERE user_id = ?', (amount, category_name, user_id))
-            logging.info(f"Budget updated for user {user_id}, category {category_name}: {amount}")
-        else:
-            self.conn.execute('INSERT INTO budgets (user_id, category_name, amount) VALUES (?, ?, ?)', (user_id, "DEVBUG", amount))
-            logging.info(f"Budget set for user {user_id}, category {category_name}: {amount}")
+    def add_budget(self, user_id, category_name, amount):
+        try:
+            existing_budget = self.conn.execute(
+                'SELECT id FROM budgets WHERE user_id = ? AND category_name = ?', 
+                (user_id, category_name)
+            ).fetchone()
+            
+            if existing_budget:
+                logging.info(f"Updating existing budget for user {user_id}, category {category_name}")
+                self.conn.execute(
+                    'UPDATE budgets SET amount = ?, category_name = ? WHERE user_id = ? AND category_name = ?', 
+                    (amount, category_name, user_id, category_name)
+                )
+                logging.info(f"Budget updated for user {user_id}, category {category_name}: {amount}")
+            else:
+                logging.info(f"Inserting new budget for user {user_id}, category {category_name}")
+                self.conn.execute(
+                    'INSERT INTO budgets (user_id, category_name, amount) VALUES (?, ?, ?)', 
+                    (user_id, category_name, amount)
+                )
+                logging.info(f"Budget set for user {user_id}, category {category_name}: {amount}")
+        except sqlite3.Error as e:
+            logging.error(f"SQLite error: {e}")
+            raise
+        except Exception as e:
+            logging.error(f"Error setting budget: {e}")
+            raise            
+        self.conn.commit()  # Commit the transaction to save changes
 
     def get_budget(self, user_id, category_name):
         budget = self.conn.execute('SELECT amount, amount_used FROM budgets WHERE user_id = ? AND category_name = ?', (user_id, category_name)).fetchone()
