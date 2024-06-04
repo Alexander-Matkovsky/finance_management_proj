@@ -107,7 +107,7 @@ class Database:
                         logging.warning(f"Budget exceeded for user {account_id}, category {category_name}")
         logging.info(f"Transaction added for account {account_id}: {type} of {amount} - {description}")
 
-    def add_budget(self, user_id, category_name, amount):
+    def set_budget(self, user_id, category_name, amount):
         try:
             existing_budget = self.conn.execute(
                 'SELECT id FROM budgets WHERE user_id = ? AND category_name = ?', 

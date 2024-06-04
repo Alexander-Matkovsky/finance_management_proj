@@ -14462,3 +14462,46 @@ Net Cash Flow: 1300.0
 2024-06-04 11:35:59,404 - root - WARNING - Budget exceeded for user 1, category Food
 2024-06-04 11:35:59,407 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
 2024-06-04 11:35:59,407 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 12:07:53,505 - root - INFO - Tables created or verified
+2024-06-04 12:07:53,505 - root - INFO - Database connected
+2024-06-04 12:07:53,508 - root - INFO - Transaction added for account 1: Expense of -250.0 - whot
+2024-06-04 12:07:53,509 - root - INFO - Added expense: 250.0 - whot
+2024-06-04 12:09:09,098 - root - INFO - Tables created or verified
+2024-06-04 12:09:09,098 - root - INFO - Database connected
+2024-06-04 12:09:09,102 - root - INFO - Transaction added for account 1: Expense of -250.0 - groceries
+2024-06-04 12:09:09,102 - root - INFO - Added expense: 250.0 - groceries
+2024-06-04 12:09:24,633 - root - INFO - Tables created or verified
+2024-06-04 12:09:24,633 - root - INFO - Database connected
+2024-06-04 12:09:24,637 - root - INFO - Transaction added for account 2: Income of 10000.0 - salary
+2024-06-04 12:09:24,637 - root - INFO - Added income: 10000.0 - salary
+2024-06-04 12:09:34,042 - root - INFO - Tables created or verified
+2024-06-04 12:09:34,042 - root - INFO - Database connected
+2024-06-04 12:09:34,045 - root - INFO - Transaction added for account 2: Income of 10000.0 - salary
+2024-06-04 12:09:34,045 - root - INFO - Added income: 10000.0 - salary
+2024-06-04 12:09:54,496 - root - INFO - Tables created or verified
+2024-06-04 12:09:54,496 - root - INFO - Database connected
+2024-06-04 12:09:54,499 - root - INFO - Transaction added for account 1: Income of 10000.0 - salary
+2024-06-04 12:09:54,499 - root - INFO - Added income: 10000.0 - salary
+2024-06-04 12:23:35,530 - root - INFO - Tables created or verified
+2024-06-04 12:23:35,531 - root - INFO - Database connected
+2024-06-04 12:23:35,533 - root - INFO - User added: Sasha
+2024-06-04 12:23:35,533 - root - INFO - Added user: Sasha
+2024-06-04 12:24:10,297 - root - INFO - Tables created or verified
+2024-06-04 12:24:10,298 - root - INFO - Database connected
+2024-06-04 12:24:10,300 - root - INFO - Account added for user 1: checking with balance 5000.0
+2024-06-04 12:24:10,300 - root - INFO - Added account: checking with balance 5000.0 to user 1
+2024-06-04 12:24:54,058 - root - INFO - Tables created or verified
+2024-06-04 12:24:54,058 - root - INFO - Database connected
+2024-06-04 12:24:54,058 - root - ERROR - Error: 'Database' object has no attribute 'set_budget'
+2024-06-04 12:25:45,270 - root - INFO - Tables created or verified
+2024-06-04 12:25:45,270 - root - INFO - Database connected
+2024-06-04 12:25:45,270 - root - ERROR - Error: 'Database' object has no attribute 'set_budget'
+2024-06-04 12:26:02,510 - root - INFO - Tables created or verified
+2024-06-04 12:26:02,510 - root - INFO - Database connected
+2024-06-04 12:26:02,510 - root - INFO - Inserting new budget for user 1, category Food
+2024-06-04 12:26:02,510 - root - INFO - Budget set for user 1, category Food: 1000.0
+2024-06-04 12:26:02,514 - root - INFO - Set budget: 1000.0 for user 1 and category Food
+2024-06-04 12:27:06,112 - root - INFO - Tables created or verified
+2024-06-04 12:27:06,112 - root - INFO - Database connected
+2024-06-04 12:27:06,115 - root - INFO - Transaction added for account 1: Expense of -200.0 - Groceries
+2024-06-04 12:27:06,115 - root - INFO - Added expense: 200.0 - Groceries

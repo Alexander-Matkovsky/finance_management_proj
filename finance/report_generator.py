@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pdfkit
 import tempfile
 from finance.cashflow import CashFlow
+from datetime import datetime
 
 class ReportGenerator:
     def __init__(self, db):
@@ -34,12 +35,20 @@ class ReportGenerator:
         return "\n".join(report_lines)
 
 
-    def generate_cash_flow_statement(self, user):
+    def generate_cash_flow_statement(self, user, start_date=None, end_date=None):
         cash_flow = CashFlow()
         accounts = self.db.get_accounts(user['id'])
+
+        start_date = datetime.strptime(start_date, '%Y-%m-%d') if start_date else None
+        end_date = datetime.strptime(end_date, '%Y-%m-%d') if end_date else None
         for account in accounts:
             transactions = self.db.get_transactions(account['id'])
             for transaction in transactions:
+                transaction_date = datetime.strptime(transaction['date'], '%Y-%m-%d')
+                if start_date and transaction_date < start_date:
+                    continue
+                if end_date and transaction_date > end_date:
+                    continue
                 if transaction['amount'] > 0:
                     cash_flow.add_inflow(transaction['amount'], transaction['description'], transaction['date'])
                 else:
@@ -64,10 +73,9 @@ class ReportGenerator:
             return f"User with ID {user_id} not found."
         
         report_sections = [
-            self.generate_summary(user),
             self.generate_balance_sheet(user),
             self.generate_budget_report(user),
-            self.generate_cash_flow_statement(user)
+            self.generate_cash_flow_statement(user, start_date, end_date)
         ]
         return "\n\n".join(report_sections)
 

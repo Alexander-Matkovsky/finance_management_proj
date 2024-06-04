@@ -1,4 +1,8 @@
 import sqlite3
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 
 def create_schema():
     connection = sqlite3.connect('finance.db')
@@ -44,7 +48,7 @@ def create_schema():
         FOREIGN KEY (user_id) REFERENCES users (id)
     )
     ''')
-
+    logging.info(f'Database created.')
     connection.commit()
     connection.close()
 

@@ -17,6 +17,7 @@ class CashFlow:
 
     def generate_cash_flow_report(self):
         report = "Cash Flow Report\n"
+        report += "-" * 40 + "\n"
         report += "Inflows:\n"
         for amount, description, date in self.inflows:
             report += f"{date} - {description}: {amount}\n"
