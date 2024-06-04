@@ -29,8 +29,10 @@ class ReportGenerator:
         for budget in budgets:
             amount_used = budget["amount_used"]
             amount_used = amount_used if amount_used else 0
-            report_lines.append(f"Category {budget['category_name']}: Amount used {amount_used}, Limit {budget['amount']}")
+            percentage_used = (amount_used / budget["amount"]) * 100 if budget["amount"] else 0
+            report_lines.append(f"Category {budget['category_name']}: amount used: {amount_used}, which is {percentage_used:.2f}% of budget, Limit {budget['amount']}")
         return "\n".join(report_lines)
+
 
     def generate_cash_flow_statement(self, user):
         cash_flow = CashFlow()
