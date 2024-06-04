@@ -21,15 +21,15 @@ class ReportGenerator:
         return "\n".join(report_lines)
 
     def generate_budget_report(self, user):
-        budgets = self.db.conn.execute("SELECT category_name, amount FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
+        budgets = self.db.conn.execute("SELECT category_name, amount, amount_used FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
         report_lines = [
             "Budget Report",
             "-" * 40
         ]
         for budget in budgets:
-            spent = self.db.conn.execute("SELECT SUM(amount) FROM transactions WHERE category_name = ? AND amount < 0", (budget['category_name'],)).fetchone()[0]
-            spent = spent if spent else 0
-            report_lines.append(f"Category {budget['category_name']}: Spent {spent}, Limit {budget['amount']}")
+            amount_used = budget["amount_used"]
+            amount_used = amount_used if amount_used else 0
+            report_lines.append(f"Category {budget['category_name']}: Amount used {amount_used}, Limit {budget['amount']}")
         return "\n".join(report_lines)
 
     def generate_cash_flow_statement(self, user):
@@ -64,6 +64,7 @@ class ReportGenerator:
         report_sections = [
             self.generate_summary(user),
             self.generate_balance_sheet(user),
+            self.generate_budget_report(user),
             self.generate_cash_flow_statement(user)
         ]
         return "\n\n".join(report_sections)

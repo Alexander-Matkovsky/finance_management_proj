@@ -14389,3 +14389,76 @@ Net Cash Flow: 1300.0
 2024-06-02 20:54:56,292 - root - INFO - Database connected
 2024-06-02 20:54:56,293 - root - INFO - Budget set for user 1, category what: 2000.0
 2024-06-02 20:54:56,293 - root - INFO - Set budget: 2000.0 for user 1 and category what
+2024-06-03 19:38:30,597 - root - INFO - Tables created or verified
+2024-06-03 19:38:30,598 - root - INFO - Database connected
+2024-06-03 19:38:30,599 - root - WARNING - Budget exceeded for user 1, category yes
+2024-06-03 19:38:30,600 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-03 19:38:30,600 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:12:49,533 - root - INFO - Tables created or verified
+2024-06-04 11:12:49,533 - root - INFO - Database connected
+2024-06-04 11:12:49,536 - root - INFO - Transaction added for account 2: Income of 10000.0 - salary
+2024-06-04 11:12:49,536 - root - INFO - Added income: 10000.0 - salary
+2024-06-04 11:13:09,459 - root - INFO - Tables created or verified
+2024-06-04 11:13:09,459 - root - INFO - Database connected
+2024-06-04 11:13:09,462 - root - INFO - Transaction added for account 2: Income of 10000.0 - salary
+2024-06-04 11:13:09,462 - root - INFO - Added income: 10000.0 - salary
+2024-06-04 11:13:57,469 - root - INFO - Tables created or verified
+2024-06-04 11:13:57,470 - root - INFO - Database connected
+2024-06-04 11:13:57,473 - root - INFO - Account added for user 1: work with balance 0.0
+2024-06-04 11:13:57,473 - root - INFO - Added account: work with balance 0.0 to user 1
+2024-06-04 11:18:12,900 - root - INFO - Tables created or verified
+2024-06-04 11:18:12,900 - root - INFO - Database connected
+2024-06-04 11:18:12,903 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:18:12,903 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:18:56,285 - root - INFO - Tables created or verified
+2024-06-04 11:18:56,285 - root - INFO - Database connected
+2024-06-04 11:18:56,289 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:18:56,289 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:19:25,270 - root - INFO - Tables created or verified
+2024-06-04 11:19:25,270 - root - INFO - Database connected
+2024-06-04 11:19:25,273 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:19:25,273 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:22:44,620 - root - INFO - Tables created or verified
+2024-06-04 11:22:44,620 - root - INFO - Database connected
+2024-06-04 11:22:44,623 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:22:44,623 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:24:34,481 - root - INFO - Tables created or verified
+2024-06-04 11:24:34,481 - root - INFO - Database connected
+2024-06-04 11:24:34,482 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:24:34,484 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:24:34,485 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:25:20,986 - root - INFO - Tables created or verified
+2024-06-04 11:25:20,986 - root - INFO - Database connected
+2024-06-04 11:25:20,987 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:25:20,990 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:25:20,990 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:25:37,002 - root - INFO - Tables created or verified
+2024-06-04 11:25:37,002 - root - INFO - Database connected
+2024-06-04 11:25:37,002 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:25:37,005 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:25:37,006 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:25:47,063 - root - INFO - Tables created or verified
+2024-06-04 11:25:47,063 - root - INFO - Database connected
+2024-06-04 11:25:47,063 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:25:47,066 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:25:47,066 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:26:11,554 - root - INFO - Tables created or verified
+2024-06-04 11:26:11,554 - root - INFO - Database connected
+2024-06-04 11:26:11,555 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:26:11,558 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:26:11,558 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:26:22,874 - root - INFO - Tables created or verified
+2024-06-04 11:26:22,874 - root - INFO - Database connected
+2024-06-04 11:26:22,875 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:26:22,878 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:26:22,878 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:27:17,489 - root - INFO - Tables created or verified
+2024-06-04 11:27:17,489 - root - INFO - Database connected
+2024-06-04 11:27:17,490 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:27:17,493 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:27:17,493 - root - INFO - Added expense: 1667.0 - whot
+2024-06-04 11:35:59,403 - root - INFO - Tables created or verified
+2024-06-04 11:35:59,403 - root - INFO - Database connected
+2024-06-04 11:35:59,404 - root - WARNING - Budget exceeded for user 1, category Food
+2024-06-04 11:35:59,407 - root - INFO - Transaction added for account 1: Expense of -1667.0 - whot
+2024-06-04 11:35:59,407 - root - INFO - Added expense: 1667.0 - whot

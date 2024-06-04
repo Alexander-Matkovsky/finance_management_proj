@@ -99,7 +99,9 @@ class Database:
                 self.conn.execute('UPDATE accounts SET balance = balance - ? WHERE id = ?', (abs(amount), account_id))
                 budget = self.conn.execute('SELECT amount, amount_used FROM budgets WHERE user_id = (SELECT user_id FROM accounts WHERE id = ?) AND category_name = ?', (account_id, category_name)).fetchone()
                 if budget:
-                    new_amount_used = budget["amount_used"] + abs(amount)
+                    new_amount_used = budget["amount_used"] + -amount
+                    print(-amount)
+                    print(new_amount_used, "amount_used: ", budget["amount_used"])
                     self.conn.execute('UPDATE budgets SET amount_used = ? WHERE user_id = (SELECT user_id FROM accounts WHERE id = ?) AND category_name = ?', (new_amount_used, account_id, category_name))
                     if new_amount_used > budget["amount"]:
                         logging.warning(f"Budget exceeded for user {account_id}, category {category_name}")
