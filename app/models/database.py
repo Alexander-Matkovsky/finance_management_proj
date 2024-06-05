@@ -14,7 +14,7 @@ class Database:
         conn.row_factory = sqlite3.Row
         return conn
 
-    #def create_tables(self):
+    def create_tables(self):
         table_creation_queries = [
             '''
             CREATE TABLE IF NOT EXISTS users (
@@ -175,7 +175,7 @@ class Database:
         logging.info(f"Account {account_id} updated to name: {account_name} with balance: {initial_balance}")
 
     def update_transaction(self, transaction_id, date, amount, type, description, category_name):
-        self.conn.execute("UPDATE transactions SET amount = ?, description = ?, category_name = ?, date = ?, type = ?WHERE id = ?", (amount, description, category_name, transaction_id, date, type))
+        self.conn.execute("UPDATE transactions SET amount = ?, description = ?, category_name = ?, date = ?, type = ? WHERE id = ?", (amount, description, category_name, date, type, transaction_id))
         self.conn.commit()
         logging.info(f"Transaction {transaction_id} updated with amount: {amount}, description: {description}, category name: {category_name}, date: {date}, type:{type}")
 

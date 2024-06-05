@@ -69,7 +69,7 @@ def test_update_transaction(db):
     account = db.conn.execute('SELECT * FROM accounts WHERE user_id = ?', (user['id'],)).fetchone()
     db.add_transaction(account['id'], '2024-05-27', 200.0, 'Income', 'Salary', 'Salary')
     transaction = db.conn.execute('SELECT * FROM transactions WHERE account_id = ?', (account['id'],)).fetchone()
-    db.update_transaction(transaction['id'], 300.0, 'Bonus', 'Bonus')
+    db.update_transaction(transaction['id'],'2024-05-27', 300.0, 'Income', 'Bonus', 'Bonus')
     updated_transaction = db.conn.execute('SELECT * FROM transactions WHERE id = ?', (transaction['id'],)).fetchone()
     assert updated_transaction['amount'] == 300.0
     assert updated_transaction['description'] == 'Bonus'
