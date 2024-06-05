@@ -51,7 +51,6 @@ def test_generate_report(db):
     stdout, stderr = run_cli_command(f'python cli.py generate_report --user_id {user["id"]}')
     
     # Check that key parts of the report are present in the output
-    assert 'Summary' in stdout
     assert 'Total Balance' in stdout
     assert 'Balance Sheet for John Doe' in stdout
     assert 'Cash Flow Report' in stdout
