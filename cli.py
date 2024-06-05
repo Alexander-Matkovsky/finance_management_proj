@@ -34,6 +34,12 @@ def add_transaction(db, args, transaction_type):
     logging.info(f"Added {transaction_type.lower()}: {args.amount} - {args.description}")
     print(f"Added {transaction_type.lower()}: {args.amount} - {args.description}")
 
+def transfer_between_accounts(db, args):
+    date = datetime.now().strftime('%Y-%m-%d')
+    db.transfer_between_accounts(args.from_account_id, args.to_account_id, date, args.amount, args.description)
+    logging.info(f"Transferred {args.amount} from account {args.from_account_id} to account {args.to_account_id}: {args.description}")
+    print(f"Transferred {args.amount} from account {args.from_account_id} to account {args.to_account_id}: {args.description}")
+
 def generate_report(db, args, report_generator):
     report = report_generator.generate_report(args.user_id, args.start_date, args.end_date)
     logging.info(f"Generated report for user {args.user_id}:\n{report}")
@@ -236,6 +242,13 @@ def main():
     add_outflow_parser.add_argument("--description", required=True, help="Description")
     add_outflow_parser.add_argument("--category_name", required=True, help="Category Name")
 
+      # Subparser for 'transfer'
+    transfer_parser = subparsers.add_parser("transfer", help="Transfer between accounts")
+    transfer_parser.add_argument("--from_account_id", type=int, required=True, help="From Account ID")
+    transfer_parser.add_argument("--to_account_id", type=int, required=True, help="To Account ID")
+    transfer_parser.add_argument("--amount", type=float, required=True, help="Amount")
+    transfer_parser.add_argument("--description", required=True, help="Description")
+
     # Subparser for 'generate_report'
     generate_report_parser = subparsers.add_parser("generate_report", help="Generate a financial report")
     generate_report_parser.add_argument("--user_id", type=int, required=True, help="User ID")
@@ -314,6 +327,7 @@ def main():
         "add_account": lambda: add_account(db, args),
         "add_inflow": lambda: add_transaction(db, args, "Income"),
         "add_outflow": lambda: add_transaction(db, args, "Expense"),
+        "transfer": lambda: transfer_between_accounts(db, args),
         "generate_report": lambda: generate_report(db, args, report_generator),
         "generate_pdf_report": lambda: generate_pdf_report(db, args, report_generator),
         "view_transactions": lambda: view_transactions(db, args),

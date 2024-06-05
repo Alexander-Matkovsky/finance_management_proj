@@ -107,6 +107,26 @@ class Database:
                         logging.warning(f"Budget exceeded for user {account_id}, category {category_name}")
         logging.info(f"Transaction added for account {account_id}: {type} of {amount} - {description}")
 
+    def transfer_between_accounts(self, from_account_id, to_account_id, date, amount, description):
+        if not description:
+            raise ValueError("Description cannot be empty")
+        with self.conn:
+            self.conn.execute(
+                'UPDATE accounts SET balance = balance - ? WHERE id = ?', (amount, from_account_id)
+            )
+            self.conn.execute(
+                'UPDATE accounts SET balance = balance + ? WHERE id = ?', (amount, to_account_id)
+            )
+            self.conn.execute(
+                'INSERT INTO transactions (account_id, date, amount, type, description, category_name) VALUES (?, ?, ?, ?, ?, ?)',
+                (from_account_id, date, -amount, 'Transfer', description, 'Transfer')
+            )
+            self.conn.execute(
+                'INSERT INTO transactions (account_id, date, amount, type, description, category_name) VALUES (?, ?, ?, ?, ?, ?)',
+                (to_account_id, date, amount, 'Transfer', description, 'Transfer')
+            )
+        logging.info(f"Transferred {amount} from account {from_account_id} to account {to_account_id}: {description}")
+
     def set_budget(self, user_id, category_name, amount):
         try:
             existing_budget = self.conn.execute(

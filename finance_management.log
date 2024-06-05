@@ -14505,3 +14505,27 @@ Net Cash Flow: 1300.0
 2024-06-04 12:27:06,112 - root - INFO - Database connected
 2024-06-04 12:27:06,115 - root - INFO - Transaction added for account 1: Expense of -200.0 - Groceries
 2024-06-04 12:27:06,115 - root - INFO - Added expense: 200.0 - Groceries
+2024-06-04 13:44:12,027 - root - INFO - Tables created or verified
+2024-06-04 13:44:12,027 - root - INFO - Database connected
+2024-06-04 13:44:12,030 - root - INFO - Account added for user 1: Savings with balance 0.0
+2024-06-04 13:44:12,030 - root - INFO - Added account: Savings with balance 0.0 to user 1
+2024-06-05 13:09:23,846 - root - INFO - Tables created or verified
+2024-06-05 13:09:23,846 - root - INFO - Database connected
+2024-06-05 13:09:23,846 - root - ERROR - Error: Database.transfer_between_accounts() missing 1 required positional argument: 'description'
+2024-06-05 13:09:36,758 - root - INFO - Tables created or verified
+2024-06-05 13:09:36,759 - root - INFO - Database connected
+2024-06-05 13:09:36,759 - root - ERROR - Error: Database.transfer_between_accounts() missing 1 required positional argument: 'description'
+2024-06-05 13:10:25,695 - root - INFO - Tables created or verified
+2024-06-05 13:10:25,695 - root - INFO - Database connected
+2024-06-05 13:10:25,697 - root - INFO - Account added for user 1: Savings with balance 0.0
+2024-06-05 13:10:25,697 - root - INFO - Added account: Savings with balance 0.0 to user 1
+2024-06-05 13:10:55,888 - root - INFO - Tables created or verified
+2024-06-05 13:10:55,889 - root - INFO - Database connected
+2024-06-05 13:10:55,889 - root - ERROR - Error: Database.transfer_between_accounts() missing 1 required positional argument: 'description'
+2024-06-05 13:12:50,362 - root - INFO - Tables created or verified
+2024-06-05 13:12:50,362 - root - INFO - Database connected
+2024-06-05 13:12:50,362 - root - ERROR - Error: Database.transfer_between_accounts() missing 1 required positional argument: 'description'
+2024-06-05 13:15:01,711 - root - INFO - Tables created or verified
+2024-06-05 13:15:01,711 - root - INFO - Database connected
+2024-06-05 13:15:01,714 - root - INFO - Transferred 2000.0 from account 1 to account 2: savings
+2024-06-05 13:15:01,714 - root - INFO - Transferred 2000.0 from account 1 to account 2: savings
