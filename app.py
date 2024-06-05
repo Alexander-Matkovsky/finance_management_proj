@@ -1,6 +1,6 @@
-import os
+'''import os
 from flask import Flask, request, render_template, jsonify, g
-from finance.database import Database
+from app.models.database import Database
 from finance.report_generator import ReportGenerator
 from finance.visualizer import visualize_cash_flows
 
@@ -194,3 +194,4 @@ def delete_transaction():
     
 if __name__ == '__main__':
     app.run(debug=True)
+'''

@@ -14,7 +14,7 @@ class Database:
         conn.row_factory = sqlite3.Row
         return conn
 
-    def create_tables(self):
+    #def create_tables(self):
         table_creation_queries = [
             '''
             CREATE TABLE IF NOT EXISTS users (
@@ -174,11 +174,15 @@ class Database:
         self.conn.commit()
         logging.info(f"Account {account_id} updated to name: {account_name} with balance: {initial_balance}")
 
-    def update_transaction(self, transaction_id, amount, description, category_name):
-        self.conn.execute("UPDATE transactions SET amount = ?, description = ?, category_name = ? WHERE id = ?", (amount, description, category_name, transaction_id))
+    def update_transaction(self, transaction_id, date, amount, type, description, category_name):
+        self.conn.execute("UPDATE transactions SET amount = ?, description = ?, category_name = ?, date = ?, type = ?WHERE id = ?", (amount, description, category_name, transaction_id, date, type))
         self.conn.commit()
-        logging.info(f"Transaction {transaction_id} updated with amount: {amount}, description: {description}, category name: {category_name}")
+        logging.info(f"Transaction {transaction_id} updated with amount: {amount}, description: {description}, category name: {category_name}, date: {date}, type:{type}")
 
+    def update_budget(self, user_id, category_name, new_amount):
+        self.conn.execute("UPDATE budgets SET amount = ? WHERE user_id = ? AND category_name = ?", (new_amount, user_id, category_name))
+        self.conn.commit()
+        logging.info(f"Budget for user {user_id}, category {category_name} updated to {new_amount}")
     def delete_user(self, user_id):
         with self.conn:
             self.conn.execute("DELETE FROM users WHERE id = ?", (user_id,))
@@ -220,3 +224,8 @@ class Database:
 
     def get_transactions(self, account_id):
         return self.conn.execute("SELECT amount, description, date, category_name FROM transactions WHERE account_id = ?", (account_id,)).fetchall()
+    def get_account(self, account_id):
+        return self.conn.execute("SELECT id, name, balance FROM accounts WHERE id = ?", (account_id, )).fetchone()
+    
+    def get_transaction(self, transaction_id):
+        return self.conn.execute("SELECT amount, description, date, category_name FROM transactions WHERE id = ?", (transaction_id,)).fetchone()

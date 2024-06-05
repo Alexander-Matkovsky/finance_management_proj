@@ -1,5 +1,5 @@
 import pytest
-from finance.database import Database
+from app.models.database import Database
 from finance.report_generator import ReportGenerator
 
 @pytest.fixture

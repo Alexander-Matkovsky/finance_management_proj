@@ -34,7 +34,6 @@ class ReportGenerator:
             report_lines.append(f"Category {budget['category_name']}: amount used: {amount_used}, which is {percentage_used:.2f}% of budget, Limit {budget['amount']}")
         return "\n".join(report_lines)
 
-
     def generate_cash_flow_statement(self, user, start_date=None, end_date=None):
         cash_flow = CashFlow()
         accounts = self.db.get_accounts(user['id'])
@@ -72,12 +71,12 @@ class ReportGenerator:
         if not user:
             return f"User with ID {user_id} not found."
         
-        report_sections = [
-            self.generate_balance_sheet(user),
-            self.generate_budget_report(user),
-            self.generate_cash_flow_statement(user, start_date, end_date)
-        ]
-        return "\n\n".join(report_sections)
+        report = {
+            "balance_sheet": self.generate_balance_sheet(user),
+            "budget_report": self.generate_budget_report(user),
+            "cash_flow_statement": self.generate_cash_flow_statement(user, start_date, end_date)
+        }
+        return report
 
     def save_report_as_pdf(self, report, filename):
         options = {

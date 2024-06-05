@@ -1,7 +1,7 @@
 import pytest
 import subprocess
 import os
-from finance.database import Database
+from app.models.database import Database
 
 @pytest.fixture
 def db():

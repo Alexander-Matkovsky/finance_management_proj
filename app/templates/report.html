@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2, h3 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5em;
+        }
+        .section {
+            margin-bottom: 2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Financial Report</h1>
+    <div class="section">
+        <h2>Balance Sheet</h2>
+        <pre>{{ report.balance_sheet }}</pre>
+    </div>
+    <div class="section">
+        <h2>Budget Report</h2>
+        <pre>{{ report.budget_report }}</pre>
+    </div>
+    <div class="section">
+        <h2>Cash Flow Statement</h2>
+        <pre>{{ report.cash_flow_statement }}</pre>
+    </div>
+</body>
+</html>

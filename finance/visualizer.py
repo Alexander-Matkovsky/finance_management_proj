@@ -1,6 +1,6 @@
 import plotly.express as px
 import plotly.graph_objs as go
-from finance.database import Database
+from app.models.database import Database
 import pandas as pd
 
 def visualize_cash_flows(account_id):

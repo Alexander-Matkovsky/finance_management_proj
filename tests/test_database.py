@@ -1,6 +1,6 @@
 import pytest
 import sqlite3
-from finance.database import Database
+from app.models.database import Database
 
 @pytest.fixture
 def db():

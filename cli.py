@@ -2,7 +2,7 @@ import argparse
 import logging
 import os
 from datetime import datetime
-from finance.database import Database
+from app.models.database import Database
 from finance.report_generator import ReportGenerator
 from finance.visualizer import visualize_cash_flows
 
