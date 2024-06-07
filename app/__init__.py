@@ -1,7 +1,11 @@
+import logging
 from flask import Flask, g
 from config import Config
-from app.models.database import Database
+from app.models.database import db_connection
 import os
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
     app = Flask(__name__)
@@ -21,13 +25,17 @@ def create_app():
     def close_db(error):
         db = g.pop('db', None)
         if db is not None:
-            db.conn.close()
+            db.close()
+
     return app
 
 def get_db():
     if 'db' not in g:
         db_name = os.getenv('DB_NAME', 'finance.db')
-        g.db = Database(db_name)
+        g.db = db_connection.get_connection(db_name)
+    
     return g.db
 
-
+if __name__ == "__main__":
+    app = create_app()
+    app.run()

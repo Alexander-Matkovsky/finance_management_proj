@@ -2,7 +2,7 @@ import argparse
 import logging
 import os
 from datetime import datetime
-from app.models.database import Database
+from app.models.database import db_connection, account_operations, budget_operations, transaction_operations, user_operations
 from finance.report_generator import ReportGenerator
 from finance.visualizer import visualize_cash_flows
 
@@ -15,7 +15,7 @@ logging.basicConfig(
 
 def get_database():
     db_name = os.getenv("DB_NAME", "finance.db")
-    return Database(db_name)
+    return db_connection.get_connection(db_name)
 
 def add_user(db, args):
     db.add_user(args.name)
