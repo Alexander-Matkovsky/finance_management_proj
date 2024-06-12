@@ -15,8 +15,8 @@ class BudgetOperations:
             if existing_budget:
                 logging.info(f"Updating existing budget for user {user_id}, category {category_name}")
                 self.conn.execute(
-                    'UPDATE budgets SET amount = ?, category_name = ? WHERE user_id = ? AND category_name = ?', 
-                    (amount, category_name, user_id, category_name)
+                    'UPDATE budgets SET amount = ? WHERE user_id = ? AND category_name = ?', 
+                    (amount, user_id, category_name)
                 )
                 logging.info(f"Budget updated for user {user_id}, category {category_name}: {amount}")
             else:
@@ -49,4 +49,5 @@ class BudgetOperations:
 
     def delete_budget(self, user_id, category_name):
         self.conn.execute("DELETE FROM budgets WHERE user_id = ? AND category_name = ?", (user_id, category_name))
+        self.conn.commit()
         logging.info(f"Budget for user {user_id} and category {category_name} deleted")

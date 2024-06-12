@@ -1,7 +1,11 @@
 from flask import Blueprint, request, jsonify
-from app import get_db
+from app.models.database import get_connection, AccountOperations
 
 bp = Blueprint('accounts', __name__)
+
+def get_db():
+    conn = get_connection()
+    return AccountOperations(conn)
 
 @bp.route('/add_account', methods=['POST'])
 def add_account():
@@ -24,7 +28,7 @@ def add_account():
         return jsonify({"message": f"Account {account_name} added successfully!"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 @bp.route('/get_account', methods=['GET'])
 def get_account():
     account_id = request.args.get('account_id')
@@ -40,12 +44,12 @@ def get_account():
     try:
         account = db.get_account(account_id)
         if account:
-            return jsonify({"account": account}), 200
+            return jsonify({"account": dict(account)}), 200
         else:
             return jsonify({"error": f"Account {account_id} not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 @bp.route('/update_account', methods=['PUT'])
 def update_account():
     account_id = request.form.get('account_id')

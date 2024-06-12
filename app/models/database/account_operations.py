@@ -4,7 +4,6 @@ import sqlite3
 class AccountOperations:
     def __init__(self, conn):
         self.conn = conn
-        
 
     def add_account(self, user_id, name, balance):
         if not name:
@@ -13,6 +12,9 @@ class AccountOperations:
             raise ValueError("Initial balance cannot be negative")
         self._execute_query('INSERT INTO accounts (user_id, name, balance) VALUES (?, ?, ?)', (user_id, name, balance))
         logging.info(f"Account added for user {user_id}: {name} with balance {balance}")
+
+    def get_account(self, account_id):
+        return self.conn.execute("SELECT id, user_id, name, balance FROM accounts WHERE id = ?", (account_id,)).fetchone()
 
     def get_accounts(self, user_id):
         return self.conn.execute("SELECT id, name, balance FROM accounts WHERE user_id = ?", (user_id,)).fetchall()

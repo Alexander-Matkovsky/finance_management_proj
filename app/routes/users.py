@@ -1,11 +1,14 @@
 import logging
 from flask import Blueprint, request, jsonify
-from app import get_db
-from app.models.database import UserOperations
+from app.models.database import get_connection, UserOperations
 
 logging.basicConfig(level=logging.DEBUG)
 
 bp = Blueprint('users', __name__)
+def get_db():
+    conn = get_connection()
+    return UserOperations(conn)
+
 
 @bp.route('/add_user', methods=['POST'])
 def add_user():
