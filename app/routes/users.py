@@ -5,10 +5,10 @@ from app.models.database import get_connection, UserOperations
 logging.basicConfig(level=logging.DEBUG)
 
 bp = Blueprint('users', __name__)
+
 def get_db():
     conn = get_connection()
     return UserOperations(conn)
-
 
 @bp.route('/add_user', methods=['POST'])
 def add_user():
@@ -19,9 +19,8 @@ def add_user():
         return jsonify({"error": "Name is required"}), 400
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
-    user_operations = UserOperations(db)
     try:
-        user_operations.add_user(name)
+        db.add_user(name)
         return jsonify({"message": f"User {name} added successfully!"}), 201
     except Exception as e:
         logging.error(f"Error adding user: {e}")
@@ -43,9 +42,8 @@ def delete_user():
 
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
-    user_operations = UserOperations(db)
     try:
-        user_operations.delete_user(user_id)
+        db.delete_user(user_id)
         return jsonify({"message": f"User {user_id} deleted successfully!"}), 200
     except Exception as e:
         logging.error(f"Error deleting user: {e}")
@@ -67,9 +65,8 @@ def get_user():
 
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
-    user_operations = UserOperations(db)
     try:
-        user = user_operations.get_user(user_id)
+        user = db.get_user(user_id)
         if user:
             return jsonify(dict(user)), 200  # Convert sqlite3.Row to dict
         else:
@@ -95,9 +92,8 @@ def update_user():
 
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
-    user_operations = UserOperations(db)
     try:
-        user_operations.update_user(user_id, name)
+        db.update_user(user_id, name)
         return jsonify({"message": f"User {user_id} updated successfully!"}), 200
     except Exception as e:
         logging.error(f"Error updating user: {e}")
