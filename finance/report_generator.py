@@ -1,47 +1,50 @@
+import logging
 import matplotlib.pyplot as plt
 import pdfkit
 import tempfile
 from finance.cashflow import CashFlow
 from datetime import datetime
+from app.models.database import UserOperations, AccountOperations, BudgetOperations, TransactionOperations
 
 class ReportGenerator:
     def __init__(self, db):
         self.db = db
+        self.accounts_db = AccountOperations(db)
+        self.users_db = UserOperations(db)
+        self.budgets_db = BudgetOperations(db)
+        self.transaction_db = TransactionOperations(db)
 
     def generate_balance_sheet(self, user):
-        accounts = self.db.get_accounts(user['id'])
+        accounts = self.accounts_db.get_accounts(user['id'])
         total_balance = sum(account['balance'] for account in accounts)
         report_lines = [
             f"Balance Sheet for {user['name']}",
             "-" * 40
         ]
         report_lines += [f"Account {account['name']}: {account['balance']}" for account in accounts]
-        report_lines += [
-            f"Total Balance: {total_balance}"
-        ]
+        report_lines.append(f"Total Balance: {total_balance}")
         return "\n".join(report_lines)
 
     def generate_budget_report(self, user):
-        budgets = self.db.conn.execute("SELECT category_name, amount, amount_used FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
+        budgets = self.budgets_db.conn.execute("SELECT category_name, amount, amount_used FROM budgets WHERE user_id = ?", (user['id'],)).fetchall()
         report_lines = [
             "Budget Report",
             "-" * 40
         ]
         for budget in budgets:
-            amount_used = budget["amount_used"]
-            amount_used = amount_used if amount_used else 0
+            amount_used = budget["amount_used"] if budget["amount_used"] else 0
             percentage_used = (amount_used / budget["amount"]) * 100 if budget["amount"] else 0
             report_lines.append(f"Category {budget['category_name']}: amount used: {amount_used}, which is {percentage_used:.2f}% of budget, Limit {budget['amount']}")
         return "\n".join(report_lines)
 
     def generate_cash_flow_statement(self, user, start_date=None, end_date=None):
         cash_flow = CashFlow()
-        accounts = self.db.get_accounts(user['id'])
+        accounts = self.accounts_db.get_accounts(user['id'])
 
         start_date = datetime.strptime(start_date, '%Y-%m-%d') if start_date else None
         end_date = datetime.strptime(end_date, '%Y-%m-%d') if end_date else None
         for account in accounts:
-            transactions = self.db.get_transactions(account['id'])
+            transactions = self.transaction_db.get_transactions(account['id'])
             for transaction in transactions:
                 transaction_date = datetime.strptime(transaction['date'], '%Y-%m-%d')
                 if start_date and transaction_date < start_date:
@@ -61,13 +64,14 @@ class ReportGenerator:
         summary_lines = [
             "Summary",
             "-" * 40,
-            balance_sheet.split("\n")[-1],  # Total Balance
-            cash_flow_statement.split("\n")[-1]  # Net Cash Flow
+            balance_sheet.split("\n")[-1],  
+            budget_report.split("\n")[-1],
+            cash_flow_statement.split("\n")[-1] 
         ]
         return "\n".join(summary_lines)
 
     def generate_report(self, user_id, start_date=None, end_date=None):
-        user = self.db.get_user(user_id)
+        user = self.users_db.get_user(user_id)
         if not user:
             return f"User with ID {user_id} not found."
         
@@ -93,19 +97,26 @@ class ReportGenerator:
         inflows, outflows = [], []
         accounts = self.db.get_accounts(user['id'])
         for account in accounts:
-            transactions = self.db.get_transactions(account['id'])
+            transactions = self.transaction_db.get_transactions(account['id'])
             for transaction in transactions:
                 if transaction['amount'] > 0:
                     inflows.append((transaction['date'], transaction['amount']))
                 else:
                     outflows.append((transaction['date'], transaction['amount']))
 
-        dates, inflow_amounts = zip(*inflows) if inflows else ([], [])
-        _, outflow_amounts = zip(*outflows) if outflows else ([], [])
+        if inflows:
+            inflow_dates, inflow_amounts = zip(*inflows)
+        else:
+            inflow_dates, inflow_amounts = [], []
+
+        if outflows:
+            outflow_dates, outflow_amounts = zip(*outflows)
+        else:
+            outflow_dates, outflow_amounts = [], []
 
         plt.figure(figsize=(10, 5))
-        plt.plot(dates, inflow_amounts, label='Inflows')
-        plt.plot(dates, outflow_amounts, label='Outflows')
+        plt.plot(inflow_dates, inflow_amounts, label='Inflows', color='green')
+        plt.plot(outflow_dates, outflow_amounts, label='Outflows', color='red')
         plt.xlabel('Date')
         plt.ylabel('Amount')
         plt.title('Cash Flows')
@@ -118,7 +129,8 @@ class ReportGenerator:
             image_path = tmpfile.name
 
         report = self.generate_report(user_id)
-        report += f"\n![Cash Flow Chart]({image_path})\n"
-        self.save_report_as_pdf(report, f"financial_report_user_{user_id}.pdf")
+        report_str = f"Balance Sheet:\n{report['balance_sheet']}\n\nBudget Report:\n{report['budget_report']}\n\nCash Flow Statement:\n{report['cash_flow_statement']}\n"
+        report_str += f"\n![Cash Flow Chart]({image_path})\n"
+        self.save_report_as_pdf(report_str, f"financial_report_user_{user_id}.pdf")
 
-        return report
+        return report_str
