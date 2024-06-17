@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint, request, render_template, jsonify
+from flask import Blueprint, request, render_template, jsonify, send_file
 from app.models.database import get_connection
 from finance.report_generator import ReportGenerator
 
@@ -40,7 +40,35 @@ def generate_report():
     try:
         report = db.generate_report(user_id, start_date, end_date)
         logging.debug(f"Report generated successfully: {report}")
-        return render_template('report.html', report=report)
+        return render_template('report.html', user_id, report=report)
     except Exception as e:
         logging.error(f"Error generating report: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@bp.route('/generate_visual_report', methods=['GET'])
+def generate_visual_report():
+    logging.debug("Entered generate_visual_report route")
+    user_id = request.args.get('user_id')
+    
+    if not user_id:
+        logging.error("user_id is required")
+        return jsonify({"error": "user_id is required"}), 400
+
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        logging.error("user_id must be an integer")
+        return jsonify({"error": "user_id must be an integer"}), 400
+
+    logging.debug(f"user_id: {user_id}")
+
+    db = get_db()
+    logging.debug(f"Database connection obtained: {db}")
+    
+    try:
+        pdf_path = db.generate_visual_report(user_id)
+        logging.debug(f"Visual report generated successfully: {pdf_path}")
+        return send_file(pdf_path, as_attachment=True, attachment_filename=f"financial_report_user_{user_id}.pdf")
+    except Exception as e:
+        logging.error(f"Error generating visual report: {e}")
         return jsonify({"error": str(e)}), 500
