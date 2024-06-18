@@ -15,7 +15,7 @@ class ReportGenerator:
         self.users_db = UserOperations(db)
         self.budgets_db = BudgetOperations(db)
         self.transaction_db = TransactionOperations(db)
-        self.env = Environment(loader=FileSystemLoader('templates'))
+        self.env = Environment(loader=FileSystemLoader('templates'))  # Adjust the path if needed
 
     def generate_balance_sheet(self, user):
         accounts = self.accounts_db.get_accounts(user['id'])
@@ -72,12 +72,12 @@ class ReportGenerator:
         }
         return report
 
-    def save_report_as_pdf(self, report, filename):
+    def save_report_as_pdf(self, report_html, filename):
         options = {
             'page-size': 'A4',
             'encoding': 'UTF-8',
         }
-        pdfkit.from_string(report, filename, options=options)
+        pdfkit.from_string(report_html, filename, options=options)
 
     def generate_cash_flow_chart(self, user_id):
         user = self.users_db.get_user(user_id)
