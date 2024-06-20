@@ -2,10 +2,12 @@ import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
 from app.models.database import db_connection
+from app.models.database.transaction_operations import TransactionOperations
+from app.models.database.user_operations import UserOperations
 
 def visualize_cash_flows(account_id):
-    db = db_connection.get_db()
-    transactions = db.conn.execute("SELECT date, amount, type FROM transactions WHERE account_id = ?", (account_id,)).fetchall()
+    db = db_connection.get_connection()
+    transactions = TransactionOperations(db).conn.execute("SELECT date, amount, type FROM transactions WHERE account_id = ?", (account_id,)).fetchall()
     
     if not transactions:
         print("No transactions found.")
@@ -24,8 +26,8 @@ def visualize_cash_flows(account_id):
     fig.show()
 
 def generate_report_with_plots(user_id):
-    db = db_connection.get_db()
-    user = db.conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+    db = db_connection.get_connection()
+    user = UserOperations(db).conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
 
     if not user:
         print(f"No user found with ID {user_id}")

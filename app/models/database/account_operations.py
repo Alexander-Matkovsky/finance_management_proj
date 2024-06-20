@@ -1,28 +1,43 @@
 import logging
 import sqlite3
-
+from finance.account import Account
 class AccountOperations:
     def __init__(self, conn):
         self.conn = conn
 
     def add_account(self, user_id, name, balance):
-        if not name:
-            raise ValueError("Account name cannot be empty")
-        if balance < 0:
-            raise ValueError("Initial balance cannot be negative")
-        self._execute_query('INSERT INTO accounts (user_id, name, balance) VALUES (?, ?, ?)', (user_id, name, balance))
+        account = Account(None, user_id, name, balance)
+        account.validate()
+        self._execute_query(
+            'INSERT INTO accounts (user_id, name, balance) VALUES (?, ?, ?)',
+            (account.user_id, account.name, account.balance)
+        )
         logging.info(f"Account added for user {user_id}: {name} with balance {balance}")
 
     def get_account(self, account_id):
-        return self.conn.execute("SELECT id, user_id, name, balance FROM accounts WHERE id = ?", (account_id,)).fetchone()
+        row = self.conn.execute(
+            "SELECT id, user_id, name, balance FROM accounts WHERE id = ?", (account_id,)
+        ).fetchone()
+        return Account(*row) if row else None
 
     def get_accounts(self, user_id):
-        return self.conn.execute("SELECT id, name, balance FROM accounts WHERE user_id = ?", (user_id,)).fetchall()
+        rows = self.conn.execute(
+            "SELECT id, user_id, name, balance FROM accounts WHERE user_id = ?", (user_id,)
+        ).fetchall()
+        return [Account(*row) for row in rows]
 
-    def update_account(self, account_id, account_name, initial_balance):
-        self.conn.execute("UPDATE accounts SET name = ?, balance = ? WHERE id = ?", (account_name, initial_balance, account_id))
-        self.conn.commit()
-        logging.info(f"Account {account_id} updated to name: {account_name} with balance: {initial_balance}")
+    def update_account(self, account_id, account_name, balance):
+        account = self.get_account(account_id)
+        if account:
+            account.name = account_name
+            account.balance = balance
+            account.validate()
+            self.conn.execute(
+                "UPDATE accounts SET name = ?, balance = ? WHERE id = ?",
+                (account.name, account.balance, account_id)
+            )
+            self.conn.commit()
+            logging.info(f"Account {account_id} updated to name: {account_name} with balance: {balance}")
 
     def delete_account(self, account_id):
         with self.conn:

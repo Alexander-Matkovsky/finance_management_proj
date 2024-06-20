@@ -89,10 +89,11 @@ class ReportGenerator:
         for account in accounts:
             transactions = self.transaction_db.get_transactions(account['id'])
             for transaction in transactions:
+                transaction_date = datetime.strptime(transaction['date'], '%Y-%m-%d')
                 if transaction['amount'] > 0:
-                    inflows.append((datetime.strptime(transaction['date'], '%Y-%m-%d'), transaction['amount']))
+                    inflows.append((transaction_date, transaction['amount']))
                 else:
-                    outflows.append((datetime.strptime(transaction['date'], '%Y-%m-%d'), transaction['amount']))
+                    outflows.append((transaction_date, transaction['amount']))
 
         if inflows:
             inflow_dates, inflow_amounts = zip(*inflows)

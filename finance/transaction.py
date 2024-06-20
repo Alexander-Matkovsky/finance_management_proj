@@ -1,10 +1,16 @@
 class Transaction:
-    def __init__(self, transaction_id, date, amount, category, description=""):
-        self.transaction_id = transaction_id
+    def __init__(self, account_id, date, amount, type, description, category_name):
+        self.account_id = account_id
         self.date = date
         self.amount = amount
-        self.category = category
+        self.type = type
         self.description = description
+        self.category_name = category_name
+        self.validate()
 
-    def __str__(self):
-        return f"{self.date} - {self.category}: {self.amount} ({self.description})"
+    def validate(self):
+        if not self.description:
+            raise ValueError("Description cannot be empty")
+        if self.type not in ["Income", "Expense"]:
+            raise ValueError("Transaction type must be either 'Income' or 'Expense'")
+

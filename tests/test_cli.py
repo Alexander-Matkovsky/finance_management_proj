@@ -1,12 +1,12 @@
 import pytest
 import subprocess
 import os
-from app.models.database import Database
+from app.models.database import db_connection
 
 @pytest.fixture
 def db():
     os.environ['DB_NAME'] = 'test_finance.db'
-    db = Database('test_finance.db')
+    db = db_connection('test_finance.db')
     yield db
     db.conn.close()
     os.remove('test_finance.db')

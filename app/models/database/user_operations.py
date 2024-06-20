@@ -1,23 +1,24 @@
 import logging
 import sqlite3
-
+from finance.user import User
 class UserOperations:
     def __init__(self, conn):
         self.conn = conn
 
     def add_user(self, name):
-        if not name:
-            raise ValueError("User name cannot be empty")
-        self._execute_query('INSERT INTO users (name) VALUES (?)', (name,))
-        logging.info(f"User added: {name}")
+        user = User(None, name)
+        self._execute_query('INSERT INTO users (name) VALUES (?)', (user.name,))
+        logging.info(f"User added: {user.name}")
 
     def get_user(self, user_id):
-        return self.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
+        row = self.conn.execute("SELECT id, name FROM users WHERE id = ?", (user_id,)).fetchone()
+        return User(*row) if row else None
 
     def update_user(self, user_id, name):
-        self.conn.execute("UPDATE users SET name = ? WHERE id = ?", (name, user_id))
+        user = User(user_id, name)
+        self.conn.execute("UPDATE users SET name = ? WHERE id = ?", (user.name, user.user_id))
         self.conn.commit()
-        logging.info(f"User {user_id} updated to name: {name}")
+        logging.info(f"User {user_id} updated to name: {user.name}")
 
     def delete_user(self, user_id):
         with self.conn:
