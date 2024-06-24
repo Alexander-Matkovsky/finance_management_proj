@@ -1,5 +1,4 @@
 import logging
-import sqlite3
 from finance.transaction import Transaction
 
 class TransactionOperations:

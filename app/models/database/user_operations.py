@@ -1,6 +1,8 @@
+# user_operations.py
 import logging
 import sqlite3
 from finance.user import User
+
 class UserOperations:
     def __init__(self, conn):
         self.conn = conn
@@ -16,7 +18,7 @@ class UserOperations:
 
     def update_user(self, user_id, name):
         user = User(user_id, name)
-        self.conn.execute("UPDATE users SET name = ? WHERE id = ?", (user.name, user.user_id))
+        self.conn.execute("UPDATE users SET name = ? WHERE id = ?", (user.name, user.id))
         self.conn.commit()
         logging.info(f"User {user_id} updated to name: {user.name}")
 
