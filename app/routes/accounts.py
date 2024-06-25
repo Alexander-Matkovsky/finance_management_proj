@@ -44,7 +44,7 @@ def get_account():
     try:
         account = db.get_account(account_id)
         if account:
-            return jsonify({"account": dict(account)}), 200
+            return jsonify({"account": vars(account)}), 200
         else:
             return jsonify({"error": f"Account {account_id} not found"}), 404
     except Exception as e:

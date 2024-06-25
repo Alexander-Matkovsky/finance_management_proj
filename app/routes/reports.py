@@ -36,8 +36,7 @@ def generate_report():
     try:
         report = report_generator.generate_report(user_id, start_date, end_date)
         logging.debug(f"Report generated successfully: {report}")
-        user = report_generator.users_db.get_user(user_id)  # Ensure user object is passed to the template
-        return render_template('report.html', user=user, report=report)
+        return render_template('report.html', report=report)
     except Exception as e:
         logging.error(f"Error generating report: {e}")
         return jsonify({"error": str(e)}), 500

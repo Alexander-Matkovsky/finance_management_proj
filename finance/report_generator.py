@@ -11,13 +11,13 @@ class ReportGenerator:
         from app.models.database import AccountOperations
         accounts_db = AccountOperations(self.db)
         
-        accounts = accounts_db.get_accounts(user.id)
-        total_balance = sum(account['balance'] for account in accounts)
+        accounts = accounts_db.get_accounts(user.user_id)
+        total_balance = sum(account.balance for account in accounts)
         report_lines = [
             f"Balance Sheet for {user.name}",
             "-" * 40
         ]
-        report_lines += [f"Account {account['name']}: {account['balance']}" for account in accounts]
+        report_lines += [f"Account {account.name}: {account.balance}" for account in accounts]
         report_lines.append(f"Total Balance: {total_balance}")
         return "\n".join(report_lines)
 
@@ -25,7 +25,7 @@ class ReportGenerator:
         from app.models.database import BudgetOperations
         budgets_db = BudgetOperations(self.db)
 
-        budgets = budgets_db.conn.execute("SELECT category_name, amount, amount_used FROM budgets WHERE user_id = ?", (user.id,)).fetchall()
+        budgets = budgets_db.conn.execute("SELECT category_name, amount, amount_used FROM budgets WHERE user_id = ?", (user.user_id,)).fetchall()
         report_lines = [
             "Budget Report",
             "-" * 40
@@ -42,12 +42,12 @@ class ReportGenerator:
         transaction_db = TransactionOperations(self.db)
         
         cash_flow = CashFlow()
-        accounts = accounts_db.get_accounts(user.id)
+        accounts = accounts_db.get_accounts(user.user_id)
 
         start_date = datetime.strptime(start_date, '%Y-%m-%d') if start_date else None
         end_date = datetime.strptime(end_date, '%Y-%m-%d') if end_date else None
         for account in accounts:
-            transactions = transaction_db.get_transactions(account['id'])
+            transactions = transaction_db.get_transactions(account.account_id)
             for transaction in transactions:
                 transaction_date = datetime.strptime(transaction['date'], '%Y-%m-%d')
                 if start_date and transaction_date < start_date:

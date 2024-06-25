@@ -49,6 +49,7 @@ def delete_user():
         logging.error(f"Error deleting user: {e}")
         return jsonify({"error": str(e)}), 500
 
+
 @bp.route('/get_user', methods=['GET'])
 def get_user():
     logging.debug("Entering get_user route")
@@ -68,7 +69,8 @@ def get_user():
     try:
         user = db.get_user(user_id)
         if user:
-            return jsonify(dict(user)), 200  # Convert sqlite3.Row to dict
+            user_dict = {"user_id": user.user_id, "name": user.name}
+            return jsonify(user_dict), 200
         else:
             return jsonify({"error": f"User {user_id} not found"}), 404
     except Exception as e:

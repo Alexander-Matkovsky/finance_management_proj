@@ -24,7 +24,7 @@ class AccountOperations:
         rows = self.conn.execute(
             "SELECT id, user_id, name, balance FROM accounts WHERE user_id = ?", (user_id,)
         ).fetchall()
-        return [Account(*row) for row in rows]
+        return [Account(*row) for row in rows] if rows else None
 
     def update_account(self, account_id, account_name, balance):
         account = self.get_account(account_id)
