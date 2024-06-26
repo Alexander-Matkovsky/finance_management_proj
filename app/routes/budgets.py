@@ -73,8 +73,7 @@ def get_budgets_route():
         return jsonify({"error": str(e)}), 500
         
 
-
-bp.route('/update_budget', methods=['PUT'])
+@bp.route('/update_budget', methods=['PUT'])
 def update_budget():
     user_id = request.form.get('user_id')
     category_name = request.form.get('category_name')
