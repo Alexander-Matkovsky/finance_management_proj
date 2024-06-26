@@ -51,6 +51,20 @@ class BudgetOperations:
             return budget.amount, budget.amount_used
         logging.info(f"No budget found for user {user_id}, category {category_name}")
         return None, None
+    
+    def get_budgets(self, user_id):
+        budgets = []
+        budget_rows = self.conn.execute(
+            'SELECT id, user_id, category_name, amount, amount_used FROM budgets WHERE user_id = ?',
+            (user_id,)
+        ).fetchall()
+
+        for budget_row in budget_rows:
+            budget = Budget(*budget_row)
+            budgets.append(budget)
+
+        logging.info(f"Retrieved {len(budgets)} budgets for user {user_id}")
+        return budgets
 
     def update_budget(self, user_id, category_name, new_amount):
         budget_row = self.conn.execute(

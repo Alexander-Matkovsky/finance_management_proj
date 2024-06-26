@@ -51,7 +51,30 @@ def get_budget():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@bp.route('/update_budget', methods=['PUT'])
+@bp.route('/get_budgets', methods=['GET'])
+def get_budgets_route():
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"error": "user_id is required"}), 400
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return jsonify({"error": "user_id must be an integer"}), 400
+
+    db = get_db()
+    try:
+        budgets = db.get_budgets(user_id)
+        if budgets:
+            budgets_dict = [budget.__dict__ for budget in budgets]
+            return jsonify({"budgets": budgets_dict}), 200
+        else:
+            return jsonify({"error": f"Budgets for user {user_id} not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+        
+
+
+bp.route('/update_budget', methods=['PUT'])
 def update_budget():
     user_id = request.form.get('user_id')
     category_name = request.form.get('category_name')
