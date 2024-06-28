@@ -34,17 +34,23 @@ def get_account():
     account_id = request.args.get('account_id')
     if not account_id:
         return jsonify({"error": "account_id is required"}), 400
-
     try:
         account_id = int(account_id)
     except ValueError:
         return jsonify({"error": "account_id must be an integer"}), 400
-
+    
     db = get_db()
     try:
         account = db.get_account(account_id)
         if account:
-            return jsonify({"account": vars(account)}), 200
+            # Convert Account object to dictionary
+            account_dict = {
+                "account_id": account.account_id,
+                "user_id": account.user_id,
+                "name": account.name,
+                "balance": account.balance
+            }
+            return jsonify({"account": account_dict}), 200
         else:
             return jsonify({"error": f"Account {account_id} not found"}), 404
     except Exception as e:
@@ -68,11 +74,8 @@ def update_account():
 
     db = get_db()
     try:
-        updated = db.update_account(account_id, account_name, new_balance)
-        if updated:
-            return jsonify({"message": f"Account {account_id} updated successfully!"}), 200
-        else:
-            return jsonify({"error": f"Account {account_id} not found"}), 404
+        db.update_account(account_id, account_name, new_balance)
+        return jsonify({"message": f"Account {account_id} updated successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

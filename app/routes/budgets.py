@@ -65,8 +65,7 @@ def get_budgets_route():
     try:
         budgets = db.get_budgets(user_id)
         if budgets:
-            budgets_dict = [budget.__dict__ for budget in budgets]
-            return jsonify({"budgets": budgets_dict}), 200
+            return jsonify({"budgets": budgets}), 200
         else:
             return jsonify({"error": f"Budgets for user {user_id} not found"}), 404
     except Exception as e:
