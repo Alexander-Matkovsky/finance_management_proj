@@ -19,7 +19,7 @@ class BudgetOperations:
                 budget.validate()
                 self.conn.execute(
                     'UPDATE budgets SET amount = ? WHERE id = ?', 
-                    (budget.amount, budget.budget_id)
+                    (budget.amount, budget.id)
                 )
                 logging.info(f"Budget updated for user {user_id}, category {category_name}: {amount}")
             else:
@@ -51,18 +51,18 @@ class BudgetOperations:
             return budget.amount, budget.amount_used
         logging.info(f"No budget found for user {user_id}, category {category_name}")
         return None, None
-    
+
     def get_budgets(self, user_id):
         budgets = []
         budget_rows = self.conn.execute(
             'SELECT id, user_id, category_name, amount, amount_used FROM budgets WHERE user_id = ?',
             (user_id,)
         ).fetchall()
-
+        
         for budget_row in budget_rows:
             budget = Budget(*budget_row)
-            budgets.append(budget)
-
+            budgets.append(budget)  # Remove the asterisk here
+        
         logging.info(f"Retrieved {len(budgets)} budgets for user {user_id}")
         return budgets
 
@@ -78,7 +78,7 @@ class BudgetOperations:
             budget.validate()
             self.conn.execute(
                 "UPDATE budgets SET amount = ? WHERE id = ?", 
-                (budget.amount, budget.budget_id)
+                (budget.amount, budget.id)
             )
             self.conn.commit()
             logging.info(f"Budget for user {user_id}, category {category_name} updated to {new_amount}")

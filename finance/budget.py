@@ -1,10 +1,19 @@
 class Budget:
-    def __init__(self, budget_id, user_id, category_name, amount, amount_used):
-        self.budget_id = budget_id
+    def __init__(self, id, user_id, category_name, amount, amount_used):
+        self.id = id
         self.user_id = user_id
         self.category_name = category_name
         self.amount = amount
         self.amount_used = amount_used
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'category_name': self.category_name,
+            'amount': self.amount,
+            'amount_used': self.amount_used
+        }
 
     def validate(self):
         if not self.category_name:
@@ -17,4 +26,4 @@ class Budget:
             raise ValueError("Amount used cannot exceed budget amount")
 
     def __str__(self):
-        return f"Budget(id={self.budget_id}, user_id={self.user_id}, category={self.category_name}, amount={self.amount}, used={self.amount_used})"
+        return f"Budget(id={self.id}, user_id={self.user_id}, category={self.category_name}, amount={self.amount}, used={self.amount_used})"

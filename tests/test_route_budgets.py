@@ -1,5 +1,5 @@
 import pytest
-from flask import Flask
+from flask import Flask, json
 from app.routes.budgets import bp
 from app.models.database import BudgetOperations
 from unittest.mock import Mock, patch
@@ -47,30 +47,43 @@ def test_get_budget(client, mock_db):
 def test_get_budgets(client, mock_db):
     mock_budget_ops = Mock(spec=BudgetOperations)
     mock_db.return_value = mock_budget_ops
-    
-    # Use dictionaries to represent budgets
+
+    class MockBudget:
+        def __init__(self, data):
+            self.__dict__.update(data)
+        
+        def to_dict(self):
+            return self.__dict__
+
+        def __repr__(self):
+            return str(self.to_dict())
+
+    # Use MockBudget objects to represent budgets
     mock_budgets = [
-        {
+        MockBudget({
+            "id": 1,
             "user_id": 1,
             "category_name": 'Groceries',
             "amount": 500.00,
             "amount_used": 250.00
-        },
-        {
+        }),
+        MockBudget({
+            "id": 2,
             "user_id": 1,
             "category_name": 'Entertainment',
             "amount": 200.00,
             "amount_used": 100.00
-        }
+        })
     ]
     mock_budget_ops.get_budgets.return_value = mock_budgets
 
     response = client.get('/get_budgets?user_id=1')
-
+    print(response.data)  # Print raw response data
     assert response.status_code == 200
-    assert len(response.json['budgets']) == 2
-    assert response.json['budgets'][0]['category_name'] == 'Groceries'
-    assert response.json['budgets'][1]['category_name'] == 'Entertainment'
+    response_data = json.loads(response.data)
+    assert len(response_data['budgets']) == 2
+    assert response_data['budgets'][0]['category_name'] == 'Groceries'
+    assert response_data['budgets'][1]['category_name'] == 'Entertainment'
     mock_budget_ops.get_budgets.assert_called_once_with(1)
 
 def test_update_budget(client, mock_db):

@@ -39,7 +39,7 @@ def test_delete_user_success(client, mock_get_db):
     mock_db = Mock(spec=UserOperations)
     mock_get_db.return_value = mock_db
 
-    response = client.delete('/delete_user?user_id=1')
+    response = client.delete('/delete_user?id=1')
 
     assert response.status_code == 200
     assert b"User 1 deleted successfully!" in response.data
@@ -49,26 +49,26 @@ def test_delete_user_missing_id(client):
     response = client.delete('/delete_user')
 
     assert response.status_code == 400
-    assert b"user_id is required" in response.data
+    assert b"id is required" in response.data
 
 def test_delete_user_invalid_id(client):
-    response = client.delete('/delete_user?user_id=invalid')
+    response = client.delete('/delete_user?id=invalid')
 
     assert response.status_code == 400
-    assert b"user_id must be an integer" in response.data
+    assert b"id must be an integer" in response.data
 
 def test_get_user_success(client, mock_get_db):
     mock_db = Mock(spec=UserOperations)
     mock_get_db.return_value = mock_db
     mock_user = Mock()
-    mock_user.user_id = 1
+    mock_user.id = 1
     mock_user.name = 'John Doe'
     mock_db.get_user.return_value = mock_user
 
-    response = client.get('/get_user?user_id=1')
+    response = client.get('/get_user?id=1')
 
     assert response.status_code == 200
-    assert response.json == {"user_id": 1, "name": "John Doe"}
+    assert response.json == {"id": 1, "name": "John Doe"}
     mock_db.get_user.assert_called_once_with(1)
 
 def test_get_user_not_found(client, mock_get_db):
@@ -76,7 +76,7 @@ def test_get_user_not_found(client, mock_get_db):
     mock_get_db.return_value = mock_db
     mock_db.get_user.return_value = None
 
-    response = client.get('/get_user?user_id=999')
+    response = client.get('/get_user?id=999')
 
     assert response.status_code == 404
     assert b"User 999 not found" in response.data
@@ -85,20 +85,20 @@ def test_get_user_missing_id(client):
     response = client.get('/get_user')
 
     assert response.status_code == 400
-    assert b"user_id is required" in response.data
+    assert b"id is required" in response.data
 
 def test_get_user_invalid_id(client):
-    response = client.get('/get_user?user_id=invalid')
+    response = client.get('/get_user?id=invalid')
 
     assert response.status_code == 400
-    assert b"user_id must be an integer" in response.data
+    assert b"id must be an integer" in response.data
 
 def test_update_user_success(client, mock_get_db):
     mock_db = Mock(spec=UserOperations)
     mock_get_db.return_value = mock_db
 
     response = client.put('/update_user', data={
-        'user_id': '1',
+        'id': '1',
         'name': 'Jane Doe'
     })
 
@@ -108,17 +108,17 @@ def test_update_user_success(client, mock_get_db):
 
 def test_update_user_missing_data(client):
     response = client.put('/update_user', data={
-        'user_id': '1'
+        'id': '1'
     })
 
     assert response.status_code == 400
-    assert b"user_id and name are required" in response.data
+    assert b"id and name are required" in response.data
 
 def test_update_user_invalid_id(client):
     response = client.put('/update_user', data={
-        'user_id': 'invalid',
+        'id': 'invalid',
         'name': 'Jane Doe'
     })
 
     assert response.status_code == 400
-    assert b"user_id must be an integer" in response.data
+    assert b"id must be an integer" in response.data

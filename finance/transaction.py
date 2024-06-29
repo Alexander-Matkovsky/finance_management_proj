@@ -8,6 +8,16 @@ class Transaction:
         self.category_name = category_name
         self.validate()
 
+    def to_dict(self):
+        return {
+            "account_id": self.account_id,
+            "date": self.date,
+            "amount": self.amount,
+            "type": self.type,
+            "description": self.description,
+            "category_name": self.category_name
+        }
+
     def validate(self):
         if not self.description:
             raise ValueError("Description cannot be empty")

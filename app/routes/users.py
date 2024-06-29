@@ -29,22 +29,22 @@ def add_user():
 @bp.route('/delete_user', methods=['DELETE'])
 def delete_user():
     logging.debug("Entering delete_user route")
-    user_id = request.args.get('user_id')
-    if not user_id:
-        logging.error("user_id is required")
-        return jsonify({"error": "user_id is required"}), 400
+    id = request.args.get('id')
+    if not id:
+        logging.error("id is required")
+        return jsonify({"error": "id is required"}), 400
 
     try:
-        user_id = int(user_id)
+        id = int(id)
     except ValueError:
-        logging.error("user_id must be an integer")
-        return jsonify({"error": "user_id must be an integer"}), 400
+        logging.error("id must be an integer")
+        return jsonify({"error": "id must be an integer"}), 400
 
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
     try:
-        db.delete_user(user_id)
-        return jsonify({"message": f"User {user_id} deleted successfully!"}), 200
+        db.delete_user(id)
+        return jsonify({"message": f"User {id} deleted successfully!"}), 200
     except Exception as e:
         logging.error(f"Error deleting user: {e}")
         return jsonify({"error": str(e)}), 500
@@ -53,26 +53,26 @@ def delete_user():
 @bp.route('/get_user', methods=['GET'])
 def get_user():
     logging.debug("Entering get_user route")
-    user_id = request.args.get('user_id')
-    if not user_id:
-        logging.error("user_id is required")
-        return jsonify({"error": "user_id is required"}), 400
+    id = request.args.get('id')
+    if not id:
+        logging.error("id is required")
+        return jsonify({"error": "id is required"}), 400
 
     try:
-        user_id = int(user_id)
+        id = int(id)
     except ValueError:
-        logging.error("user_id must be an integer")
-        return jsonify({"error": "user_id must be an integer"}), 400
+        logging.error("id must be an integer")
+        return jsonify({"error": "id must be an integer"}), 400
 
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
     try:
-        user = db.get_user(user_id)
+        user = db.get_user(id)
         if user:
-            user_dict = {"user_id": user.user_id, "name": user.name}
+            user_dict = {"id": user.id, "name": user.name}
             return jsonify(user_dict), 200
         else:
-            return jsonify({"error": f"User {user_id} not found"}), 404
+            return jsonify({"error": f"User {id} not found"}), 404
     except Exception as e:
         logging.error(f"Error getting user: {e}")
         return jsonify({"error": str(e)}), 500
@@ -80,23 +80,23 @@ def get_user():
 @bp.route('/update_user', methods=['PUT'])
 def update_user():
     logging.debug("Entering update_user route")
-    user_id = request.form.get('user_id')
+    id = request.form.get('id')
     name = request.form.get('name')
-    if not (user_id and name):
-        logging.error("user_id and name are required")
-        return jsonify({"error": "user_id and name are required"}), 400
+    if not (id and name):
+        logging.error("id and name are required")
+        return jsonify({"error": "id and name are required"}), 400
 
     try:
-        user_id = int(user_id)
+        id = int(id)
     except ValueError:
-        logging.error("user_id must be an integer")
-        return jsonify({"error": "user_id must be an integer"}), 400
+        logging.error("id must be an integer")
+        return jsonify({"error": "id must be an integer"}), 400
 
     db = get_db()
     logging.debug(f"Database connection obtained: {db}")
     try:
-        db.update_user(user_id, name)
-        return jsonify({"message": f"User {user_id} updated successfully!"}), 200
+        db.update_user(id, name)
+        return jsonify({"message": f"User {id} updated successfully!"}), 200
     except Exception as e:
         logging.error(f"Error updating user: {e}")
         return jsonify({"error": str(e)}), 500

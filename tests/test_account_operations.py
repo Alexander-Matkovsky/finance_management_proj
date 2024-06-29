@@ -21,7 +21,7 @@ class TestAccountOperations(unittest.TestCase):
         mock_account_data = (1, 1, 'Savings', 1000)
         self.conn.execute.return_value.fetchone.return_value = mock_account_data
         account = self.account_operations.get_account(1)
-        self.assertEqual(account.account_id, 1)
+        self.assertEqual(account.id, 1)
         self.assertEqual(account.user_id, 1)
         self.assertEqual(account.name, 'Savings')
         self.assertEqual(account.balance, 1000)
@@ -51,7 +51,7 @@ class TestAccountOperations(unittest.TestCase):
     def test_delete_account(self):
         self.account_operations.delete_account(1)
         self.conn.execute.assert_any_call("DELETE FROM accounts WHERE id = ?", (1,))
-        self.conn.execute.assert_any_call("DELETE FROM transactions WHERE account_id = ?", (1,))
+        self.conn.execute.assert_any_call("DELETE FROM transactions WHERE id = ?", (1,))
 
 if __name__ == '__main__':
     unittest.main()

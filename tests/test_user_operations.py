@@ -24,13 +24,13 @@ class TestUserOperations(unittest.TestCase):
         
         user = self.user_operations.get_user(1)
         
-        self.assertEqual(user.user_id, 1)
+        self.assertEqual(user.id, 1)
         self.assertEqual(user.name, 'John Doe')
 
     @patch('finance.user.User')
     def test_update_user(self, MockUser):
         mock_user = MockUser.return_value
-        mock_user.user_id = 1
+        mock_user.id = 1
         mock_user.name = 'Jane Doe'
         
         self.user_operations.update_user(1, 'Jane Doe')
@@ -42,9 +42,9 @@ class TestUserOperations(unittest.TestCase):
         self.user_operations.delete_user(1)
         
         self.conn.execute.assert_any_call("DELETE FROM users WHERE id = ?", (1,))
-        self.conn.execute.assert_any_call("DELETE FROM accounts WHERE user_id = ?", (1,))
-        self.conn.execute.assert_any_call("DELETE FROM budgets WHERE user_id = ?", (1,))
-        self.conn.execute.assert_any_call("DELETE FROM transactions WHERE account_id IN (SELECT id FROM accounts WHERE user_id = ?)", (1,))
+        self.conn.execute.assert_any_call("DELETE FROM accounts WHERE id = ?", (1,))
+        self.conn.execute.assert_any_call("DELETE FROM budgets WHERE id = ?", (1,))
+        self.conn.execute.assert_any_call("DELETE FROM transactions WHERE account_id IN (SELECT id FROM accounts WHERE id = ?)", (1,))
 
 if __name__ == '__main__':
     unittest.main()

@@ -60,12 +60,20 @@ def get_budgets_route():
         user_id = int(user_id)
     except ValueError:
         return jsonify({"error": "user_id must be an integer"}), 400
-
+    
     db = get_db()
     try:
         budgets = db.get_budgets(user_id)
         if budgets:
-            return jsonify({"budgets": budgets}), 200
+            budget_dicts = []
+            for budget in budgets:
+                if hasattr(budget, 'to_dict'):
+                    budget_dicts.append(budget.to_dict())
+                elif isinstance(budget, dict):
+                    budget_dicts.append(budget)
+                else:
+                    raise TypeError(f"Unexpected budget type: {type(budget)}")
+            return jsonify({"budgets": budget_dicts}), 200
         else:
             return jsonify({"error": f"Budgets for user {user_id} not found"}), 404
     except Exception as e:
