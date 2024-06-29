@@ -1,6 +1,7 @@
 import logging
 import sqlite3
 from finance.account import Account
+
 class AccountOperations:
     def __init__(self, conn):
         self.conn = conn
@@ -15,16 +16,14 @@ class AccountOperations:
         logging.info(f"Account added for user {user_id}: {name} with balance {balance}")
 
     def get_account(self, id):
-        row = self.conn.execute(
-            "SELECT id, user_id, name, balance FROM accounts WHERE id = ?", (id,)
-        ).fetchone()
+        query = "SELECT id, user_id, name, balance FROM accounts WHERE id = ?"
+        row = self.conn.execute(query, (id,)).fetchone()
         return Account(*row) if row else None
 
     def get_accounts(self, user_id):
-        rows = self.conn.execute(
-            "SELECT id, user_id, name, balance FROM accounts WHERE user_id = ?", (user_id,)
-        ).fetchall()
-        return [Account(*row) for row in rows] if rows else None
+        query = "SELECT id, user_id, name, balance FROM accounts WHERE user_id = ?"
+        rows = self.conn.execute(query, (user_id,)).fetchall()
+        return [Account(*row) for row in rows] if rows else []
 
     def update_account(self, id, account_name, balance):
         account = self.get_account(id)
@@ -32,12 +31,16 @@ class AccountOperations:
             account.name = account_name
             account.balance = balance
             account.validate()
-            self.conn.execute(
-                "UPDATE accounts SET name = ?, balance = ? WHERE id = ?",
-                (account.name, account.balance, id)
-            )
-            self.conn.commit()
-            logging.info(f"Account {id} updated to name: {account_name} with balance: {balance}")
+            query = "UPDATE accounts SET name = ?, balance = ? WHERE id = ?"
+            params = (account.name, account.balance, id)
+            try:
+                with self.conn:
+                    self.conn.execute(query, params)
+                    self.conn.commit()
+                logging.info(f"Account {id} updated to name: {account_name} with balance: {balance}")
+            except sqlite3.Error as e:
+                logging.error(f"Error updating account: {e}")
+                raise
 
     def delete_account(self, id):
         with self.conn:

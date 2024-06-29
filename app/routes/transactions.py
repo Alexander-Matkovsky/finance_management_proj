@@ -9,113 +9,117 @@ def get_db():
 
 @bp.route('/add_transaction', methods=['POST'])
 def add_transaction():
-    account_id = request.form.get('account_id')
-    amount = request.form.get('amount')
-    description = request.form.get('description')
-    category_name = request.form.get('category_name')
-    date = request.form.get('date')
-    type = request.form.get('type')  # Added type for transaction
-
-    if not (account_id and amount and description and category_name and date and type):
+    params = _get_transaction_params()
+    if not all(params.values()):
         return jsonify({"error": "account_id, amount, description, category_name, date, and type are required"}), 400
 
-    if type not in ["Income", "Expense"]:
+    if params['type'] not in ["Income", "Expense"]:
         return jsonify({"error": "type must be either 'Income' or 'Expense'"}), 400
 
     try:
-        account_id = int(account_id)
-        amount = float(amount)
+        params['account_id'] = int(params['account_id'])
+        params['amount'] = float(params['amount'])
     except ValueError:
         return jsonify({"error": "account_id must be an integer and amount must be a float"}), 400
 
-    db = get_db()
-    try:
-        db.add_transaction(account_id, date, amount, type, description, category_name)
-        return jsonify({"message": "Transaction added successfully!"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return _execute_db_operation(
+        lambda db: db.add_transaction(
+            params['account_id'],
+            params['date'],
+            params['amount'],
+            params['type'],
+            params['description'],
+            params['category_name']
+        ),
+        success_message="Transaction added successfully!",
+        status_code=201
+    )
 
 @bp.route('/delete_transaction', methods=['DELETE'])
 def delete_transaction():
-    transaction_id = request.args.get('transaction_id')
-    if not transaction_id:
-        return jsonify({"error": "transaction_id is required"}), 400
+    transaction_id = _get_and_validate_id('transaction_id')
+    if isinstance(transaction_id, tuple):
+        return transaction_id
 
-    try:
-        transaction_id = int(transaction_id)
-    except ValueError:
-        return jsonify({"error": "transaction_id must be an integer"}), 400
-
-    db = get_db()
-    try:
-        db.delete_transaction(transaction_id)
-        return jsonify({"message": f"Transaction {transaction_id} deleted successfully!"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return _execute_db_operation(
+        lambda db: db.delete_transaction(transaction_id),
+        success_message=f"Transaction {transaction_id} deleted successfully!"
+    )
 
 @bp.route('/get_transaction', methods=['GET'])
 def get_transaction():
-    transaction_id = request.args.get('transaction_id')
-    if not transaction_id:
-        return jsonify({"error": "transaction_id is required"}), 400
+    transaction_id = _get_and_validate_id('transaction_id')
+    if isinstance(transaction_id, tuple):
+        return transaction_id
 
-    try:
-        transaction_id = int(transaction_id)
-    except ValueError:
-        return jsonify({"error": "transaction_id must be an integer"}), 400
-
-    db = get_db()
-    try:
-        transaction = db.get_transaction(transaction_id)
-        if transaction:
-            return jsonify(dict(transaction)), 200  # Convert sqlite3.Row to dict
-        else:
-            return jsonify({"error": f"Transaction {transaction_id} not found"}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return _execute_db_operation(
+        lambda db: db.get_transaction(transaction_id),
+        success_handler=lambda transaction: jsonify(dict(transaction)) if transaction else (jsonify({"error": f"Transaction {transaction_id} not found"}), 404)
+    )
 
 @bp.route('/update_transaction', methods=['PUT'])
 def update_transaction():
-    transaction_id = request.form.get('transaction_id')
-    account_id = request.form.get('account_id')
-    amount = request.form.get('amount')
-    description = request.form.get('description')
-    category_name = request.form.get('category_name')
-    date = request.form.get('date')
-    type = request.form.get('type')
-
-    if not transaction_id:
+    params = _get_transaction_params(update=True)
+    if not params['transaction_id']:
         return jsonify({"error": "transaction_id is required"}), 400
 
     try:
-        transaction_id = int(transaction_id)
-        if amount:
-            amount = float(amount)
+        transaction_id = int(params['transaction_id'])
+        amount = float(params['amount']) if params['amount'] else None
     except ValueError:
         return jsonify({"error": "transaction_id must be an integer and amount must be a float"}), 400
-    
-    db = get_db()
-    try:
-        db.update_transaction(transaction_id, date, amount, type, description, category_name)
-        return jsonify({"message": f"Transaction {transaction_id} updated successfully!"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
+    return _execute_db_operation(
+        lambda db: db.update_transaction(
+            transaction_id,
+            params['date'],
+            amount,
+            params['type'],
+            params['description'],
+            params['category_name']
+        ),
+        success_message=f"Transaction {transaction_id} updated successfully!"
+    )
 
 @bp.route('/get_transactions', methods=['GET'])
 def get_transactions():
-    account_id = request.args.get('account_id')
-    if not account_id:
-        return jsonify({"error": "account_id is required"}), 400
+    account_id = _get_and_validate_id('account_id')
+    if isinstance(account_id, tuple):
+        return account_id
 
+    return _execute_db_operation(
+        lambda db: db.get_transactions(account_id),
+        success_handler=lambda transactions: jsonify(transactions)
+    )
+
+def _get_transaction_params(update=False):
+    params = {
+        'account_id': request.form.get('account_id'),
+        'amount': request.form.get('amount'),
+        'description': request.form.get('description'),
+        'category_name': request.form.get('category_name'),
+        'date': request.form.get('date'),
+        'type': request.form.get('type')
+    }
+    if update:
+        params['transaction_id'] = request.form.get('transaction_id')
+    return params
+
+def _get_and_validate_id(id_name):
+    id_value = request.args.get(id_name)
+    if not id_value:
+        return jsonify({"error": f"{id_name} is required"}), 400
     try:
-        account_id = int(account_id)
+        return int(id_value)
     except ValueError:
-        return jsonify({"error": "account_id must be an integer"}), 400
+        return jsonify({"error": f"{id_name} must be an integer"}), 400
 
+def _execute_db_operation(operation, success_message=None, success_handler=None, status_code=200):
     db = get_db()
     try:
-        transactions = db.get_transactions(account_id)
-        return jsonify(transactions), 200
+        result = operation(db)
+        if success_handler:
+            return success_handler(result)
+        return jsonify({"message": success_message}), status_code
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-

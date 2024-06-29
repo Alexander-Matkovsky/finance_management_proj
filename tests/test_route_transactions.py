@@ -41,7 +41,6 @@ def test_add_transaction_missing_data(client):
         'account_id': '1',
         'amount': '100.50'
     })
-
     assert response.status_code == 400
     assert b"account_id, amount, description, category_name, date, and type are required" in response.data
 
