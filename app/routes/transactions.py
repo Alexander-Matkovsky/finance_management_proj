@@ -80,7 +80,6 @@ def update_transaction():
         ),
         success_message=f"Transaction {transaction_id} updated successfully!"
     )
-
 @bp.route('/get_transactions', methods=['GET'])
 def get_transactions():
     account_id = _get_and_validate_id('account_id')
