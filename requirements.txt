@@ -5,3 +5,5 @@ pdfkit
 Flask
 pytest
 docker
+bcrypt
+flask-jwt-extended

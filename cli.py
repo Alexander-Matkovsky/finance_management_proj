@@ -2,9 +2,8 @@ import argparse
 import logging
 import os
 from datetime import datetime
-from app.models.database import db_connection, account_operations, budget_operations, transaction_operations, user_operations
+from app.models.database import db_connection
 from finance.report_generator import ReportGenerator
-from finance.visualizer import visualize_cash_flows
 
 logging.basicConfig(
     filename='finance_management.log',
@@ -90,9 +89,6 @@ def update_transaction(db, args):
     logging.info(f"Updated transaction {args.transaction_id} with new amount: {args.amount}, description: {args.description}, and category name: {args.category_name}")
     print(f"Transaction {args.transaction_id} updated with new amount: {args.amount}, description: {args.description}, and category name: {args.category_name}")
 
-def visualize_cash_flows_wrapper(args):
-    visualize_cash_flows(args.account_id)
-    logging.info(f"Visualized cash flows for account {args.account_id}")
 
 def delete_user(db, args):
     db.delete_user(args.user_id)
@@ -333,7 +329,6 @@ def main():
         "view_transactions": lambda: view_transactions(db, args),
         "set_budget": lambda: set_budget(db, args),
         "view_budget": lambda: view_budget(db, args),
-        "visualize_cash_flows": lambda: visualize_cash_flows_wrapper(args),
         "update_user": lambda: update_user(db, args),
         "update_account": lambda: update_account(db, args),
         "update_transaction": lambda: update_transaction(db, args),

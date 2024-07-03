@@ -3,7 +3,6 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-
 def create_schema():
     connection = sqlite3.connect('finance.db')
     cursor = connection.cursor()
@@ -11,7 +10,9 @@ def create_schema():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL
+        name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        hashed_password TEXT NOT NULL
     )
     ''')
 
@@ -48,7 +49,8 @@ def create_schema():
         FOREIGN KEY (user_id) REFERENCES users (id)
     )
     ''')
-    logging.info(f'Database created.')
+
+    logging.info('Database created.')
     connection.commit()
     connection.close()
 
