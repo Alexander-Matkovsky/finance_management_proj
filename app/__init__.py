@@ -12,7 +12,7 @@ def create_app():
     app.config.from_object(Config)
     
     with app.app_context():
-        from .routes import users, accounts, transactions, budgets, reports, index
+        from .routes import users, accounts, transactions, budgets, reports, index, auth
 
         app.register_blueprint(users.bp)
         app.register_blueprint(accounts.bp)
@@ -20,6 +20,7 @@ def create_app():
         app.register_blueprint(budgets.bp)
         app.register_blueprint(reports.bp)
         app.register_blueprint(index.bp)
+        app.register_blueprint(auth.bp)
 
     @app.teardown_appcontext
     def close_db(error):

@@ -15,6 +15,13 @@ class UserOperations:
     def get_user(self, id):
         row = self._fetch_user(id)
         return User(*row) if row else None
+    
+    def get_user_by_name(self, name):
+        row = self.conn.execute(
+            "SELECT id, name, email, hashed_password FROM users WHERE name = ?",
+            (name,)
+        ).fetchone()
+        return User(*row) if row else None
 
     def update_user(self, id, name=None, email=None, hashed_password=None):
         user = self.get_user(id)
