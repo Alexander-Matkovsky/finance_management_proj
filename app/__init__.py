@@ -1,5 +1,6 @@
 import logging
 from flask import Flask, g
+from flask_jwt_extended import JWTManager
 from config import Config
 from app.models.database import db_connection
 import os
@@ -11,6 +12,10 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     
+    # Configure JWT
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    jwt = JWTManager(app)
+
     with app.app_context():
         from .routes import users, accounts, transactions, budgets, reports, index, auth
 
