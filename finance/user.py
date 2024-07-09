@@ -1,9 +1,10 @@
 class User:
-    def __init__(self, id, name, email, hashed_password):
+    def __init__(self, id, name, email, hashed_password, is_admin):
         self.id = id
         self.name = name
         self.email = email
         self.hashed_password = hashed_password
+        self.is_admin = is_admin
         self.validate()
 
     def to_dict(self):
