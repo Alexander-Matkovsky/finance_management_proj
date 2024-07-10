@@ -7,3 +7,5 @@ pytest
 docker
 bcrypt
 flask-jwt-extended
+flask_wtf
+flask_limiter
