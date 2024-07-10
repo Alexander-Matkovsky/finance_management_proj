@@ -25,7 +25,7 @@ def login():
             if request.headers.get('Content-Type') == 'application/json':
                 return jsonify(access_token=access_token), 200
             else:
-                resp = make_response(redirect(url_for(''))) 
+                resp = make_response(redirect(url_for('index.dashboard'))) 
                 set_access_cookies(resp, access_token)
                 flash('Logged in successfully', 'success')
                 return resp

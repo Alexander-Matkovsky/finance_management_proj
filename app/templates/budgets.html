@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Budget Management</h1>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="messages">
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        <section id="add-budget">
+            <h2>Add New Budget</h2>
+            <form action="{{ url_for('budgets.add_budget') }}" method="POST">
+                <label for="budget-name">Budget Name:</label>
+                <input type="text" id="budget-name" name="budget_name" required>
+
+                <label for="initial-amount">Initial Amount:</label>
+                <input type="number" id="initial-amount" name="initial_amount" step="0.01" required>
+
+                <button type="submit">Add Budget</button>
+            </form>
+        </section>
+
+        <section id="view-budgets">
+            <h2>Your Budgets</h2>
+            <table id="budgets-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Amount Used</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for budget in budgets %}
+                        <tr>
+                            <td>{{ budget.category_name }}</td>
+                            <td>{{ budget.amount }}</td>
+                            <td>{{ budget.amount_used }}</td>
+                            <td>
+                                <form action="{{ url_for('budgets.update_budget') }}" method="POST" style="display: inline;">
+                                    <input type="hidden" name="category_name" value="{{ budget.category_name }}">
+                                    <input type="number" name="new_amount" step="0.01" value="{{ budget.amount }}" required>
+                                    <button type="submit">Update</button>
+                                </form>
+                                <form action="{{ url_for('budgets.delete_budget') }}" method="POST" style="display: inline;">
+                                    <input type="hidden" name="category_name" value="{{ budget.category_name }}">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Budget Management App</p>
+    </footer>
+</body>
+</html>

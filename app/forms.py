@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import FloatField, StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Regexp
 from app.models.database import get_connection, UserOperations
 
@@ -29,3 +29,14 @@ class AdminCreationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     admin_secret = PasswordField('Admin Secret', validators=[DataRequired()])
     submit = SubmitField('Create Admin')
+
+
+#budgets
+
+class BudgetForm(FlaskForm):
+    budget_name = StringField('Budget Name', validators=[DataRequired()])
+    initial_amount = FloatField('Initial Amount', validators=[DataRequired()])
+
+class UpdateBudgetForm(FlaskForm):
+    category_name = StringField('Category Name', validators=[DataRequired()])
+    new_amount = FloatField('New Amount', validators=[DataRequired()])
