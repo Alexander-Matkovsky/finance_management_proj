@@ -1,9 +1,9 @@
 class User:
-    def __init__(self, id, name, email, hashed_password, is_admin):
+    def __init__(self, id, name, email, password, is_admin):
         self.id = id
         self.name = name
         self.email = email
-        self.hashed_password = hashed_password
+        self.password = password
         self.is_admin = is_admin
         self.validate()
 
@@ -12,7 +12,7 @@ class User:
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "hashed_password": self.hashed_password
+            "hashed_password": self.password
         }
     
     def validate(self):
@@ -20,7 +20,7 @@ class User:
             raise ValueError("User name cannot be empty")
         if not self.email:
             raise ValueError("User email cannot be empty")
-        if not self.hashed_password:
+        if not self.password:
             raise ValueError("User password cannot be empty")
 
     def __str__(self):

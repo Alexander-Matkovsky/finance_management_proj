@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Management App</title>
+</head>
+<body>
+    <h1>Finance Management App</h1>
+    
+    <div id="loginForm">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="userDataSection" style="display:none;">
+        <h2>User Data</h2>
+        <input type="number" id="userId" placeholder="User ID">
+        <button onclick="getUserData()">Get User Data</button>
+        <div id="userData"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

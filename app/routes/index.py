@@ -1,7 +1,7 @@
-from flask import Blueprint
+from flask import Blueprint, send_from_directory
 
 bp = Blueprint('index', __name__)
 
 @bp.route('/')
 def index():
-    return 'Welcome to the Finance Management System!'
+    return send_from_directory('static', 'index.html')

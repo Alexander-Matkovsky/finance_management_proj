@@ -17,16 +17,20 @@ def create_app():
 
     # Configure JWT
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    app.config['JWT_TOKEN_LOCATION'] = ['cookies', 'headers']
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+    app.config['JWT_COOKIE_SECURE'] = True
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600  # 1 hour
     jwt = JWTManager(app)
 
     # Configure CSRF protection
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     csrf = CSRFProtect(app)
 
     # Configure rate limiting
     limiter = Limiter(
-        app,
         key_func=get_remote_address,
+        app=app,
         default_limits=["200 per day", "50 per hour"]
     )
 
