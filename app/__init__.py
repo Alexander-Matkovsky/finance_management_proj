@@ -11,6 +11,8 @@ import os
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 
+csrf = CSRFProtect()
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -26,7 +28,7 @@ def create_app():
     # Configure CSRF protection
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     csrf = CSRFProtect(app)
-
+    csrf.init_app(app)
     # Configure rate limiting
     limiter = Limiter(
         key_func=get_remote_address,

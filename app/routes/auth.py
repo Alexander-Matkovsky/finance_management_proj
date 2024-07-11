@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, request, jsonify, flash, render_template, redirect, url_for, make_response, current_app
+from flask import Blueprint, request, jsonify, flash, render_template, redirect, url_for, make_response, current_app, session
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, set_access_cookies, unset_jwt_cookies
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.database import get_connection, UserOperations
@@ -10,6 +10,13 @@ bp = Blueprint('auth', __name__)
 def get_db():
     conn = get_connection()
     return UserOperations(conn)
+
+@bp.route('/check_session')
+def check_session():
+    if 'user_id' in session:
+        return jsonify(session['id']), 200
+    else:
+        return jsonify(None), 200
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
