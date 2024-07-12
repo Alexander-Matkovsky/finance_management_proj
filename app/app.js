@@ -66,22 +66,33 @@ window.onload = function() {
     }
 };
 
+// Function to get CSRF token from the page
+function getCSRFToken() {
+    return document.querySelector('input[name="csrf_token"]').value;
+}
+
+// Updated apiCall function
 async function apiCall(url, method = 'GET', body = null) {
     const token = localStorage.getItem('token');
+    const csrfToken = getCSRFToken();
     
     const headers = {
         'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
     };
     
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
     }
 
+    console.log("Making API call with CSRF token:", csrfToken);
+
     try {
         const response = await fetch(url, {
             method,
             headers,
             body: body ? JSON.stringify(body) : null,
+            credentials: 'same-origin', // This is important for including cookies
         });
 
         if (!response.ok) {
@@ -99,3 +110,10 @@ async function apiCall(url, method = 'GET', body = null) {
         throw error;
     }
 }
+
+// We'll remove the form submission handler to allow normal form submissions
+// If you want to handle form submissions via AJAX in the future, you can add it back
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("JavaScript loaded. CSRF token:", getCSRFToken());
+});

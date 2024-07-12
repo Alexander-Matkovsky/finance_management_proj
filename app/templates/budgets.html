@@ -1,72 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Budget Management</h1>
-    </header>
-    <main>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <section class="messages">
-                    {% for category, message in messages %}
-                        <p class="{{ category }}">{{ message }}</p>
-                    {% endfor %}
-                </section>
-            {% endif %}
-        {% endwith %}
-        <section id="add-budget">
-            <h2>Add New Budget</h2>
-            <form action="{{ url_for('budgets.budget_management') }}" method="POST">
-                {{ add_form.hidden_tag() }}
-                {{ add_form.budget_name.label }} {{ add_form.budget_name() }}
-                {{ add_form.initial_amount.label }} {{ add_form.initial_amount() }}
-                <button type="submit">Add Budget</button>
-            </form>
-        </section>
-        <section id="view-budgets">
-            <h2>Your Budgets</h2>
-            <table id="budgets-table">
-                <thead>
+<div>
+    <h1>Budget Management</h1>
+</div>
+
+<main role="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="section messages">
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div id="add-budget" class="section">
+        <h2>Add New Budget</h2>
+        <form method="POST" action="{{ url_for('budgets.budget_management') }}">
+            {{ add_form.hidden_tag() }}
+            <div>
+                {{ add_form.budget_name.label }}
+                {{ add_form.budget_name() }}
+            </div>
+            <div>
+                {{ add_form.initial_amount.label }}
+                {{ add_form.initial_amount() }}
+            </div>
+            <input type="submit" name="add_budget" value="Add Budget">
+        </form>
+    </div>
+
+    <div id="view-budgets" class="section">
+        <h2>Your Budgets</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Amount Used</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for budget in budgets %}
                     <tr>
-                        <th>Category</th>
-                        <th>Amount</th>
-                        <th>Amount Used</th>
-                        <th>Actions</th>
+                        <td>{{ budget.category_name }}</td>
+                        <td>{{ budget.amount }}</td>
+                        <td>{{ budget.amount_used }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('budgets.budget_management') }}">
+                                {{ update_form.hidden_tag() }}
+                                <input type="hidden" name="category_name" value="{{ budget.category_name }}">
+                                <input type="number" name="new_amount" value="{{ budget.amount }}">
+                                <input type="submit" name="update_budget" value="Update">
+                            </form>
+                            <form method="POST" action="{{ url_for('budgets.delete_budget') }}">
+                                {{ add_form.hidden_tag() }}
+                                <input type="hidden" name="category_name" value="{{ budget.category_name }}">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for budget in budgets %}
-                        <tr>
-                            <td>{{ budget.category_name }}</td>
-                            <td>{{ budget.amount }}</td>
-                            <td>{{ budget.amount_used }}</td>
-                            <td>
-                                <form action="{{ url_for('budgets.budget_management') }}" method="POST" style="display: inline;">
-                                    {{ update_form.hidden_tag() }}
-                                    <input type="hidden" name="category_name" value="{{ budget.category_name }}">
-                                    {{ update_form.new_amount(value=budget.amount) }}
-                                    <button type="submit">Update</button>
-                                </form>
-                                <form action="{{ url_for('budgets.delete_budget') }}" method="POST" style="display: inline;">
-                                    {{ add_form.hidden_tag() }}
-                                    <input type="hidden" name="category_name" value="{{ budget.category_name }}">
-                                    <button type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Budget Management App</p>
-    </footer>
-</body>
-</html>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Budget Management App</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("CSRF token in form:", document.querySelector('input[name="csrf_token"]').value);
+    });
+</script>

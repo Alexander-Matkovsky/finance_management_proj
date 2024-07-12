@@ -27,8 +27,9 @@ def create_app():
 
     # Configure CSRF protection
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    csrf = CSRFProtect(app)
-    csrf.init_app(app)
+    app.config['WTF_CSRF_ENABLED'] = True
+    csrf.init_app(app)  # Initialize CSRF protection
+
     # Configure rate limiting
     limiter = Limiter(
         key_func=get_remote_address,
