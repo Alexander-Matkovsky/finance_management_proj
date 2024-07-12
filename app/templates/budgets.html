@@ -15,7 +15,7 @@
 
     <div id="add-budget" class="section">
         <h2>Add New Budget</h2>
-        <form method="POST" action="{{ url_for('budgets.budget_management') }}">
+        <form id="addBudgetForm" method="POST" action="{{ url_for('budgets.budget_management') }}">
             {{ add_form.hidden_tag() }}
             <div>
                 {{ add_form.budget_name.label }}
@@ -47,13 +47,13 @@
                         <td>{{ budget.amount }}</td>
                         <td>{{ budget.amount_used }}</td>
                         <td>
-                            <form method="POST" action="{{ url_for('budgets.budget_management') }}">
+                            <form class="updateBudgetForm" method="POST" action="{{ url_for('budgets.budget_management') }}">
                                 {{ update_form.hidden_tag() }}
                                 <input type="hidden" name="category_name" value="{{ budget.category_name }}">
                                 <input type="number" name="new_amount" value="{{ budget.amount }}">
                                 <input type="submit" name="update_budget" value="Update">
                             </form>
-                            <form method="POST" action="{{ url_for('budgets.delete_budget') }}">
+                            <form class="deleteBudgetForm" method="POST" action="{{ url_for('budgets.delete_budget') }}">
                                 {{ add_form.hidden_tag() }}
                                 <input type="hidden" name="category_name" value="{{ budget.category_name }}">
                                 <input type="submit" value="Delete">
@@ -70,8 +70,4 @@
     <p>&copy; 2024 Budget Management App</p>
 </footer>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("CSRF token in form:", document.querySelector('input[name="csrf_token"]').value);
-    });
-</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>

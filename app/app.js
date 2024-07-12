@@ -71,9 +71,14 @@ function getCSRFToken() {
     return document.querySelector('input[name="csrf_token"]').value;
 }
 
+// Function to get JWT token from localStorage
+function getJWTToken() {
+    return localStorage.getItem('token');
+}
+
 // Updated apiCall function
 async function apiCall(url, method = 'GET', body = null) {
-    const token = localStorage.getItem('token');
+    const jwtToken = getJWTToken();
     const csrfToken = getCSRFToken();
     
     const headers = {
@@ -81,11 +86,12 @@ async function apiCall(url, method = 'GET', body = null) {
         'X-CSRFToken': csrfToken,
     };
     
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+    if (jwtToken) {
+        headers['Authorization'] = `Bearer ${jwtToken}`;
     }
 
     console.log("Making API call with CSRF token:", csrfToken);
+    console.log("JWT token present:", !!jwtToken);
 
     try {
         const response = await fetch(url, {
@@ -97,6 +103,7 @@ async function apiCall(url, method = 'GET', body = null) {
 
         if (!response.ok) {
             if (response.status === 401) {
+                console.error("Authentication failed. Redirecting to login.");
                 localStorage.removeItem('token');
                 window.location.href = '/login';
                 return;
@@ -111,9 +118,32 @@ async function apiCall(url, method = 'GET', body = null) {
     }
 }
 
-// We'll remove the form submission handler to allow normal form submissions
-// If you want to handle form submissions via AJAX in the future, you can add it back
+// Function to handle form submissions
+function handleFormSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const url = form.action;
+    const method = form.method.toUpperCase();
+
+    apiCall(url, method, Object.fromEntries(formData))
+        .then(response => {
+            console.log('Form submitted successfully:', response);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Form submission error:', error);
+            // Handle error (e.g., display error message to user)
+        });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("JavaScript loaded. CSRF token:", getCSRFToken());
+    console.log("JWT token present:", !!getJWTToken());
+
+    // Attach the handleFormSubmit function to all forms
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', handleFormSubmit);
+    });
 });
