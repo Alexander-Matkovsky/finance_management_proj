@@ -9,7 +9,7 @@ class UserOperations:
     def add_user(self, name, email, hashed_password, is_admin=False):
         user = User(None, name, email, hashed_password, is_admin)
         self._execute_query('INSERT INTO users (name, email, hashed_password, is_admin) VALUES (?, ?, ?, ?)',
-                            (user.name, user.email, user.hashed_password, user.is_admin))
+                            (user.name, user.email, user.password, user.is_admin))
         logging.info(f"User added: {user.name} with email: {user.email}, admin: {user.is_admin}")
 
     def get_user(self, id):

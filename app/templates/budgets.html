@@ -1,73 +1,42 @@
-<div>
-    <h1>Budget Management</h1>
-</div>
+{% extends "base.html" %}
+{% block content %}
+<h1>Budget Management</h1>
 
-<main role="main">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="section messages">
-                {% for category, message in messages %}
-                    <p class="{{ category }}">{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
-    <div id="add-budget" class="section">
-        <h2>Add New Budget</h2>
-        <form id="addBudgetForm" method="POST" action="{{ url_for('budgets.budget_management') }}">
-            {{ add_form.hidden_tag() }}
-            <div>
-                {{ add_form.budget_name.label }}
-                {{ add_form.budget_name() }}
-            </div>
-            <div>
-                {{ add_form.initial_amount.label }}
-                {{ add_form.initial_amount() }}
-            </div>
-            <input type="submit" name="add_budget" value="Add Budget">
-        </form>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flashed-messages">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
     </div>
+  {% endif %}
+{% endwith %}
 
-    <div id="view-budgets" class="section">
-        <h2>Your Budgets</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Amount Used</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for budget in budgets %}
-                    <tr>
-                        <td>{{ budget.category_name }}</td>
-                        <td>{{ budget.amount }}</td>
-                        <td>{{ budget.amount_used }}</td>
-                        <td>
-                            <form class="updateBudgetForm" method="POST" action="{{ url_for('budgets.budget_management') }}">
-                                {{ update_form.hidden_tag() }}
-                                <input type="hidden" name="category_name" value="{{ budget.category_name }}">
-                                <input type="number" name="new_amount" value="{{ budget.amount }}">
-                                <input type="submit" name="update_budget" value="Update">
-                            </form>
-                            <form class="deleteBudgetForm" method="POST" action="{{ url_for('budgets.delete_budget') }}">
-                                {{ add_form.hidden_tag() }}
-                                <input type="hidden" name="category_name" value="{{ budget.category_name }}">
-                                <input type="submit" value="Delete">
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<h2>Add New Budget</h2>
+<form method="POST" action="{{ url_for('budgets.budget_management') }}">
+    {{ form.csrf_token }}
+    <div>
+        {{ form.budget_name.label }}
+        {{ form.budget_name(class="form-control") }}
     </div>
-</main>
+    <div>
+        {{ form.initial_amount.label }}
+        {{ form.initial_amount(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary mt-2") }}
+</form>
 
-<footer>
-    <p>&copy; 2024 Budget Management App</p>
-</footer>
-
-<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<h2>Your Budgets</h2>
+<ul class="list-group">
+    {% for budget in budgets %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ budget.category_name }}: {{ budget.amount }}
+            <form method="POST" action="{{ url_for('budgets.delete_budget') }}" class="d-inline">
+                {{ form.hidden_tag() }}
+                <input type="hidden" name="category_name" value="{{ budget.category_name }}">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
