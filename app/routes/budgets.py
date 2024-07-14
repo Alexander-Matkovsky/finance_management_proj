@@ -74,6 +74,7 @@ def delete_budget():
     
     return redirect(url_for('budgets.budget_management'))
 
+
 @bp.route('/admin/all', methods=['GET'])
 @jwt_required()
 def get_all_budgets():

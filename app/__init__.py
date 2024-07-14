@@ -25,6 +25,7 @@ def create_app():
     app.config['WTF_CSRF_CHECK_DEFAULT'] = True
     csrf = CSRFProtect(app)
     csrf.init_app(app)
+
     # Rate limiting
     limiter = Limiter(
         key_func=get_remote_address,
