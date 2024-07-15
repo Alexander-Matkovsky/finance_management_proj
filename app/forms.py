@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import FloatField, StringField, PasswordField, SubmitField, BooleanField
+from wtforms import DateField, FloatField, HiddenField, SelectField, StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Regexp, NumberRange
 from app.models.database import get_connection, UserOperations
 
@@ -40,3 +40,19 @@ class UpdateBudgetForm(FlaskForm):
     category_name = StringField('Category Name', validators=[DataRequired(), Length(min=1, max=100)])
     new_amount = FloatField('New Amount', validators=[DataRequired()])
     submit = SubmitField('Update Budget')
+
+    #transactions
+
+class TransactionForm(FlaskForm):
+    account_id = HiddenField('Account ID', validators=[DataRequired()])
+    amount = FloatField('Amount', validators=[DataRequired(), NumberRange(min=0.01)])
+    description = StringField('Description', validators=[DataRequired()])
+    category_name = StringField('Category', validators=[DataRequired()])
+    date = DateField('Date', validators=[DataRequired()])
+    type = SelectField('Type', choices=[('Income', 'Income'), ('Expense', 'Expense')], validators=[DataRequired()])
+
+class TransactionUpdateForm(TransactionForm):
+    transaction_id = HiddenField('Transaction ID', validators=[DataRequired()])
+
+class TransactionDeleteForm(FlaskForm):
+    transaction_id = HiddenField('Transaction ID', validators=[DataRequired()])

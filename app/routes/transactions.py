@@ -1,6 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.models.database import get_connection, TransactionOperations, AccountOperations
+from forms import TransactionForm, TransactionUpdateForm, TransactionDeleteForm
 
 bp = Blueprint('transactions', __name__)
 
@@ -8,110 +9,97 @@ def get_db():
     conn = get_connection()
     return TransactionOperations(conn), AccountOperations(conn)
 
-@bp.route('/add_transaction', methods=['POST'])
+@bp.route('/add_transaction', methods=['GET', 'POST'])
 @jwt_required()
 def add_transaction():
     current_user_id = get_jwt_identity()
-    params = _get_transaction_params()
-    if not all(params.values()):
-        return jsonify({"error": "account_id, amount, description, category_name, date, and type are required"}), 400
+    form = TransactionForm()
+    
+    if form.validate_on_submit():
+        return _execute_db_operation(
+            lambda db, acc_db: _check_account_ownership(acc_db, int(form.account_id.data), current_user_id, 
+                lambda: db.add_transaction(
+                    int(form.account_id.data),
+                    form.date.data,
+                    form.amount.data,
+                    form.type.data,
+                    form.description.data,
+                    form.category_name.data
+                )
+            ),
+            success_message="Transaction added successfully!",
+            status_code=201
+        )
+    
+    return render_template('transactions.html', form=form)
 
-    if params['type'] not in ["Income", "Expense"]:
-        return jsonify({"error": "type must be either 'Income' or 'Expense'"}), 400
+@bp.route('/update_transaction/<int:transaction_id>', methods=['GET', 'POST'])
+@jwt_required()
+def update_transaction(transaction_id):
+    current_user_id = get_jwt_identity()
+    db, acc_db = get_db()
+    
+    transaction = db.get_transaction(transaction_id)
+    if not transaction:
+        return jsonify({"error": f"Transaction {transaction_id} not found"}), 404
+    
+    form = TransactionUpdateForm(obj=transaction)
+    
+    if form.validate_on_submit():
+        return _execute_db_operation(
+            lambda db, acc_db: _check_transaction_ownership(db, acc_db, transaction_id, current_user_id, 
+                lambda: db.update_transaction(
+                    transaction_id,
+                    form.date.data,
+                    form.amount.data,
+                    form.type.data,
+                    form.description.data,
+                    form.category_name.data
+                )
+            ),
+            success_message=f"Transaction {transaction_id} updated successfully!"
+        )
+    
+    return render_template('transactions.html', form=form)
 
+@bp.route('/delete_transaction/<int:transaction_id>', methods=['GET', 'POST'])
+@jwt_required()
+def delete_transaction(transaction_id):
+    current_user_id = get_jwt_identity()
+    form = TransactionDeleteForm()
+    
+    if form.validate_on_submit():
+        return _execute_db_operation(
+            lambda db, acc_db: _check_transaction_ownership(db, acc_db, transaction_id, current_user_id, 
+                lambda: db.delete_transaction(transaction_id)
+            ),
+            success_message=f"Transaction {transaction_id} deleted successfully!"
+        )
+    
+    return render_template('delete_confirmation.html', form=form, transaction_id=transaction_id)
+
+# ... (keep the rest of the functions as they are)
+
+def _execute_db_operation(operation, success_message=None, success_handler=None, status_code=200):
+    db, acc_db = get_db()
     try:
-        params['account_id'] = int(params['account_id'])
-        params['amount'] = float(params['amount'])
-    except ValueError:
-        return jsonify({"error": "account_id must be an integer and amount must be a float"}), 400
+        result = operation(db, acc_db)
+        if success_handler:
+            return success_handler(result)
+        if success_message:
+            flash(success_message, 'success')
+        return redirect(url_for('transactions.get_transactions'))
+    except PermissionError as e:
+        flash(str(e), 'error')
+        return redirect(url_for('transactions.get_transactions'))
+    except ValueError as e:
+        flash(str(e), 'error')
+        return redirect(url_for('transactions.get_transactions'))
+    except Exception as e:
+        flash(str(e), 'error')
+        return redirect(url_for('transactions.get_transactions'))
 
-    return _execute_db_operation(
-        lambda db, acc_db: _check_account_ownership(acc_db, params['account_id'], current_user_id, 
-            lambda: db.add_transaction(
-                params['account_id'],
-                params['date'],
-                params['amount'],
-                params['type'],
-                params['description'],
-                params['category_name']
-            )
-        ),
-        success_message="Transaction added successfully!",
-        status_code=201
-    )
-
-@bp.route('/delete_transaction', methods=['DELETE'])
-@jwt_required()
-def delete_transaction():
-    current_user_id = get_jwt_identity()
-    transaction_id = _get_and_validate_id('transaction_id')
-    if isinstance(transaction_id, tuple):
-        return transaction_id
-
-    return _execute_db_operation(
-        lambda db, acc_db: _check_transaction_ownership(db, acc_db, transaction_id, current_user_id, 
-            lambda: db.delete_transaction(transaction_id)
-        ),
-        success_message=f"Transaction {transaction_id} deleted successfully!"
-    )
-
-@bp.route('/get_transaction', methods=['GET'])
-@jwt_required()
-def get_transaction():
-    current_user_id = get_jwt_identity()
-    transaction_id = _get_and_validate_id('transaction_id')
-    if isinstance(transaction_id, tuple):
-        return transaction_id
-
-    return _execute_db_operation(
-        lambda db, acc_db: _check_transaction_ownership(db, acc_db, transaction_id, current_user_id, 
-            lambda: db.get_transaction(transaction_id)
-        ),
-        success_handler=lambda transaction: jsonify(dict(transaction)) if transaction else (jsonify({"error": f"Transaction {transaction_id} not found"}), 404)
-    )
-
-@bp.route('/update_transaction', methods=['PUT'])
-@jwt_required()
-def update_transaction():
-    current_user_id = get_jwt_identity()
-    params = _get_transaction_params(update=True)
-    if not params['transaction_id']:
-        return jsonify({"error": "transaction_id is required"}), 400
-
-    try:
-        transaction_id = int(params['transaction_id'])
-        amount = float(params['amount']) if params['amount'] else None
-    except ValueError:
-        return jsonify({"error": "transaction_id must be an integer and amount must be a float"}), 400
-
-    return _execute_db_operation(
-        lambda db, acc_db: _check_transaction_ownership(db, acc_db, transaction_id, current_user_id, 
-            lambda: db.update_transaction(
-                transaction_id,
-                params['date'],
-                amount,
-                params['type'],
-                params['description'],
-                params['category_name']
-            )
-        ),
-        success_message=f"Transaction {transaction_id} updated successfully!"
-    )
-
-@bp.route('/get_transactions', methods=['GET'])
-@jwt_required()
-def get_transactions():
-    current_user_id = get_jwt_identity()
-    account_id = _get_and_validate_id('account_id')
-    if isinstance(account_id, tuple):
-        return account_id
-
-    return _execute_db_operation(
-        lambda db, acc_db: _check_account_ownership(acc_db, account_id, current_user_id, 
-            lambda: db.get_transactions(account_id)
-        ),
-        success_handler=lambda transactions: jsonify(transactions)
-    )
+# ... (keep the admin route as it is)
 
 def _get_transaction_params(update=False):
     params = {

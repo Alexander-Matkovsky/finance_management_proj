@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if form.transaction_id.data %}Edit Transaction{% else %}Add Transaction{% endif %}</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.amount.label }}
+        {{ form.amount(size=32) }}
+        {% for error in form.amount.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.description.label }}
+        {{ form.description(size=32) }}
+        {% for error in form.description.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.category_name.label }}
+        {{ form.category_name(size=32) }}
+        {% for error in form.category_name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.date.label }}
+        {{ form.date(type="date") }}
+        {% for error in form.date.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.type.label }}
+        {{ form.type() }}
+        {% for error in form.type.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <input type="submit" value="{% if form.transaction_id.data %}Update{% else %}Add{% endif %} Transaction">
+</form>
+{% endblock %}
