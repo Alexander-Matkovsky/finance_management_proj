@@ -54,7 +54,7 @@ def register():
             flash('Email already registered', 'error')
             return render_template('register.html', form=form), 400
         
-        hashed_password = generate_password_hash(form.password.data)
+        hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
         new_user = db.add_user(form.name.data, form.email.data, hashed_password)
         
         if request.headers.get('Content-Type') == 'application/json':
