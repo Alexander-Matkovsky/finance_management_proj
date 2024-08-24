@@ -57,14 +57,6 @@ class TransactionUpdateForm(TransactionForm):
 class TransactionDeleteForm(FlaskForm):
     confirm = StringField('Type DELETE to confirm', validators=[DataRequired()])
 
-class UserForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    is_admin = BooleanField('Admin')
-    submit = SubmitField('Submit')
-
 class UpdateUserForm(FlaskForm):
     name = StringField('Name', validators=[Length(min=2, max=100)])
     email = StringField('Email', validators=[Email()])
