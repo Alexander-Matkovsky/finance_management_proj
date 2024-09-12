@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4">
+                <h1 class="text-2xl font-bold text-gray-800 mb-4">User Profile</h1>
+                <div class="mb-4">
+                    <p class="text-gray-600">Name:</p>
+                    <p class="font-semibold">{{ user.name }}</p>
+                </div>
+                <div class="mb-4">
+                    <p class="text-gray-600">Email:</p>
+                    <p class="font-semibold">{{ user.email }}</p>
+                </div>
+                <div class="mb-4">
+                    <p class="text-gray-600">User ID:</p>
+                    <p class="font-semibold">{{ user.id }}</p>
+                </div>
+                {% if user.is_admin %}
+                <div class="mb-4">
+                    <p class="text-green-600 font-semibold">Admin User</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="px-6 py-4 bg-gray-100">
+                <a href="{{ url_for('auth.logout') }}" class="block w-full text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

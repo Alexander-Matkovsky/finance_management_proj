@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, flash, render_template, redirect, url_for, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
 from app.models.database import get_connection, BudgetOperations
-from app.forms import BudgetForm, UpdateBudgetForm
+from app.forms import BudgetForm
 
 bp = Blueprint('budgets', __name__, url_prefix='/budgets')
 
