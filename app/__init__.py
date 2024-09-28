@@ -17,14 +17,29 @@ def create_app():
     # JWT Configuration
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
     app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = True  
     jwt = JWTManager(app)
+
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        logging.error(f"Expired token: {jwt_payload}")
+        return jsonify({"msg": "Token has expired"}), 401
+
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error_string):
+        logging.error(f"Invalid token: {error_string}")
+        return jsonify({"msg": "Invalid token"}), 401
+
+    @jwt.unauthorized_loader
+    def unauthorized_callback(error_string):
+        logging.error(f"Unauthorized: {error_string}")
+        return jsonify({"msg": "Missing Authorization Header"}), 401
 
     # CSRF Configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['WTF_CSRF_CHECK_DEFAULT'] = True
+    app.config['WTF_CSRF_TIME_LIMIT'] = None  # Set to None to prevent CSRF token expiration
     csrf = CSRFProtect(app)
-    csrf.init_app(app)
 
     # Rate limiting
     limiter = Limiter(
@@ -56,7 +71,7 @@ def create_app():
     @app.after_request
     def after_request(response):
         csrf_token = generate_csrf()
-        #response.set_cookie('csrf_token', csrf_token, httponly=True, samesite='Lax')
+        response.set_cookie('csrf_token', csrf_token, httponly=True, samesite='Lax')
         return response
 
     return app
