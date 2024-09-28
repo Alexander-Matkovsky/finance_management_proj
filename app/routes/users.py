@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, render_template, redirect, url_for, flash,
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.models.database import get_connection, UserOperations
 from werkzeug.security import generate_password_hash
-from app.forms import UpdateUserForm
+from app.forms.forms import UpdateUserForm
 
 logging.basicConfig(level=logging.DEBUG)
 

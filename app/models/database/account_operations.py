@@ -20,7 +20,7 @@ class AccountOperations:
         row = self.conn.execute(query, (id,)).fetchone()
         return Account(*row) if row else None
 
-    def get_accounts(self, user_id):
+    def get_user_accounts(self, user_id):  # Changed method name from get_accounts to get_user_accounts
         query = "SELECT id, user_id, name, balance FROM accounts WHERE user_id = ?"
         rows = self.conn.execute(query, (user_id,)).fetchall()
         return [Account(*row) for row in rows] if rows else []

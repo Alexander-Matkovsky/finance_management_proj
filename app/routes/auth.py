@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify, flash, render_template, redirect,
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, set_access_cookies, unset_jwt_cookies
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.database import get_connection, UserOperations
-from app.forms import RegistrationForm, LoginForm, AdminCreationForm
+from app.forms.forms import RegistrationForm, LoginForm, AdminCreationForm
 
 bp = Blueprint('auth', __name__)
 

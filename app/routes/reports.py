@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, render_template
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.models.database import get_connection
 from finance.report_generator import ReportGenerator
+from datetime import datetime, timedelta
 
 bp = Blueprint('report', __name__)
 
@@ -15,8 +16,6 @@ def generate_report():
     is_admin = claims.get("is_admin", False)
 
     user_id, start_date, end_date = _get_report_params()
-    if not all([start_date, end_date]):
-        return _handle_missing_params(start_date, end_date)
 
     if user_id:
         try:
@@ -30,6 +29,12 @@ def generate_report():
     else:
         user_id = current_user_id
 
+    # Set default dates if not provided
+    if not start_date:
+        start_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+    if not end_date:
+        end_date = datetime.now().strftime('%Y-%m-%d')
+
     logging.debug(f"user_id: {user_id}, start_date: {start_date}, end_date: {end_date}")
     return _execute_report_generation(user_id, start_date, end_date)
 
@@ -39,11 +44,6 @@ def _get_report_params():
         request.args.get('start_date'),
         request.args.get('end_date')
     )
-
-def _handle_missing_params(start_date, end_date):
-    if not start_date or not end_date:
-        logging.error("start_date and end_date are required")
-        return jsonify({"error": "start_date and end_date are required"}), 400
 
 def _execute_report_generation(user_id, start_date, end_date):
     conn = get_connection()
@@ -67,14 +67,21 @@ def admin_generate_report():
         return jsonify({"error": "Admin access required"}), 403
 
     user_id, start_date, end_date = _get_report_params()
-    if not all([user_id, start_date, end_date]):
-        return _handle_missing_params(start_date, end_date)
+    if not user_id:
+        logging.error("user_id is required for admin report generation")
+        return jsonify({"error": "user_id is required"}), 400
 
     try:
         user_id = int(user_id)
     except ValueError:
         logging.error("user_id must be an integer")
         return jsonify({"error": "user_id must be an integer"}), 400
+
+    # Set default dates if not provided
+    if not start_date:
+        start_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+    if not end_date:
+        end_date = datetime.now().strftime('%Y-%m-%d')
 
     logging.debug(f"user_id: {user_id}, start_date: {start_date}, end_date: {end_date}")
     return _execute_report_generation(user_id, start_date, end_date)

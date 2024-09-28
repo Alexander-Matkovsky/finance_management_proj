@@ -29,24 +29,8 @@ def dashboard():
             flash("User not found", "error")
             return redirect(url_for('auth.login'))
 
-        # Try to get total users, use a fallback if method doesn't exist
-        try:
-            total_users = user_ops.get_total_users()
-        except AttributeError:
-            logging.warning("get_total_users method not found, using fallback")
-            total_users = "N/A"
-        logging.debug(f"Total users: {total_users}")
-
-        # Placeholder data
-        active_projects = "N/A"
-        recent_activities = ["No recent activities available"]
-
         logging.debug("Rendering dashboard template")
-        return render_template('dashboard.html',
-                               user=user,
-                               total_users=total_users,
-                               active_projects=active_projects,
-                               recent_activities=recent_activities)
+        return render_template('dashboard.html', user=user)
     except Exception as e:
         logging.error(f"Error in dashboard route: {str(e)}", exc_info=True)
         flash(f"An error occurred: {str(e)}", "error")

@@ -18,37 +18,21 @@
                     </div>
                 </div>
                 <div class="hidden md:flex items-center space-x-3">
+                    <a href="{{ url_for('accounts.list_accounts') }}" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-gray-100 hover:text-gray-900 transition duration-300">Accounts</a>
                     <a href="{{ url_for('auth.profile') }}" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-gray-100 hover:text-gray-900 transition duration-300">Profile</a>
                     <a href="{{ url_for('auth.logout') }}" class="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Log Out</a>
                 </div>
             </div>
         </div>
     </nav>
-
     <div class="container mx-auto mt-8">
         <h1 class="text-3xl font-bold mb-6">Welcome, {{ user.name }}</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-4">Quick Stats</h2>
-                <p>Total Users: <span class="font-bold">{{ total_users }}</span></p>
-                <p>Active Projects: <span class="font-bold">{{ active_projects }}</span></p>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-4">Recent Activity</h2>
-                <ul class="list-disc list-inside">
-                    {% for activity in recent_activities %}
-                        <li>{{ activity }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
-                <a href="#" class="block mb-2 text-blue-500 hover:underline">Create New Project</a>
-                <a href="#" class="block mb-2 text-blue-500 hover:underline">View All Users</a>
-                <a href="#" class="block text-blue-500 hover:underline">Generate Report</a>
+                <a href="{{ url_for('report.generate_report') }}" class="block text-blue-500 hover:underline mb-2">Generate Report</a>
+                <a href="{{ url_for('accounts.list_accounts') }}" class="block text-blue-500 hover:underline">Manage Accounts</a>
             </div>
         </div>
     </div>

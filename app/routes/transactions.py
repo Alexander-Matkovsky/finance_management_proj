@@ -2,7 +2,7 @@ import datetime
 from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.models.database import get_connection, TransactionOperations, AccountOperations
-from app.forms import TransactionForm, TransactionUpdateForm, TransactionDeleteForm
+from app.forms.forms import TransactionForm, TransactionUpdateForm, TransactionDeleteForm
 
 bp = Blueprint('transactions', __name__, url_prefix='/transactions')
 
